@@ -2,4 +2,4 @@
 	import { Button } from "$lib/components";
 </script>
 
-<Button label="Login" />
+<Button label="Login" href="/login" />
