@@ -3,6 +3,7 @@ import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } from "$env/static/private";
 import type { SpotifyAuthCodeResponse } from "@types";
+import { setTokensCookie } from "$lib/utility";
 
 export const load = (async ({ cookies, url }) => {
     const state = url.searchParams.get("state");
@@ -54,13 +55,7 @@ export const load = (async ({ cookies, url }) => {
 
     const data = (await res.json()) as SpotifyAuthCodeResponse;
 
-    cookies.set("tokens", `${data.access_token}:${data.refresh_token}`, {
-        path: "/",
-        maxAge: 60 * 60 * 24 * 30,
-        sameSite: "strict",
-        httpOnly: true,
-        secure: true,
-    });
+    setTokensCookie(cookies, data.access_token, data.refresh_token, data.expires_in);
 
-    throw redirect(302, "/");
+    throw redirect(302, "/app");
 }) satisfies PageServerLoad;

@@ -14,6 +14,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.5.9
     version: 20.5.9
+  '@types/spotify-api':
+    specifier: ^0.0.22
+    version: 0.0.22
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.6.0
     version: 6.6.0(@typescript-eslint/parser@6.6.0)(eslint@8.48.0)(typescript@5.2.2)
@@ -500,6 +503,10 @@ packages:
 
   /@types/semver@7.5.1:
     resolution: {integrity: sha512-cJRQXpObxfNKkFAZbJl2yjWtJCqELQIdShsogr1d2MilP8dKD9TE/nEKHkJgUNHdGKCQaf9HbIynuV2csLGVLg==}
+    dev: true
+
+  /@types/spotify-api@0.0.22:
+    resolution: {integrity: sha512-oZLKiI6Fck/BGd0QdmIdJCY351xQfRkfpx2Q23jIntL3YQx85vScYuFJMK81/NoSK9m7HYOl2DW4A9WomDuJOA==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@6.6.0(@typescript-eslint/parser@6.6.0)(eslint@8.48.0)(typescript@5.2.2):
