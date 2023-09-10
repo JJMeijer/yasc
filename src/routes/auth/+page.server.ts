@@ -3,9 +3,10 @@ import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } from "$env/static/private";
 import type { SpotifyAuthCodeResponse } from "@types";
-import { setTokensCookie } from "$lib/utility";
+import { setAuthCookie } from "$lib/utility";
+import { getSpotifyRequest } from "$lib/spotify";
 
-export const load = (async ({ cookies, url }) => {
+export const load = (async ({ fetch, cookies, url }) => {
     const state = url.searchParams.get("state");
 
     if (!state) {
@@ -55,7 +56,10 @@ export const load = (async ({ cookies, url }) => {
 
     const data = (await res.json()) as SpotifyAuthCodeResponse;
 
-    setTokensCookie(cookies, data.access_token, data.refresh_token, data.expires_in);
+    const me = await getSpotifyRequest<SpotifyApi.UserObjectPrivate>(fetch, data.access_token, "me");
+    const username = me.display_name || me.id;
+
+    setAuthCookie(cookies, data.access_token, data.refresh_token, data.expires_in, username);
 
     throw redirect(302, "/app");
 }) satisfies PageServerLoad;

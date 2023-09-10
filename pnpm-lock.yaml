@@ -17,6 +17,9 @@ devDependencies:
   '@types/spotify-api':
     specifier: ^0.0.22
     version: 0.0.22
+  '@types/spotify-web-playback-sdk':
+    specifier: ^0.1.16
+    version: 0.1.16
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.6.0
     version: 6.6.0(@typescript-eslint/parser@6.6.0)(eslint@8.48.0)(typescript@5.2.2)
@@ -53,6 +56,9 @@ devDependencies:
   svelte-check:
     specifier: ^3.5.1
     version: 3.5.1(postcss@8.4.29)(svelte@4.2.0)
+  tailwind-scrollbar:
+    specifier: ^3.0.5
+    version: 3.0.5(tailwindcss@3.3.3)
   tailwindcss:
     specifier: ^3.3.3
     version: 3.3.3
@@ -507,6 +513,10 @@ packages:
 
   /@types/spotify-api@0.0.22:
     resolution: {integrity: sha512-oZLKiI6Fck/BGd0QdmIdJCY351xQfRkfpx2Q23jIntL3YQx85vScYuFJMK81/NoSK9m7HYOl2DW4A9WomDuJOA==}
+    dev: true
+
+  /@types/spotify-web-playback-sdk@0.1.16:
+    resolution: {integrity: sha512-5U/Lx9ZIZPw3i4gMJQSwwe/981GzQhFXETrqjbaZOHuw8d/I6JFQ2WHCqdqpftdSQX+9DQpStd41obI4vIu1cw==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@6.6.0(@typescript-eslint/parser@6.6.0)(eslint@8.48.0)(typescript@5.2.2):
@@ -2314,6 +2324,15 @@ packages:
     dependencies:
       '@pkgr/utils': 2.4.2
       tslib: 2.6.2
+    dev: true
+
+  /tailwind-scrollbar@3.0.5(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-0ZwxTivevqq9BY9fRP9zDjHl7Tu+J5giBGbln+0O1R/7nHtBUKnjQcA1aTIhK7Oyjp6Uc/Dj6/dn8Dq58k5Uww==}
+    engines: {node: '>=12.13.0'}
+    peerDependencies:
+      tailwindcss: 3.x
+    dependencies:
+      tailwindcss: 3.3.3
     dev: true
 
   /tailwindcss@3.3.3:

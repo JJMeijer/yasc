@@ -5,6 +5,7 @@ declare global {
         // interface Error {}
         interface Locals {
             accessToken?: string;
+            username?: string;
         }
         // interface PageData {}
         // interface Platform {}
