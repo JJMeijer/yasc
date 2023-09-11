@@ -18,6 +18,7 @@ export const load = (async ({ params, fetch, locals, parent }) => {
     await parent();
 
     return {
+        accessToken: locals.accessToken,
         username: locals.username,
         playlist: data,
     };

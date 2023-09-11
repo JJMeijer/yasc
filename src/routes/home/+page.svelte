@@ -5,10 +5,9 @@
     export let data: PageServerData;
 </script>
 
-<PageWrapper username={data.username} >
+<PageWrapper username={data.username} accessToken={data.accessToken} >
     <div slot="header">
         <!-- make navlinks -->
-        <a href="/app">Home</a>
     </div>
 
     <div class="flex flex-col gap-8">

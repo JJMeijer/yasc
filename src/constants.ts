@@ -7,4 +7,6 @@ export const SPOTIFY_AUTH_SCOPE = [
     "user-read-email",
     "playlist-read-private",
     "playlist-read-collaborative",
+    "streaming",
+    "user-modify-playback-state",
 ].join(" ");

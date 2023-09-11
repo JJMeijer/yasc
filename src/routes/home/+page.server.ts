@@ -19,6 +19,7 @@ export const load = (async ({ fetch, locals }) => {
     );
 
     return {
+        accessToken: locals.accessToken,
         username: locals.username,
         playlists: playlists.items,
     };
