@@ -6,10 +6,6 @@
 </script>
 
 <PageWrapper username={data.username} accessToken={data.accessToken} >
-    <div slot="header">
-        <!-- make navlinks -->
-    </div>
-
     <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-3">
             <p class="text-3xl select-none">Playlists</p>

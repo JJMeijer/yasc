@@ -11,17 +11,26 @@ export const load = (async ({ params, fetch, locals }) => {
         throw error(500, "Internal Server Error");
     }
 
-    const { playlistId } = params;
+    const { artistId } = params;
 
-    const playlistData = await getSpotifyRequest<SpotifyApi.SinglePlaylistResponse>(
+    const artistDataPromise = getSpotifyRequest<SpotifyApi.ArtistObjectFull>(
         fetch,
         locals.accessToken,
-        `playlists/${playlistId}`,
+        `artists/${artistId}`,
     );
+
+    const artistTopTracksPromise = getSpotifyRequest<SpotifyApi.ArtistsTopTracksResponse>(
+        fetch,
+        locals.accessToken,
+        `artists/${artistId}/top-tracks?market=from_token`,
+    );
+
+    const [artistData, artistTopTracks] = await Promise.all([artistDataPromise, artistTopTracksPromise]);
 
     return {
         accessToken: locals.accessToken,
         username: locals.username,
-        playlist: playlistData,
+        artist: artistData,
+        topTracks: artistTopTracks,
     };
 }) satisfies PageServerLoad;

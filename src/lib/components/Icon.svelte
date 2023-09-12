@@ -2,7 +2,7 @@
     let className: string;
     export { className as class };
 
-    export let name: "play" | "pause";
+    export let name: "play" | "pause" | "next" | "prev";
 
     export let onClick: (event: MouseEvent) => void = () => {};
 </script>
@@ -18,6 +18,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
+            <title>Play</title>
             <circle cx="12" cy="12" r="10" /> <polygon points="10 8 16 12 10 16 10 8" /></svg
         >
     {/if}
@@ -32,8 +33,39 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
+            <title>Pause</title>
             <circle cx="12" cy="12" r="10" /> <line x1="10" y1="15" x2="10" y2="9" />
             <line x1="14" y1="15" x2="14" y2="9" /></svg
+        >
+    {/if}
+
+    {#if name === "next"}
+        <svg
+            class={className}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>Next</title>
+            <polygon points="5 4 15 12 5 20 5 4" /> <line x1="19" y1="5" x2="19" y2="19" /></svg
+        >
+    {/if}
+
+    {#if name === "prev"}
+        <svg
+            class={className}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>Previous</title>
+            <polygon points="19 20 9 12 19 4 19 20" /> <line x1="5" y1="19" x2="5" y2="5" /></svg
         >
     {/if}
 </button>
