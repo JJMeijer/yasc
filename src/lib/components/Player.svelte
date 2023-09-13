@@ -6,6 +6,9 @@
     import Icon from "./Icon.svelte";
     import { resolveSpotifyUri } from "$lib/utility";
 
+    /**
+     * Initialization
+     */
     onMount(() => {
         window.onSpotifyWebPlaybackSDKReady = () => {
             player.set(
@@ -75,14 +78,62 @@
         };
     });
 
+    /**
+     * Controls
+     */
+
     $: trackName = $playerState?.track_window.current_track.name;
     $: artists = $playerState?.track_window.current_track.artists || [];
     $: albumImage = $playerState?.track_window.current_track.album.images[0]?.url;
     $: albumLink = resolveSpotifyUri($playerState?.track_window.current_track.album.uri);
+
+    /**
+     * Volume
+     */
+    let volume = 0.5;
+    let muted = false;
+
+    $player?.getVolume().then((v) => {
+        volume = v;
+    });
+
+    const getVolumeIcon = (muted: boolean, volume: number): "muted" | "volume-full" | "volume-half" => {
+        if (muted) {
+            return "muted";
+        } else if (volume > 0.5) {
+            return "volume-full";
+        } else {
+            return "volume-half";
+        }
+    };
+
+    $: volumeIcon = getVolumeIcon(muted, volume);
+
+    const onVolumeIconClick = () => {
+        if (muted) {
+            volume = 0.5;
+            $player?.setVolume(volume);
+            muted = false;
+        } else {
+            volume = 0;
+            $player?.setVolume(volume);
+            muted = true;
+        }
+    };
+
+    let volumeSliderWidth: number;
+
+    const onVolumeSliderClick = (event: MouseEvent) => {
+        const { offsetX } = event;
+        volume = offsetX / volumeSliderWidth;
+        $player?.setVolume(volume);
+    }
+
+    $: console.log(muted, volumeIcon);
 </script>
 
 <svelte:head>
-    <title>YASC - {trackName} - {artists.map(a => a.name).join(", ")}</title>
+    <title>YASC - {trackName} - {artists.map((a) => a.name).join(", ")}</title>
 </svelte:head>
 
 <div class="min-h-[4.5rem] h-[4.5rem] border-primary border-t-2 flex flex-row items-center pr-8">
@@ -93,7 +144,7 @@
             {/if}
         </button>
         <div class="flex flex-col">
-            <p>{trackName || ""}</p>
+            <p class="select-none">{trackName || ""}</p>
             <div class="inline-flex">
                 {#each artists as artist, index}
                     <a
@@ -124,5 +175,19 @@
             class="w-7 h-6 text-gray-300 cursor-pointer hover:text-primary"
         />
     </div>
-    <div class="flex flex-row justify-end w-1/3">volume</div>
+    <div class="flex flex-row justify-end w-1/3 gap-2 items-center">
+        <Icon
+            onClick={onVolumeIconClick}
+            name={volumeIcon}
+            class="w-6 h-6 text-gray-300 cursor-pointer hover:text-primary"
+        />
+
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div bind:offsetWidth={volumeSliderWidth} on:click={onVolumeSliderClick} class="w-20 h-1 flex bg-gray-700 rounded-md cursor-pointer">
+            <div class="relative h-full bg-primary flex items-center rounded-md" style={`width: ${volume * 100}%`}>
+                <div class="absolute h-2.5 w-2.5 rounded-full left-full bg-gray-300 -translate-x-1/2"></div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -2,7 +2,7 @@
     let className: string;
     export { className as class };
 
-    export let name: "play" | "pause" | "next" | "prev";
+    export let name: "play" | "pause" | "next" | "prev" | "muted" | "volume-full" | "volume-half";
 
     export let onClick: (event: MouseEvent) => void = () => {};
 </script>
@@ -66,6 +66,49 @@
         >
             <title>Previous</title>
             <polygon points="19 20 9 12 19 4 19 20" /> <line x1="5" y1="19" x2="5" y2="5" /></svg
+        >
+    {/if}
+
+    {#if name === "muted"}
+        <svg
+            class={className}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /></svg
+        >
+    {/if}
+
+    {#if name === "volume-half"}
+        <svg
+            class={className}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /> <path d="M15.54 8.46a5 5 0 0 1 0 7.07" /></svg
+        >
+    {/if}
+
+    {#if name === "volume-full"}
+        <svg
+            class={className}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" /></svg
         >
     {/if}
 </button>
