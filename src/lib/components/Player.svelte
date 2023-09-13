@@ -1,7 +1,10 @@
 <script lang="ts">
-    import { player, playerReady, playerState, token } from "$lib/stores";
     import { onMount } from "svelte";
+    import { goto } from "$app/navigation";
+
+    import { player, playerReady, playerState, token } from "$lib/stores";
     import Icon from "./Icon.svelte";
+    import { resolveSpotifyUri } from "$lib/utility";
 
     onMount(() => {
         window.onSpotifyWebPlaybackSDKReady = () => {
@@ -44,7 +47,6 @@
             });
 
             $player?.addListener("player_state_changed", (state) => {
-                console.log(state);
                 playerState.set(state);
             });
 
@@ -76,26 +78,28 @@
     $: trackName = $playerState?.track_window.current_track.name;
     $: artists = $playerState?.track_window.current_track.artists || [];
     $: albumImage = $playerState?.track_window.current_track.album.images[0]?.url;
+    $: albumLink = resolveSpotifyUri($playerState?.track_window.current_track.album.uri);
 </script>
 
 <svelte:head>
-    <title>YASC - {$playerState?.track_window.current_track.name}</title>
+    <title>YASC - {trackName} - {artists.map(a => a.name).join(", ")}</title>
 </svelte:head>
 
-<div class="min-h-[4.5rem] border-primary border-t-2 flex flex-row items-center px-8">
-    <div class="flex flex-row items-center gap-4 w-1/3">
-        <div class="w-12 h-12 rounded-md overflow-hidden border border-gray-700/50">
-            <img
-                src={albumImage}
-                alt="album cover"
-                class="object-cover"
-            />
-        </div>
+<div class="min-h-[4.5rem] h-[4.5rem] border-primary border-t-2 flex flex-row items-center pr-8">
+    <div class="flex h-full flex-row items-center gap-6 w-1/3">
+        <button on:click={() => goto(albumLink)} class="h-full {!albumImage && 'border border-gray-700/50'}">
+            {#if albumImage}
+                <img src={albumImage} alt="album cover" class="h-full object-cover" />
+            {/if}
+        </button>
         <div class="flex flex-col">
-            <p>{trackName}</p>
+            <p>{trackName || ""}</p>
             <div class="inline-flex">
                 {#each artists as artist, index}
-                    <a href="/artist/{artist.uri.split(":")[2]}" class="text-sm text-gray-500 hover:text-gray-400 hover:underline underline-offset-2">{artist.name}</a>
+                    <a
+                        href="/artist/{artist.uri.split(':')[2]}"
+                        class="text-sm text-gray-500 hover:text-gray-400 hover:underline underline-offset-2">{artist.name}</a
+                    >
                     {#if index < artists.length - 1}
                         <span class="text-sm text-gray-500">,&nbsp;</span>
                     {/if}

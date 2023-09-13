@@ -1,5 +1,5 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from "$env/static/private";
-import { generateRandomString } from "$lib/utility";
+import { generateRandomString } from "$lib/server/utility";
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { SPOTIFY_AUTH_SCOPE } from "@constants";

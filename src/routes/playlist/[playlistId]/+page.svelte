@@ -4,8 +4,6 @@
     import type { PageServerData } from "./$types";
 
     export let data: PageServerData;
-
-    $: console.log(data);
 </script>
 
 <PageWrapper username={data.username} accessToken={data.accessToken}>

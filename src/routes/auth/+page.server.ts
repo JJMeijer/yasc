@@ -3,7 +3,7 @@ import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } from "$env/static/private";
 import type { SpotifyAuthCodeResponse } from "@types";
-import { setAuthCookie } from "$lib/utility";
+import { setAuthCookie } from "$lib/server/utility";
 import { getSpotifyRequest } from "$lib/spotify";
 
 export const load = (async ({ fetch, cookies, url }) => {

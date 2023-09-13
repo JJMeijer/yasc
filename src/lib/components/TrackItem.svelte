@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { playerReady, token } from "$lib/stores";
+    import { playerReady, playerState, token } from "$lib/stores";
 
     export let track: SpotifyApi.TrackObjectFull;
 
@@ -22,14 +22,16 @@
 
     export let contextUri: string;
     export let offset: string;
+
+    $: trackActive = $playerState?.track_window.current_track.id === track.id;
 </script>
 
-<div tabindex="0" role="button" on:dblclick={onTrackDoubleClick} class="flex flex-row border-b border-gray-700/50 p-1 hover:bg-gray-800/50 rounded-sm">
+<div tabindex="0" role="button" on:dblclick={onTrackDoubleClick} class="flex flex-row border-b border-gray-700/50 p-1 hover:bg-gray-800/50 rounded-sm cursor-default">
     <div class="flex flex-col px-1 gap-0.5">
-        <span>{track.name}</span>
+        <span class="{trackActive ? 'text-primary' : ''}">{track.name}</span>
         <div class="inline-flex">
         {#each track.artists as artist, index}
-            <a href="/artist/{artist.id}" class="text-sm text-gray-500 hover:text-gray-400">{artist.name}</a>
+            <a href="/artist/{artist.id}" class="text-sm {trackActive ? 'text-primary/50 hover:text-primary/70' : 'text-gray-500 hover:text-gray-400'}">{artist.name}</a>
             {#if index < track.artists.length - 1}
                 <span class="text-sm text-gray-500">,&nbsp;</span>
             {/if}

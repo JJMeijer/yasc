@@ -3,7 +3,7 @@ import type { Handle, HandleFetch } from "@sveltejs/kit";
 import { TOKENS_COOKIE, TOKENS_DIVIDER } from "@constants";
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "$env/static/private";
 import type { SpotifyAuthRefreshResponse } from "@types";
-import { log, setAuthCookie } from "$lib/utility";
+import { log, setAuthCookie } from "$lib/server/utility";
 import { getSpotifyRequest } from "$lib/spotify";
 
 export const handle: Handle = async ({ event, resolve }) => {
