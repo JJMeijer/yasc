@@ -1,7 +1,7 @@
 <script lang="ts">
     import AccountMenu from "$lib/components/AccountMenu.svelte";
     import { token } from "$lib/stores";
-    import Player from "./Player.svelte";
+    import { Player } from "./Player";
 
     export let username: string;
     export let accessToken: string;

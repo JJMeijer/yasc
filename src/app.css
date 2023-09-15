@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    input[type="range"] {
+        @apply appearance-none bg-transparent cursor-pointer;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+        @apply bg-gray-700 rounded-md h-1.5;
+    }
+
+    input[type="range"]::-moz-range-track {
+        @apply bg-black/25 rounded-full;
+    }
+
+    input[type="range"]::-ms-track {
+        @apply bg-black/25 rounded-full;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        @apply appearance-none bg-gray-300 rounded-full h-3 w-3;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        @apply appearance-none bg-white rounded-full h-3 w-3;
+    }
+
+    input[type="range"]::-ms-thumb {
+        @apply appearance-none bg-white rounded-full h-3 w-3;
+    }
+}
