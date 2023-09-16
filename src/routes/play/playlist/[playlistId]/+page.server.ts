@@ -7,10 +7,6 @@ export const load = (async ({ params, fetch, locals }) => {
         throw error(401, "Unauthorized");
     }
 
-    if (!locals.username) {
-        throw error(500, "Internal Server Error");
-    }
-
     const { playlistId } = params;
 
     const playlistData = await getSpotifyRequest<SpotifyApi.SinglePlaylistResponse>(
@@ -20,8 +16,6 @@ export const load = (async ({ params, fetch, locals }) => {
     );
 
     return {
-        accessToken: locals.accessToken,
-        username: locals.username,
         playlist: playlistData,
     };
 }) satisfies PageServerLoad;

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { player } from "$lib/stores";
-    import Icon from "../Icon.svelte";
+    import { Icon } from "$lib/components";
+    import Devices from "./Devices.svelte";
 
     let previousVolume = 0.5;
     let volume = 0.5;
@@ -85,25 +86,32 @@
 </script>
 
 <div class="contents">
-    <Icon onClick={onVolumeIconClick} name={volumeIcon} class="w-6 h-6 text-gray-300 cursor-pointer hover:text-primary" />
+    <Devices />
+    <div class="ml-2 flex items-center gap-2">
+        <Icon
+            onClick={onVolumeIconClick}
+            name={volumeIcon}
+            class="w-6 h-6 text-gray-300 cursor-pointer hover:text-primary"
+        />
 
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div
-        bind:this={volumeSlider}
-        bind:offsetWidth={volumeSliderWidth}
-        on:click={onVolumeSliderClick}
-        class="w-24 h-3 flex cursor-pointer items-center"
-    >
-        <div class="w-full h-1 flex bg-gray-700 rounded-md">
-            <div class="relative h-full bg-primary flex items-center rounded-md" style={`width: ${volume * 100}%`}>
-                <div
-                    draggable={true}
-                    on:dragend={onDragEnd}
-                    on:dragstart={onDragStart}
-                    on:drag={onDrag}
-                    class="absolute h-3 w-3 rounded-full left-full bg-gray-300 -translate-x-1/2"
-                ></div>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+            bind:this={volumeSlider}
+            bind:offsetWidth={volumeSliderWidth}
+            on:click={onVolumeSliderClick}
+            class="w-24 h-3 flex cursor-pointer items-center"
+        >
+            <div class="w-full h-1 flex bg-gray-700 rounded-md">
+                <div class="relative h-full bg-primary flex items-center rounded-md" style={`width: ${volume * 100}%`}>
+                    <div
+                        draggable={true}
+                        on:dragend={onDragEnd}
+                        on:dragstart={onDragStart}
+                        on:drag={onDrag}
+                        class="absolute h-3 w-3 rounded-full left-full bg-gray-300 -translate-x-1/2"
+                    ></div>
+                </div>
             </div>
         </div>
     </div>

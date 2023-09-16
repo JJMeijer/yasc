@@ -2,7 +2,7 @@
     let className: string;
     export { className as class };
 
-    export let name: "play" | "pause" | "next" | "prev" | "muted" | "volume-full" | "volume-half";
+    export let name: "play" | "pause" | "next" | "prev" | "muted" | "volume-full" | "volume-half" | "devices";
 
     export let onClick: (event: MouseEvent) => void = () => {};
 </script>
@@ -109,6 +109,24 @@
         >
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" /></svg
+        >
+    {/if}
+
+    {#if name === "devices"}
+        <svg
+            class={className}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+        <title>Devices</title>
+            <path stroke="none" d="M0 0h24v24H0z" /> <rect x="5" y="3" width="14" height="18" rx="2" />
+            <circle cx="12" cy="14" r="3" /> <line x1="12" y1="7" x2="12" y2="7.01" /></svg
         >
     {/if}
 </button>

@@ -1,6 +1,6 @@
 import { getSpotifyRequest } from "$lib/spotify";
 import { error } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
+import type { PageServerLoad } from "../../../artist/[artistId]/$types";
 
 export const load = (async ({ params, fetch, locals }) => {
     if (!locals.accessToken) {

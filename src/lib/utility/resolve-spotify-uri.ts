@@ -4,5 +4,5 @@ export const resolveSpotifyUri = (uri: string | undefined): string => {
     }
 
     const [, type, id] = uri.split(":");
-    return `/${type}/${id}`;
+    return `/play/${type}/${id}`;
 };

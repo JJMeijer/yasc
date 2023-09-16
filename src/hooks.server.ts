@@ -72,7 +72,7 @@ export const handleFetch: HandleFetch = async ({ request, fetch }) => {
     const end = Date.now();
 
     // Simple fetch Logging
-    log("fetch", `${request.method} ${res.status} ${request.url}, -- ${end - start}ms`);
+    log("fetch", `${request.method} ${res.status} ${request.url} -- ${end - start}ms`);
 
     return res;
 };

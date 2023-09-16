@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
 
     import { player, playerReady, playerState, token } from "$lib/stores";
-    import VolumeSlider from "./VolumeSlider.svelte";
+    import SoundControl from "./SoundControl.svelte";
     import PlaybackControls from "./PlaybackControls.svelte";
     import TrackInfo from "./TrackInfo.svelte";
 
@@ -11,7 +11,13 @@
             player.set(
                 new Spotify.Player({
                     name: "YASC",
-                    getOAuthToken: (cb) => cb($token),
+                    getOAuthToken: async (cb) => {
+                        const res = await fetch("/api/token");
+                        const newToken = (await res.json() as { accessToken: string }).accessToken;
+
+                        token.set(newToken);
+                        return cb(newToken)
+                    },
                     volume: 0.5,
                 }),
             );
@@ -85,6 +91,6 @@
         <PlaybackControls />
     </div>
     <div class="flex flex-row justify-end w-1/3 gap-2 items-center pr-4">
-        <VolumeSlider />
+        <SoundControl />
     </div>
 </div>

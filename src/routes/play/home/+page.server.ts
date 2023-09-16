@@ -8,19 +8,15 @@ export const load = (async ({ fetch, locals }) => {
         throw error(401, "Unauthorized");
     }
 
-    if (!locals.username) {
-        throw error(500, "Internal Server Error");
-    }
-
-    const playlists = await getSpotifyRequest<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
+    const playlistsPromise = getSpotifyRequest<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
         fetch,
         locals.accessToken,
-        `me/playlists`,
+        `me/playlists?limit=50`,
     );
 
+    const [playlists] = await Promise.all([playlistsPromise]);
+
     return {
-        accessToken: locals.accessToken,
-        username: locals.username,
         playlists: playlists.items,
     };
 }) satisfies PageServerLoad;

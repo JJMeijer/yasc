@@ -3,7 +3,7 @@ import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ locals }) => {
     if (locals.accessToken) {
-        throw redirect(302, "/home");
+        throw redirect(302, "/play/home");
     }
 
     return null;
