@@ -1,28 +1,46 @@
 <script lang="ts">
-    import { playbackDevice, playerState, token } from "$lib/stores";
+    import { playbackDevice, playerReady, playerState } from "$lib/stores";
     import { resolveSpotifyUri } from "$lib/utility";
 
     export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified;
+    export let contextUri: string = "";
+    export let offset: string = "";
+    export let uris: string[] = [];
+    export let index: number;
 
-    const onTrackDoubleClick = () => {
-        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${$playbackDevice.activeDeviceId}`, {
+
+    const play = (deviceId: string) => {
+        fetch("/api/play", {
             method: "PUT",
             body: JSON.stringify({
-                context_uri: contextUri,
-                offset: {
-                    uri: offset,
-                },
-                position_ms: 0,
+                deviceId,
+                contextUri,
+                offset,
+                ...(uris.length > 0 ? { uris } : null),
             }),
             headers: {
-                Authorization: `Bearer ${$token}`,
                 "Content-Type": "application/json",
             },
         });
     };
 
-    export let contextUri: string;
-    export let offset: string;
+    const durationMsToTime = (durationMs: number) => {
+        const minutes = Math.floor(durationMs / 60000);
+        const seconds = ((durationMs % 60000) / 1000).toFixed(0);
+
+        return `${minutes}:${+seconds < 10 ? "0" : ""}${seconds}`;
+    };
+
+    const onTrackDoubleClick = () => {
+        const deviceId = $playbackDevice.activeDeviceId || $playerReady?.device_id;
+
+        if (!deviceId) {
+            playerReady.subscribe((state) => play(state.device_id));
+            return;
+        }
+
+        play(deviceId);
+    };
 
     $: trackActive = $playerState?.track_window.current_track.id === track.id;
 </script>
@@ -31,9 +49,10 @@
     tabindex="0"
     role="button"
     on:dblclick={onTrackDoubleClick}
-    class="flex flex-row border-b border-gray-700/50 p-1 hover:bg-gray-800/50 rounded-sm cursor-default"
+    class="flex flex-row border-b border-gray-700/50 p-1 hover:bg-gray-800/50 rounded-sm cursor-default items-center gap-1"
 >
-    <div class="flex flex-col px-1 gap-0.5">
+    <span class="w-7 {trackActive ? "text-primary" : "text-gray-500"}">{index + 1}</span>
+    <div class="flex flex-col px-1 gap-0.5 flex-grow">
         <span class={trackActive ? "text-primary" : ""}>{track.name}</span>
         <div class="inline-flex">
             {#each track.artists as artist, index}
@@ -49,4 +68,5 @@
             {/each}
         </div>
     </div>
+    <span class="pr-1 {trackActive ? "text-primary" : "text-gray-500"}">{durationMsToTime(track.duration_ms)}</span>
 </div>

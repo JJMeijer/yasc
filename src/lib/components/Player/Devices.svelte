@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Icon } from "$lib/components";
     import { playbackDevice, playerReady } from "$lib/stores";
-    import { onMount } from "svelte";
 
     let open = false;
     let element: HTMLDivElement;
@@ -57,8 +56,10 @@
         });
     };
 
-    onMount(() => {
-        setTimeout(updateDevices, 1000);
+    playerReady.subscribe((state) => {
+        if (state.device_id) {
+            updateDevices();
+        }
     });
 
     const handleClickOutside = (event: MouseEvent) => {

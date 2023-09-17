@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    import { player, playerReady, playerState, token } from "$lib/stores";
+    import { playbackDevice, player, playerReady, playerState } from "$lib/stores";
     import SoundControl from "./SoundControl.svelte";
     import PlaybackControls from "./PlaybackControls.svelte";
     import TrackInfo from "./TrackInfo.svelte";
@@ -15,7 +15,6 @@
                         const res = await fetch("/api/token");
                         const newToken = (await res.json() as { accessToken: string }).accessToken;
 
-                        token.set(newToken);
                         return cb(newToken)
                     },
                     volume: 0.5,
@@ -27,6 +26,13 @@
                     ready: true,
                     device_id,
                 });
+
+                playbackDevice.update((state) => {
+                    return {
+                        ...state,
+                        activeDeviceId: device_id,
+                    }
+                })
             });
 
             $player?.addListener("not_ready", ({ device_id }) => {
