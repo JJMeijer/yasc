@@ -1,14 +1,14 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    import { playbackDevice, player, playerReady, playerState } from "$lib/stores";
+    import { playbackDeviceStore, playerStore, playerDeviceStore, playerStateStore } from "$lib/stores";
     import SoundControl from "./SoundControl.svelte";
     import PlaybackControls from "./PlaybackControls.svelte";
     import TrackInfo from "./TrackInfo.svelte";
 
     onMount(() => {
         window.onSpotifyWebPlaybackSDKReady = () => {
-            player.set(
+            playerStore.set(
                 new Spotify.Player({
                     name: "YASC",
                     getOAuthToken: async (cb) => {
@@ -21,13 +21,13 @@
                 }),
             );
 
-            $player?.addListener("ready", ({ device_id }) => {
-                playerReady.set({
+            $playerStore?.addListener("ready", ({ device_id }) => {
+                playerDeviceStore.set({
                     ready: true,
                     device_id,
                 });
 
-                playbackDevice.update((state) => {
+                playbackDeviceStore.update((state) => {
                     return {
                         ...state,
                         activeDeviceId: device_id,
@@ -35,35 +35,35 @@
                 })
             });
 
-            $player?.addListener("not_ready", ({ device_id }) => {
-                playerReady.set({
+            $playerStore?.addListener("not_ready", ({ device_id }) => {
+                playerDeviceStore.set({
                     ready: false,
                     device_id,
                 });
             });
 
-            $player?.addListener("initialization_error", ({ message }) => {
+            $playerStore?.addListener("initialization_error", ({ message }) => {
                 console.error(message);
             });
 
-            $player?.addListener("authentication_error", ({ message }) => {
+            $playerStore?.addListener("authentication_error", ({ message }) => {
                 console.error(message);
             });
 
-            $player?.addListener("account_error", ({ message }) => {
+            $playerStore?.addListener("account_error", ({ message }) => {
                 console.error(message);
             });
 
-            $player?.addListener("playback_error", ({ message }) => {
+            $playerStore?.addListener("playback_error", ({ message }) => {
                 console.error(message);
             });
 
-            $player?.addListener("player_state_changed", (state) => {
-                playerState.set(state);
+            $playerStore?.addListener("player_state_changed", (state) => {
+                playerStateStore.set(state);
             });
 
-            $player?.connect();
-            $player?.activateElement();
+            $playerStore?.connect();
+            $playerStore?.activateElement();
         };
 
         if (!document.getElementById("spotify-player")) {
@@ -74,9 +74,10 @@
             document.body.appendChild(script);
         }
 
+        // TODO: Only if nothing is focused
         const spaceBarHandler = (e: KeyboardEvent) => {
             if (e.code === "Space") {
-                $player?.togglePlay();
+                $playerStore?.togglePlay();
             }
         };
 

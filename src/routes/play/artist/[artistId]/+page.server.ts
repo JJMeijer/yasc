@@ -1,4 +1,4 @@
-import { getSpotifyRequest } from "$lib/spotify";
+import { getSpotifyRequest } from "$lib/server/spotify";
 import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
@@ -31,10 +31,17 @@ export const load = (async ({ params, fetch, locals }) => {
         `artists/${artistId}/albums?market=from_token&include_groups=album,single,compilation`,
     );
 
-    const [artistData, artistTopTracks, artistAlbums] = await Promise.all([
+    const relatedArtistsPromise = getSpotifyRequest<SpotifyApi.ArtistsRelatedArtistsResponse>(
+        fetch,
+        locals.accessToken,
+        `artists/${artistId}/related-artists`,
+    );
+
+    const [artistData, artistTopTracks, artistAlbums, relatedArtists] = await Promise.all([
         artistDataPromise,
         artistTopTracksPromise,
         artistAlbumsPromise,
+        relatedArtistsPromise,
     ]);
 
     return {
@@ -43,5 +50,6 @@ export const load = (async ({ params, fetch, locals }) => {
         artist: artistData,
         topTracks: artistTopTracks.tracks,
         albums: artistAlbums.items,
+        relatedArtists: relatedArtists.artists,
     };
 }) satisfies PageServerLoad;

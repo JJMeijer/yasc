@@ -1,11 +1,11 @@
 import { writable } from "svelte/store";
 
-interface PlaybackDevice {
+interface PlaybackDeviceStore {
     devices: SpotifyApi.UserDevice[];
     activeDeviceId: string;
 }
 
-export const playbackDevice = writable<PlaybackDevice>({
+export const playbackDeviceStore = writable<PlaybackDeviceStore>({
     devices: [],
     activeDeviceId: "",
 });

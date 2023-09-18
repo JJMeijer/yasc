@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { playbackDevice, playerReady, playerState } from "$lib/stores";
+    import { playbackDeviceStore, playerDeviceStore, playerStateStore, likedTracksStore } from "$lib/stores";
     import { resolveSpotifyUri } from "$lib/utility";
+    import Icon from "./Icon.svelte";
 
     export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified;
     export let contextUri: string = "";
@@ -32,17 +33,18 @@
     };
 
     const onTrackDoubleClick = () => {
-        const deviceId = $playbackDevice.activeDeviceId || $playerReady?.device_id;
+        const deviceId = $playbackDeviceStore.activeDeviceId || $playerDeviceStore?.device_id;
 
         if (!deviceId) {
-            playerReady.subscribe((state) => play(state.device_id));
+            playerDeviceStore.subscribe((state) => play(state.device_id));
             return;
         }
 
         play(deviceId);
     };
 
-    $: trackActive = $playerState?.track_window.current_track.id === track.id;
+    $: trackActive = $playerStateStore?.track_window.current_track.id === track.id;
+    $: liked = $likedTracksStore.indexOf(track.id) !== -1;
 </script>
 
 <div
@@ -68,5 +70,6 @@
             {/each}
         </div>
     </div>
-    <span class="pr-1 {trackActive ? "text-primary" : "text-gray-500"}">{durationMsToTime(track.duration_ms)}</span>
+    <Icon name="like" class="w-6 h-6 {trackActive ? "text-primary" : "text-gray-600"} {liked ? "fill-current" : "text-transparent hover:block hover:fill-current hover:text-primary/90"}" />
+    <span class="w-10 text-right {trackActive ? "text-primary" : "text-gray-500"}">{durationMsToTime(track.duration_ms)}</span>
 </div>

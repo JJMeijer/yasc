@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { playerState } from "$lib/stores";
+    import { playerStateStore } from "$lib/stores";
     import { resolveSpotifyUri } from "$lib/utility";
 
-    $: trackName = $playerState?.track_window.current_track.name;
-    $: artists = $playerState?.track_window.current_track.artists || [];
-    $: albumImage = $playerState?.track_window.current_track.album.images[0]?.url;
-    $: albumLink = resolveSpotifyUri($playerState?.track_window.current_track.album.uri);
+    $: trackName = $playerStateStore?.track_window.current_track.name;
+    $: artists = $playerStateStore?.track_window.current_track.artists || [];
+    $: albumImage = $playerStateStore?.track_window.current_track.album.images[0]?.url;
+    $: albumLink = resolveSpotifyUri($playerStateStore?.track_window.current_track.album.uri);
 </script>
 
 <svelte:head>

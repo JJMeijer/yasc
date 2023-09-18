@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon } from "$lib/components";
-    import { playbackDevice, playerReady } from "$lib/stores";
+    import { playbackDeviceStore, playerDeviceStore } from "$lib/stores";
 
     let open = false;
     let element: HTMLDivElement;
@@ -21,18 +21,18 @@
         const activeDevice = data.devices.find((device: SpotifyApi.UserDevice) => device.is_active);
 
         if (activeDevice) {
-            playbackDevice.update((state) => {
+            playbackDeviceStore.update((state) => {
                 return {
                     ...state,
                     devices: data.devices,
                     activeDeviceId: activeDevice.id,
-                }
+                };
             });
 
             return;
         }
 
-        if ($playerReady.device_id === $playbackDevice.activeDeviceId) {
+        if ($playerDeviceStore.device_id === $playbackDeviceStore.activeDeviceId) {
             return;
         }
 
@@ -42,21 +42,21 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                device_ids: [$playerReady.device_id],
+                device_ids: [$playerDeviceStore.device_id],
                 play: false,
             }),
         });
 
-        playbackDevice.update((state) => {
+        playbackDeviceStore.update((state) => {
             return {
                 ...state,
                 devices: data.devices,
-                activeDeviceId: $playerReady.device_id,
-            }
+                activeDeviceId: $playerDeviceStore.device_id,
+            };
         });
     };
 
-    playerReady.subscribe((state) => {
+    playerDeviceStore.subscribe((state) => {
         if (state.device_id) {
             updateDevices();
         }
@@ -95,11 +95,11 @@
             }),
         });
 
-        playbackDevice.update((state) => {
+        playbackDeviceStore.update((state) => {
             return {
                 ...state,
                 activeDeviceId: deviceId,
-            }
+            };
         });
 
         open = false;
@@ -109,11 +109,18 @@
 <div class="relative" bind:this={element}>
     <Icon onClick={onDevicesIconClick} name="devices" class="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary" />
     {#if open}
-        <div class="absolute border border-gray-800/50 bg-gray-900 bottom-[130%] -translate-x-28 w-56 flex flex-col rounded-md shadow-md pb-2">
+        <div
+            class="absolute border border-gray-800/50 bg-gray-900 bottom-[130%] -translate-x-28 w-56 flex flex-col rounded-md shadow-md pb-2"
+        >
             <p class="text-center text-gray-400 border-b border-gray-700 flex items-center py-2 justify-center">Devices</p>
             <div class="flex flex-col">
-                {#each $playbackDevice.devices as device}
-                    <button on:click={() => onDeviceClick(device.id || "")} class="py-2 px-4 text-left hover:bg-gray-800 {device.id === $playbackDevice.activeDeviceId ? "text-primary/90" : "text-gray-400"}">{device.name}</button>
+                {#each $playbackDeviceStore.devices as device}
+                    <button
+                        on:click={() => onDeviceClick(device.id || "")}
+                        class="py-2 px-4 text-left hover:bg-gray-800 {device.id === $playbackDeviceStore.activeDeviceId
+                            ? 'text-primary/90'
+                            : 'text-gray-400'}">{device.name}</button
+                    >
                 {/each}
             </div>
         </div>

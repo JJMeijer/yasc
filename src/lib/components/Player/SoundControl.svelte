@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { player } from "$lib/stores";
+    import { playerStore } from "$lib/stores";
     import { Icon } from "$lib/components";
     import Devices from "./Devices.svelte";
 
@@ -8,7 +8,7 @@
     let muted = false;
     let dragging = false;
 
-    $player?.getVolume().then((v) => {
+    $playerStore?.getVolume().then((v) => {
         volume = v;
     });
 
@@ -27,12 +27,12 @@
     const onVolumeIconClick = () => {
         if (muted) {
             volume = previousVolume;
-            $player?.setVolume(volume);
+            $playerStore?.setVolume(volume);
             muted = false;
         } else {
             previousVolume = volume;
             volume = 0;
-            $player?.setVolume(volume);
+            $playerStore?.setVolume(volume);
             muted = true;
         }
     };
@@ -44,7 +44,7 @@
     const onVolumeSliderClick = (event: MouseEvent) => {
         const { offsetX } = event;
         volume = offsetX / volumeSliderWidth;
-        $player?.setVolume(volume);
+        $playerStore?.setVolume(volume);
     };
 
     const onDragOver = (event: DragEvent) => {
@@ -80,7 +80,7 @@
                 volume = 1;
             }
 
-            $player?.setVolume(volume);
+            $playerStore?.setVolume(volume);
         }
     };
 </script>

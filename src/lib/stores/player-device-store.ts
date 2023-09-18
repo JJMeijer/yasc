@@ -1,11 +1,11 @@
 import { writable } from "svelte/store";
 
-interface PlayerReadyStore {
+interface PlayerDeviceStore {
     ready: boolean;
     device_id: string;
 }
 
-export const playerReady = writable<PlayerReadyStore>({
+export const playerDeviceStore = writable<PlayerDeviceStore>({
     ready: false,
     device_id: "",
 });

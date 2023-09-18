@@ -1,8 +1,11 @@
 <script lang="ts">
     import { AccountMenu, Player } from "$lib/components";
+    import { likedTracksStore } from "$lib/stores";
     import type { LayoutServerData } from "./$types";
 
     export let data: LayoutServerData;
+
+    likedTracksStore.set(data.likedTracks.map(item => item.track.id));
 </script>
 
 <div class="h-full w-full flex flex-col">

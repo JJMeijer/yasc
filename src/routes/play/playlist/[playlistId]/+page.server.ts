@@ -1,4 +1,4 @@
-import { getSpotifyRequest } from "$lib/spotify";
+import { getSpotifyRequest } from "$lib/server/spotify";
 import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
