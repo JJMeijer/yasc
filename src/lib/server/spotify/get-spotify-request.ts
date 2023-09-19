@@ -10,7 +10,12 @@ const isPagingObject = (obj: unknown): obj is SpotifyApi.PagingObject<unknown> =
     return Array.isArray(pagingObject["items"]) && typeof pagingObject["next"] !== "undefined";
 };
 
-export const getSpotifyRequest = async <T>(svelteFetch: typeof fetch, accessToken: string, endpoint: string): Promise<T> => {
+export const getSpotifyRequest = async <T>(
+    svelteFetch: typeof fetch,
+    accessToken: string,
+    endpoint: string,
+    fetchAll: boolean = false,
+): Promise<T> => {
     const res = await svelteFetch(`https://api.spotify.com/v1/${endpoint}`, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -24,7 +29,7 @@ export const getSpotifyRequest = async <T>(svelteFetch: typeof fetch, accessToke
 
     const data = (await res.json()) as T;
 
-    if (isPagingObject(data) && data.next !== null) {
+    if (fetchAll && isPagingObject(data) && data.next !== null) {
         const uri = data.next.split("v1/")[1];
         if (!uri) {
             return data;

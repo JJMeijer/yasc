@@ -93,7 +93,6 @@ export const PUT: RequestHandler = async ({ fetch, request, locals }) => {
 
     if (!res.ok) {
         log("error", "Failed to play track", res.status, res.statusText);
-        console.log(body);
         throw error(500, "Internal Server Error");
     }
 
