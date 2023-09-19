@@ -1,4 +1,5 @@
 import type { Handle, HandleFetch } from "@sveltejs/kit";
+import { Buffer } from "buffer";
 
 import { TOKENS_COOKIE, TOKENS_DIVIDER } from "@constants";
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "$env/static/private";
