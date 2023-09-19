@@ -36,5 +36,8 @@
 		"typescript": "^5.2.2",
 		"vite": "^4.4.9"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"buffer": "^6.0.3"
+	}
 }

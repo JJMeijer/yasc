@@ -1,8 +1,10 @@
 import { error, redirect } from "@sveltejs/kit";
+import { Buffer } from "buffer";
 
 import type { PageServerLoad } from "./$types";
-import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } from "$env/static/private";
 import type { SpotifyAuthCodeResponse } from "@types";
+
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } from "$env/static/private";
 import { setAuthCookie } from "$lib/server/utility";
 import { getSpotifyRequest } from "$lib/server/spotify";
 
