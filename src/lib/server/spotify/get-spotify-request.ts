@@ -1,4 +1,4 @@
-import { log } from "console";
+import { log } from "$lib/server/utility";
 
 const isPagingObject = (obj: unknown): obj is SpotifyApi.PagingObject<unknown> => {
     if (typeof obj !== "object" || obj === null) {
