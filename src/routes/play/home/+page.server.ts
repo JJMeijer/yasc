@@ -22,8 +22,6 @@ export const load = (async ({ fetch, locals }) => {
 
     const [playlists, featuredPlaylists] = await Promise.all([playlistsPromise, featuredPlaylistsPromise]);
 
-    console.log(playlists.items[0]?.tracks);
-
     // Fake Playlist item for likes playlist
     playlists.items.unshift({
         collaborative: false,
