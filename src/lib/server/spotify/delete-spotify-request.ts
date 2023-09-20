@@ -1,13 +1,13 @@
 import { log } from "$lib/server/utility";
 
-export const putSpotifyRequest = async (
+export const deleteSpotifyRequest = async (
     svelteFetch: typeof fetch,
     accessToken: string,
     endpoint: string,
     body: Record<string, unknown> = {},
 ): Promise<string> => {
     const res = await svelteFetch(`https://api.spotify.com/v1/${endpoint}`, {
-        method: "PUT",
+        method: "DELETE",
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },

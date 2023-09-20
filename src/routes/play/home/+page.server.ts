@@ -14,9 +14,53 @@ export const load = (async ({ fetch, locals }) => {
         `me/playlists?limit=50`,
     );
 
-    const [playlists] = await Promise.all([playlistsPromise]);
+    const featuredPlaylistsPromise = getSpotifyRequest<SpotifyApi.ListOfFeaturedPlaylistsResponse>(
+        fetch,
+        locals.accessToken,
+        `browse/featured-playlists?limit=5`,
+    );
+
+    const [playlists, featuredPlaylists] = await Promise.all([playlistsPromise, featuredPlaylistsPromise]);
+
+    console.log(playlists.items[0]?.tracks);
+
+    // Fake Playlist item for likes playlist
+    playlists.items.unshift({
+        collaborative: false,
+        href: "",
+        type: "playlist",
+        owner: {
+            display_name: "",
+            href: "",
+            id: "",
+            type: "user",
+            uri: "",
+            external_urls: {
+                spotify: "",
+            },
+        },
+        public: false,
+        snapshot_id: "",
+        tracks: {
+            href: "",
+            total: 0,
+        },
+        external_urls: {
+            spotify: "",
+        },
+        id: "",
+        description: "Liked Songs",
+        name: "Liked Songs",
+        uri: "spotify:library:tracks",
+        images: [
+            {
+                url: "/img/liked-songs-cover.jpg",
+            },
+        ],
+    }) as unknown as SpotifyApi.PlaylistObjectSimplified;
 
     return {
         playlists: playlists.items,
+        featured: featuredPlaylists.playlists.items,
     };
 }) satisfies PageServerLoad;

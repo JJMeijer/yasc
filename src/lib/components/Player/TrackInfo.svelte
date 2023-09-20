@@ -10,9 +10,10 @@
     $: albumLink = resolveSpotifyUri($playerStateStore?.track_window.current_track.album.uri);
 
     let isLiked = false;
+    let iconOnClickClass = "";
 
     const checkLike = async () => {
-        const res = await fetch(`/api/likes/contains?ids=${$playerStateStore?.track_window.current_track.id}`);
+        const res = await fetch(`/api/likes?ids=${trackId}`);
 
         const data = (await res.json()) as boolean[];
 
@@ -22,7 +23,23 @@
     };
     $: trackId && checkLike();
 
-    $: console.log(isLiked);
+    const likeClickAnimation = () => {
+        iconOnClickClass = "scale-125"
+        setTimeout(() => {
+            iconOnClickClass = "";
+        }, 200);
+    }
+
+    const onLikeClick = async () => {
+        likeClickAnimation();
+        const res = await fetch(`/api/likes?ids=${trackId}`, {
+            method: isLiked ? "DELETE" : "PUT",
+        });
+
+        if (res.ok) {
+            isLiked = !isLiked;
+        }
+    };
 </script>
 
 <svelte:head>
@@ -51,8 +68,11 @@
             {/each}
         </div>
     </div>
-    <div class="flex-grow flex flex-row-reverse">
-    <Icon name="like" class="w-6 h-6 {isLiked ? 'text-primary/90 fill-current' : 'text-gray-400 hover:text-primary/90'}" />
-
-    </div>
+    {#if trackId}
+        <Icon
+            onClick={onLikeClick}
+            name="like"
+            class="w-6 h-6 {iconOnClickClass} transition-transform ease-in-out duration-200 {isLiked ? 'text-primary/90 fill-current' : 'text-gray-400 hover:text-primary/90'}"
+        />
+    {/if}
 </div>

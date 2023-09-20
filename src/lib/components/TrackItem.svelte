@@ -3,7 +3,7 @@
     import { resolveSpotifyUri } from "$lib/utility";
     import Icon from "./Icon.svelte";
 
-    export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified;
+    export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified
     export let contextUri: string = "";
     export let offset: string = "";
     export let uris: string[] = [];

@@ -4,3 +4,4 @@ export { default as Icon } from "./Icon.svelte";
 export { default as AccountMenu } from "./AccountMenu.svelte";
 export { Player } from "./Player";
 export { default as SpotifyObjectList } from "./SpotifyObjectList.svelte";
+export { default as SpotifyTracksPage } from "./SpotifyTracksPage.svelte";
