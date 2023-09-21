@@ -5,6 +5,7 @@ export const TOKENS_COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 export const SPOTIFY_AUTH_SCOPE = [
     "user-read-private",
     "user-read-email",
+    "user-follow-read",
     "playlist-read-private",
     "playlist-read-collaborative",
     "streaming",

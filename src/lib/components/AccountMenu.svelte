@@ -29,7 +29,7 @@
     });
 </script>
 
-<button on:click={onMenuClick} bind:this={element} class="relative rounded-full h-9 w-9 {open ? "bg-gray-700" : "bg-gray-800"} font-mono flex items-center justify-center cursor-pointer border border-gray-700 hover:bg-gray-700">
+<button on:click={onMenuClick} bind:this={element} class="relative rounded-full h-8 w-8 {open ? "bg-gray-700" : "bg-gray-800"} font-mono flex items-center justify-center cursor-pointer border border-gray-700 hover:bg-gray-700">
     <span>{initial}</span>
     {#if open}
         <div class="absolute w-40 border border-gray-800/50 flex flex-col right-0 top-full bg-gray-900 rounded-md mt-2 cursor-default">

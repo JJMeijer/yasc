@@ -91,13 +91,13 @@
 
 
 <div class="min-h-[4.5rem] h-[4.5rem] border-primary border-t-2 flex flex-row items-center">
-    <div class="flex h-full flex-row items-center gap-6 w-1/3">
+    <div class="flex h-full flex-row items-center gap-6 w-2/5">
         <TrackInfo />
     </div>
-    <div class="flex flex-row gap-3 w-1/3 justify-center items-center">
+    <div class="flex flex-row gap-3 w-1/5 justify-center items-center">
         <PlaybackControls />
     </div>
-    <div class="flex flex-row justify-end w-1/3 gap-2 items-center pr-4">
+    <div class="flex flex-row justify-end w-2/5 gap-2 items-center pr-4">
         <SoundControl />
     </div>
 </div>

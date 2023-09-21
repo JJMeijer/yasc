@@ -87,15 +87,14 @@
 
 <div class="contents">
     <a href="/play/queue">
-
         <Icon name="queue" class="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary mr-2" />
-        </a>
+    </a>
     <Devices />
     <div class="ml-2 flex items-center gap-2">
         <Icon
             onClick={onVolumeIconClick}
             name={volumeIcon}
-            class="w-6 h-6 text-gray-300 cursor-pointer hover:text-primary"
+            class="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary"
         />
 
         <!-- svelte-ignore a11y-click-events-have-key-events -->

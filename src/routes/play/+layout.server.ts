@@ -1,9 +1,9 @@
-import { error } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 
 export const load = (async ({ locals }) => {
     if (!locals.accessToken) {
-        throw error(401, "Unauthorized");
+        throw redirect(302, "/login");
     }
 
     if (!locals.username) {

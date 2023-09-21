@@ -1,7 +1,7 @@
 <script lang="ts">
     import { TrackItem } from "$lib/components";
     import SpotifyTracksPage from "$lib/components/SpotifyTracksPage.svelte";
-    import { resolveSpotifyUri } from "$lib/utility";
+    import { getImageBySize, resolveSpotifyUri } from "$lib/utility";
     import type { PageServerData } from "./$types";
 
     export let data: PageServerData;
@@ -24,7 +24,7 @@
         </div>
         <div class="w-72 h-72 rounded-sm overflow-hidden">
             <img
-                src={data.album.images[0]?.url}
+                src={getImageBySize(data.album.images, 300)}
                 alt={data.album.name}
                 title={data.album.name}
                 class="w-full h-full object-cover select-none"

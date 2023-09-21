@@ -1,5 +1,6 @@
 <script lang="ts">
     import { SpotifyObjectList, TrackItem } from "$lib/components";
+    import { getImageBySize } from "$lib/utility";
     import type { PageServerData } from "./$types";
 
     export let data: PageServerData;
@@ -20,7 +21,7 @@
 
         <div class="w-72 h-72 rounded-sm overflow-hidden">
             <img
-                src={data.artist.images[0]?.url}
+                src={getImageBySize(data.artist.images, 300)}
                 alt={data.artist.name}
                 title={data.artist.name}
                 class="w-full h-full object-cover select-none"
