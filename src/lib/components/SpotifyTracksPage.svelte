@@ -3,9 +3,7 @@
         <slot name="sidebar" />
     </div>
 
-    <div
-        class="flex flex-col p-4 overflow-auto w-3/4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800/50 scrollbar-thumb-rounded-md scrollbar-track-rounded-md"
-    >
+    <div class="flex flex-col p-4 overflow-auto w-3/4 custom-scrollbar">
         <slot name="tracks" />
     </div>
 </div>

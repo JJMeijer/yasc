@@ -1,20 +1,27 @@
 <script lang="ts">
-    import { AccountMenu, Player } from "$lib/components";
+    import { AccountMenu, MenuNavLink, Player } from "$lib/components";
+    import { pageTitleStore } from "$lib/stores";
     import type { LayoutServerData } from "./$types";
 
     export let data: LayoutServerData;
 </script>
 
+<svelte:head>
+    <title>{$pageTitleStore || "YASC - Spotify Client"}</title>
+</svelte:head>
+
 <div class="h-full w-full flex flex-col">
     <div class="flex-grow min-h-0">
         <div class="h-full w-full flex flex-col overflow-auto">
             <div class="h-14 flex flex-row items-center justify-end p-4">
-                <div class="flex-grow min-w-0 flex flex-row pl-8">
-                    <a href="/play/home">Home</a>
+                <div class="flex-grow min-w-0 flex flex-row pl-8 gap-6">
+                    <MenuNavLink href="/play/home" label="Home" />
+                    <MenuNavLink href="/play/library/playlists" label="Playlists" />
+                    <MenuNavLink href="/play/library/tracks" label="Tracks" />
                 </div>
                 <AccountMenu username={data.username} />
             </div>
-            <div class="py-3 pl-12 pr-1 flex flex-grow min-h-0 overflow-auto">
+            <div class="py-3 pl-12 pr-1 flex flex-grow min-h-0 overflow-y-scroll overflow-x-auto custom-scrollbar">
                 <slot />
             </div>
         </div>

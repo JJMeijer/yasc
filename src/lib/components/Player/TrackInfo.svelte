@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { playerStateStore } from "$lib/stores";
+    import { pageTitleStore, playerStateStore } from "$lib/stores";
     import { resolveSpotifyUri } from "$lib/utility";
     import Icon from "../Icon.svelte";
 
@@ -40,13 +40,11 @@
             isLiked = !isLiked;
         }
     };
-</script>
 
-<svelte:head>
-    {#if trackName}
-        <title>YASC - {trackName} - {artists.map((a) => a.name).join(", ")}</title>
-    {/if}
-</svelte:head>
+    $: if (trackName) {
+        $pageTitleStore = `YASC - ${trackName} - ${artists.map((a) => a.name).join(", ")}`;
+    }
+</script>
 
 <div class="contents">
     <a href={albumLink} class="h-full {!albumImage && 'border border-gray-700/50'}">
