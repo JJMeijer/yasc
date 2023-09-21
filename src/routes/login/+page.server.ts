@@ -6,7 +6,7 @@ import { SPOTIFY_AUTH_SCOPE } from "@constants";
 
 export const load = (async ({ cookies, locals }) => {
     if (locals.accessToken) {
-        throw redirect(302, "/");
+        throw redirect(302, "/play/home");
     }
 
     const state = generateRandomString(16);
