@@ -35,7 +35,12 @@ export const getSpotifyRequest = async <T>(
             return data;
         }
 
-        const nextData = (await getSpotifyRequest<T>(svelteFetch, accessToken, uri)) as SpotifyApi.PagingObject<unknown>;
+        const nextData = (await getSpotifyRequest<T>(
+            svelteFetch,
+            accessToken,
+            uri,
+            fetchAll,
+        )) as SpotifyApi.PagingObject<unknown>;
 
         return {
             ...data,
