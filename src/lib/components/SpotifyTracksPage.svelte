@@ -3,7 +3,7 @@
         <slot name="sidebar" />
     </div>
 
-    <div class="flex flex-col w-3/4 pr-4 pt-2">
+    <div class="flex flex-col w-3/4">
         <slot name="tracks" />
     </div>
 </div>

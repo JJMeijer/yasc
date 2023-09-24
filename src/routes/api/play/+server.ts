@@ -18,7 +18,6 @@ interface spotifyPlayRequestPayload {
 }
 
 const validateRequestBody = (body: unknown): body is PlayRequestData => {
-    console.log(body);
     if (typeof body !== "object" || body === null) {
         return false;
     }

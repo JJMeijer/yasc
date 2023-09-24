@@ -24,7 +24,7 @@
 
                 </div>
             </div>
-        <div class="flex flex-grow min-h-0 overflow-y-auto overflow-x-auto custom-scrollbar">
+        <div class="flex flex-grow min-h-0">
                 <slot />
             </div>
         </div>

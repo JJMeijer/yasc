@@ -9,13 +9,23 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const { playlistId } = params;
 
-    const playlistData = await getSpotifyRequest<SpotifyApi.SinglePlaylistResponse>(
+    const playlistDataPromise = getSpotifyRequest<SpotifyApi.SinglePlaylistResponse>(
         fetch,
         locals.accessToken,
-        `playlists/${playlistId}`,
+        `playlists/${playlistId}?market=from_token&fields=description,images,name,uri`,
     );
+
+    const playlistTracksDataPromise = getSpotifyRequest<SpotifyApi.PlaylistTrackResponse>(
+        fetch,
+        locals.accessToken,
+        `playlists/${playlistId}/tracks?limit=50&market=from_token&fields=next,items(track(album(name,uri),artists,duration_ms,id,name,uri))`,
+        true,
+    );
+
+    const [playlistData, playlistTracksData] = await Promise.all([playlistDataPromise, playlistTracksDataPromise]);
 
     return {
         playlist: playlistData,
+        tracks: playlistTracksData.items,
     };
 }) satisfies PageServerLoad;

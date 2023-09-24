@@ -35,7 +35,17 @@
             <p class="text-2xl">Top Tracks</p>
             <TrackItemList>
                 {#each data.topTracks.slice(0, 5) as track, index}
-                    <TrackItem {...track} {index} context={{ uris: data.topTracks.map((t) => t.uri).slice(index) }} />
+                    <TrackItem
+                        id={track.id}
+                        index={index}
+                        name={track.name}
+                        artists={track.artists}
+                        duration_ms={track.duration_ms}
+                        album={{
+                            name: track.album.name,
+                            uri: track.album.uri,
+                        }}
+                        context={{ uris: data.topTracks.map((t) => t.uri).slice(index) }} />
                 {/each}
             </TrackItemList>
 

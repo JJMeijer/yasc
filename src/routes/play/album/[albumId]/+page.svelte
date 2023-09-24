@@ -37,10 +37,20 @@
 
     <div slot="tracks" class="contents">
         <TrackItemList>
-        {#each data.album.tracks.items as track, index}
-            <TrackItem {...track} {index} album={data.album} context={{ contextUri: data.album.uri, offset: track.uri }} />
-        {/each}
-
+            {#each data.album.tracks.items as track, index}
+                <TrackItem
+                    id={track.id}
+                    name={track.name}
+                    artists={track.artists}
+                    duration_ms={track.duration_ms}
+                    {index}
+                    album={{
+                        name: data.album.name,
+                        uri: data.album.uri,
+                    }}
+                    context={{ contextUri: data.album.uri, offset: track.uri }}
+                />
+            {/each}
         </TrackItemList>
     </div>
 </SpotifyTracksPage>

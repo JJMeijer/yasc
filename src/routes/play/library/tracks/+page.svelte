@@ -23,7 +23,17 @@
         <TrackItemList>
         {#each data.tracks as item, index}
             {#if item.track}
-                <TrackItem {...item.track} {index} context={{ uris: data.tracks.slice(index).map(item => item.track.uri)}} />
+                <TrackItem
+                    id={item.track.id}
+                    name={item.track.name}
+                    artists={item.track.artists}
+                    duration_ms={item.track.duration_ms}
+                    album={{
+                        name: item.track.album.name,
+                        uri: item.track.album.uri,
+                    }}
+                    index={index}
+                    context={{ uris: data.tracks.slice(index).map(item => item.track.uri)}} />
             {/if}
         {/each}
         </TrackItemList>

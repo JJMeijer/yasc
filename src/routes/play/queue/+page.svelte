@@ -13,7 +13,17 @@
     <div slot="tracks" class="contents">
         <TrackItemList>
         {#each data.queue as track, index}
-            <TrackItem {...track} {index} context={{ uris: data.queue.slice(index).map(item => item.uri)}} />
+            <TrackItem
+                id={track.id}
+                name={track.name}
+                artists={track.artists}
+                duration_ms={track.duration_ms}
+                album={{
+                    name: track.album.name,
+                    uri: track.album.uri,
+                }}
+                index={index}
+                context={{ uris: data.queue.slice(index).map(item => item.uri)}} />
         {/each}
 
         </TrackItemList>

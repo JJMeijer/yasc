@@ -71,9 +71,10 @@ export const handleFetch: HandleFetch = async ({ request, fetch }) => {
     const start = Date.now();
     const res = await fetch(request);
     const end = Date.now();
+    const url = new URL(request.url);
 
     // Simple fetch Logging
-    log("fetch", `${request.method} ${res.status} ${request.url} -- ${end - start}ms`);
+    log("fetch", `${request.method} ${res.status} ${url.protocol}//${url.host}${url.pathname} -- ${end - start}ms`);
 
     return res;
 };

@@ -6,8 +6,10 @@
 
     export let data: PageServerData;
 
+    console.log(data);
+
     $: descriptionParts = data.playlist.description?.split(/<a href=(.+?)<\/a>/).filter((x: string) => x) || [];
-    $: tracks = data.playlist.tracks.items.map((i) => i.track).filter((t) => t !== null) as SpotifyApi.TrackObjectFull[];
+    $: tracks = data.tracks.map((i) => i.track).filter((t) => t !== null) as SpotifyApi.TrackObjectFull[];
 </script>
 
 <SpotifyTracksPage>
@@ -38,7 +40,17 @@
     <div slot="tracks" class="contents">
         <TrackItemList>
             {#each tracks as track, index}
-                <TrackItem {...track} {index} context={{ contextUri: data.playlist.uri, offset:  track.uri }} />
+                <TrackItem
+                    id={track.id}
+                    name={track.name}
+                    artists={track.artists}
+                    duration_ms={track.duration_ms}
+                    album={{
+                        name: track.album.name,
+                        uri: track.album.uri,
+                    }}
+                    index={index}
+                    context={{ contextUri: data.playlist.uri, offset:  track.uri }} />
             {/each}
         </TrackItemList>
     </div>

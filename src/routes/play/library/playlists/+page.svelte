@@ -5,6 +5,6 @@
     export let data: PageServerData;
 </script>
 
-<div class="flex flex-col gap-8 custom-scrollbar overflow-y-scroll">
+<div class="flex flex-col gap-8">
     <SpotifyObjectList title="Playlists" items={data.playlists} />
 </div>
