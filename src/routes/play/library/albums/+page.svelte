@@ -5,4 +5,6 @@
     export let data: PageServerData;
 </script>
 
-<SpotifyObjectList title="Albums" items={data.albums} />
+<div class="pl-12">
+    <SpotifyObjectList title="Albums" items={data.albums} />
+</div>

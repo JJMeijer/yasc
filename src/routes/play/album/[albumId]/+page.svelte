@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { TrackItem } from "$lib/components";
-    import SpotifyTracksPage from "$lib/components/SpotifyTracksPage.svelte";
+    import { TrackItem, TrackItemList, SpotifyTracksPage } from "$lib/components";
     import { getImageBySize, resolveSpotifyUri } from "$lib/utility";
     import type { PageServerData } from "./$types";
 
@@ -37,8 +36,11 @@
     </div>
 
     <div slot="tracks" class="contents">
+        <TrackItemList>
         {#each data.album.tracks.items as track, index}
-            <TrackItem {track} contextUri={data.album.uri} offset={track.uri} {index} />
+            <TrackItem {...track} {index} album={data.album} context={{ contextUri: data.album.uri, offset: track.uri }} />
         {/each}
+
+        </TrackItemList>
     </div>
 </SpotifyTracksPage>

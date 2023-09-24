@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { TrackItem, SpotifyTracksPage } from "$lib/components";
+    import { SpotifyTracksPage, TrackItemList, TrackItem } from "$lib/components";
     import { resolveSpotifyUri } from "$lib/utility";
 
     import type { PageServerData } from "./$types";
@@ -7,6 +7,7 @@
     export let data: PageServerData;
 
     $: descriptionParts = data.playlist.description?.split(/<a href=(.+?)<\/a>/).filter((x: string) => x) || [];
+    $: tracks = data.playlist.tracks.items.map((i) => i.track).filter((t) => t !== null) as SpotifyApi.TrackObjectFull[];
 </script>
 
 <SpotifyTracksPage>
@@ -20,7 +21,7 @@
                     </a>
                 {:else}
                     <!-- This is hilarious & sad at the same time -->
-                    <span class="{part === ", " ? "-ml-1" : ""}">{part}</span>
+                    <span class={part === ", " ? "-ml-1" : ""}>{part}</span>
                 {/if}
             {/each}
         </p>
@@ -35,9 +36,10 @@
     </div>
 
     <div slot="tracks" class="contents">
-        {#each data.playlist.tracks.items as item, index}
-            {#if item.track}
-                <TrackItem track={item.track} contextUri={data.playlist.uri} offset={item.track.uri} {index} />
-            {/if}
-        {/each}
+        <TrackItemList>
+            {#each tracks as track, index}
+                <TrackItem {...track} {index} context={{ contextUri: data.playlist.uri, offset:  track.uri }} />
+            {/each}
+        </TrackItemList>
+    </div>
 </SpotifyTracksPage>

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { SpotifyTracksPage, TrackItem } from "$lib/components";
+    import { SpotifyTracksPage, TrackItem, TrackItemList } from "$lib/components";
 
     import type { PageServerData } from "./$types";
 
@@ -20,10 +20,12 @@
     </div>
 
     <div slot="tracks" class="contents">
+        <TrackItemList>
         {#each data.tracks as item, index}
             {#if item.track}
-                <TrackItem track={item.track} {index} uris={data.tracks.slice(index).map(item => item.track.uri)} />
+                <TrackItem {...item.track} {index} context={{ uris: data.tracks.slice(index).map(item => item.track.uri)}} />
             {/if}
         {/each}
+        </TrackItemList>
     </div>
 </SpotifyTracksPage>

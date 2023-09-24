@@ -2,7 +2,18 @@
     let className: string;
     export { className as class };
 
-    export let name: "play" | "pause" | "next" | "prev" | "muted" | "volume-full" | "volume-half" | "devices" | "like" | "queue";
+    export let name:
+        | "play"
+        | "pause"
+        | "next"
+        | "prev"
+        | "muted"
+        | "volume-full"
+        | "volume-half"
+        | "devices"
+        | "like"
+        | "queue"
+        | "duration";
 
     export let onClick: (event: MouseEvent) => void = () => {};
 </script>
@@ -157,6 +168,24 @@
             <title>Queue</title>
             <path stroke="none" d="M0 0h24v24H0z" /> <line x1="4" y1="6" x2="20" y2="6" />
             <line x1="4" y1="12" x2="20" y2="12" /> <line x1="4" y1="18" x2="20" y2="18" /></svg
+        >
+    {/if}
+
+    {#if name === "duration"}
+        <svg
+            class={className}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>Duration</title>
+            <path stroke="none" d="M0 0h24v24H0z" /> <circle cx="12" cy="12" r="9" />
+            <polyline points="12 7 12 12 15 15" /></svg
         >
     {/if}
 </button>

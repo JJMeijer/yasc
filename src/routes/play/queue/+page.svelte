@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { SpotifyTracksPage, TrackItem } from "$lib/components";
+    import { SpotifyTracksPage, TrackItem, TrackItemList } from "$lib/components";
     import type { PageServerData } from "./$types";
 
     export let data: PageServerData;
@@ -11,8 +11,11 @@
     </div>
 
     <div slot="tracks" class="contents">
+        <TrackItemList>
         {#each data.queue as track, index}
-            <TrackItem {track} {index} uris={data.queue.slice(index).map(item => item.uri)} />
+            <TrackItem {...track} {index} context={{ uris: data.queue.slice(index).map(item => item.uri)}} />
         {/each}
+
+        </TrackItemList>
     </div>
 </SpotifyTracksPage>
