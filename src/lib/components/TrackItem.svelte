@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { playbackDeviceStore, playerDeviceStore, playerStateStore, likedTracksStore } from "$lib/stores";
+    import { playbackDeviceStore, playerDeviceStore, playerStateStore } from "$lib/stores";
     import { resolveSpotifyUri } from "$lib/utility";
     import Icon from "./Icon.svelte";
 
@@ -26,6 +26,7 @@
     export let context: TrackContext;
     export let duration_ms: number;
     export let index: number;
+    export let liked: boolean = false;
 
     const play = (deviceId: string) => {
         fetch("/api/play", {
@@ -59,7 +60,6 @@
     };
 
     $: trackActive = $playerStateStore?.track_window.current_track.id === id;
-    $: liked = $likedTracksStore.indexOf(id) !== -1;
 </script>
 
 <div
@@ -89,12 +89,11 @@
         <a href={resolveSpotifyUri(album.uri)} class="text-gray-500 hover:text-gray-400 text-sm">{album.name}</a>
     </div>
     <Icon
+        title={liked ? "Unlike" : "Like"}
         name="like"
-        class="w-6 h-6 {trackActive ? 'text-primary' : 'text-gray-600'} {liked
-            ? 'fill-current'
-            : 'text-transparent hover:block hover:fill-current hover:text-primary/90'}"
+        class="w-6 h-6 {liked
+            ? 'fill-primary/80 text-primary/80 hover:fill-transparent'
+            : 'text-gray-800 hover:text-primary/90'}"
     />
-    <span class="w-10 text-right {trackActive ? 'text-primary' : 'text-gray-500'}"
-        >{durationMsToTime(duration_ms)}</span
-    >
+    <span class="w-10 text-right {trackActive ? 'text-primary' : 'text-gray-500'}">{durationMsToTime(duration_ms)}</span>
 </div>

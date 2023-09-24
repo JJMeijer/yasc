@@ -10,6 +10,7 @@ const config = {
     kit: {
         alias: {
             "@types": "./src/types",
+            "@type-guards": "./src/type-guards",
             "@constants": "./src/constants",
         },
         adapter: adapter({

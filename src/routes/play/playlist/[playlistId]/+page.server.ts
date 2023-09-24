@@ -24,8 +24,20 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const [playlistData, playlistTracksData] = await Promise.all([playlistDataPromise, playlistTracksDataPromise]);
 
+    const trackIds = playlistTracksData.items.map((item) => item.track?.id).filter((id) => id) as string[];
+
+    const likesPromies = [];
+    for (let i = 0; i < trackIds.length; i += 50) {
+        const ids = trackIds.slice(i, i + 50).join(",");
+        likesPromies.push(getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/tracks/contains?ids=${ids}`));
+    }
+
+    const likes = (await Promise.all(likesPromies)).flat();
+    const likedIds = trackIds.filter((_, i) => likes[i]);
+
     return {
         playlist: playlistData,
         tracks: playlistTracksData.items,
+        likes: likedIds,
     };
 }) satisfies PageServerLoad;

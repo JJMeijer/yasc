@@ -2,7 +2,7 @@
     import Icon from "./Icon.svelte";
 </script>
 
-<div class="flex flex-col overflow-y-auto custom-scrollbar pr-2 pb-4">
+<div class="flex flex-col pr-2">
     <!-- This columns row corresponds with the column styles within trackItem, but is not nicely coupled right now :(-->
     <div class="flex flex-row px-1 py-2.5 items-center gap-1 text-gray-400 border-b border-gray-700/50">
         <span class="w-7"> # </span>

@@ -3,7 +3,7 @@
         <slot name="sidebar" />
     </div>
 
-    <div class="flex flex-col w-3/4">
+    <div class="flex flex-col w-3/4 custom-scrollbar overflow-y-auto pb-4">
         <slot name="tracks" />
     </div>
 </div>

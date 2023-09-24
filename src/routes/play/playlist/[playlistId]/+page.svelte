@@ -6,8 +6,6 @@
 
     export let data: PageServerData;
 
-    console.log(data);
-
     $: descriptionParts = data.playlist.description?.split(/<a href=(.+?)<\/a>/).filter((x: string) => x) || [];
     $: tracks = data.tracks.map((i) => i.track).filter((t) => t !== null) as SpotifyApi.TrackObjectFull[];
 </script>
@@ -42,6 +40,7 @@
             {#each tracks as track, index}
                 <TrackItem
                     id={track.id}
+                    liked={data.likes.includes(track.id)}
                     name={track.name}
                     artists={track.artists}
                     duration_ms={track.duration_ms}

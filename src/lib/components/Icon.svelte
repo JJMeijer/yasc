@@ -15,6 +15,7 @@
         | "queue"
         | "duration";
 
+    export let title: string = "";
     export let onClick: (event: MouseEvent) => void = () => {};
 </script>
 
@@ -29,7 +30,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <title>Play</title>
+            <title>{title || "Play"}</title>
             <circle cx="12" cy="12" r="10" /> <polygon points="10 8 16 12 10 16 10 8" /></svg
         >
     {/if}
@@ -44,7 +45,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <title>Pause</title>
+            <title>{title || "Pause"}</title>
             <circle cx="12" cy="12" r="10" /> <line x1="10" y1="15" x2="10" y2="9" />
             <line x1="14" y1="15" x2="14" y2="9" /></svg
         >
@@ -60,7 +61,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <title>Next</title>
+            <title>{title || "Nexte"}</title>
             <polygon points="5 4 15 12 5 20 5 4" /> <line x1="19" y1="5" x2="19" y2="19" /></svg
         >
     {/if}
@@ -75,7 +76,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <title>Previous</title>
+            <title>{title || "Prev"}</title>
             <polygon points="19 20 9 12 19 4 19 20" /> <line x1="5" y1="19" x2="5" y2="5" /></svg
         >
     {/if}
@@ -135,7 +136,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <title>Devices</title>
+            <title>{title || "Devices"}</title>
             <path stroke="none" d="M0 0h24v24H0z" /> <rect x="5" y="3" width="14" height="18" rx="2" />
             <circle cx="12" cy="14" r="3" /> <line x1="12" y1="7" x2="12" y2="7.01" /></svg
         >
@@ -143,7 +144,7 @@
 
     {#if name === "like"}
         <svg class={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <title>Like</title>
+            <title>{title || "Like"}</title>
             <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
