@@ -40,6 +40,7 @@
             {#each data.album.tracks.items as track, index}
                 <TrackItem
                     id={track.id}
+                    liked={data.likes.includes(track.id)}
                     name={track.name}
                     artists={track.artists}
                     duration_ms={track.duration_ms}

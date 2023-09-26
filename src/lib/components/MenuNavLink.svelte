@@ -7,4 +7,4 @@
     $: active = $page.url.pathname === href;
 </script>
 
-<a class="border-b {active ? 'border-primary/90' : 'hover:border-gray-300 border-transparent'}" {href}>{label}</a>
+<a class="border-b-2 pb-0.5 {active ? 'border-primary/90' : 'hover:border-gray-300 border-transparent'}" {href}>{label}</a>

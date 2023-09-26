@@ -6,5 +6,5 @@
 </script>
 
 <GeneralPage>
-    <SpotifyObjectList title="Albums" items={data.albums} />
+    <SpotifyObjectList title="Categories" items={data.categories} />
 </GeneralPage>

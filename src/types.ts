@@ -24,3 +24,8 @@ export interface SpotifyUser {
     display_name: string;
     images: ImageObject[];
 }
+
+export interface CustomCategoryObject extends SpotifyApi.CategoryObject {
+    uri: string;
+    images: SpotifyApi.ImageObject[];
+}

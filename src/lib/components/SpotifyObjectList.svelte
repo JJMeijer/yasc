@@ -1,14 +1,17 @@
 <script lang="ts">
     import { isAlbumObjectSimplified, isArtistObjectFull, isPlaylistObjectSimplified } from "@type-guards";
-    import SpotifyObject from "./SpotifyObject.svelte";
+    import SpotifyObjectListItem from "./SpotifyObjectListItem.svelte";
+    import ObjectList from "./ObjectList.svelte";
+    import type { CustomCategoryObject } from "@types";
 
     export let title: string;
     export let items:
         | SpotifyApi.AlbumObjectSimplified[]
         | SpotifyApi.PlaylistObjectSimplified[]
-        | SpotifyApi.ArtistObjectFull[];
+        | SpotifyApi.ArtistObjectFull[]
+        | CustomCategoryObject[];
 
-    const getSubLabel = (item: SpotifyApi.AlbumObjectSimplified | SpotifyApi.PlaylistObjectSimplified | SpotifyApi.ArtistObjectFull) => {
+    const getSubLabel = (item: SpotifyApi.AlbumObjectSimplified | SpotifyApi.PlaylistObjectSimplified | SpotifyApi.ArtistObjectFull | CustomCategoryObject) => {
         if (isAlbumObjectSimplified(item)) {
             return item.artists.map((artist) => artist.name).join(", ");
         }
@@ -25,11 +28,8 @@
     };
 </script>
 
-<div class="flex flex-col gap-2">
-    <p class="text-2xl">{title}</p>
-    <div class="flex flex-row gap-8 flex-wrap">
-        {#each items as item}
-            <SpotifyObject uri={item.uri} images={item.images} label={item.name} subLabel={getSubLabel(item)} />
-        {/each}
-    </div>
-</div>
+<ObjectList title={title}>
+    {#each items as item}
+        <SpotifyObjectListItem uri={item.uri} images={item.images} label={item.name} subLabel={getSubLabel(item)} />
+    {/each}
+</ObjectList>

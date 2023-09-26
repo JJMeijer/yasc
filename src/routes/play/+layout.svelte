@@ -18,6 +18,7 @@
                 <div class="flex-grow min-w-0 flex flex-row pl-12 gap-6 h-full items-center">
                     <MenuNavLink href="/play/home" label="Home" />
                     <MenuLibraryDropdown />
+                    <MenuNavLink href="/play/browse" label="Browse" />
                 </div>
                 <div class="pr-4">
                 <AccountMenu username={data.username} />

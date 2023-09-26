@@ -15,9 +15,21 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const albumData = await getSpotifyRequest<SpotifyApi.AlbumObjectFull>(fetch, locals.accessToken, `albums/${albumId}`);
 
+    const trackIds = albumData.tracks.items.map((item) => item.id).filter((id) => id) as string[];
+
+    const likesPromies = [];
+    for (let i = 0; i < trackIds.length; i += 50) {
+        const ids = trackIds.slice(i, i + 50).join(",");
+        likesPromies.push(getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/tracks/contains?ids=${ids}`));
+    }
+
+    const likes = (await Promise.all(likesPromies)).flat();
+    const likedIds = trackIds.filter((_, i) => likes[i]);
+
     return {
         accessToken: locals.accessToken,
         username: locals.username,
         album: albumData,
+        likes: likedIds,
     };
 }) satisfies PageServerLoad;

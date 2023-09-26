@@ -97,6 +97,6 @@ export const PUT: RequestHandler = async ({ fetch, request, locals }) => {
     }
 
     return new Response(null, {
-        status: 204,
+        status: 202,
     });
 };
