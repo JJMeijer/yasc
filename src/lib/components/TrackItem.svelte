@@ -1,7 +1,7 @@
 <script lang="ts">
     import { playbackDeviceStore, playerDeviceStore, playerStateStore } from "$lib/stores";
     import { resolveSpotifyUri } from "$lib/utility";
-    import Icon from "./Icon.svelte";
+    import Like from "./Like.svelte";
 
     interface TrackContextByOffset {
         contextUri: string;
@@ -66,7 +66,7 @@
     tabindex="0"
     role="button"
     on:dblclick={onTrackDoubleClick}
-    class="flex flex-row border-b border-gray-700/20 p-1 hover:bg-gray-800/50 rounded-sm cursor-default items-center gap-1"
+    class="flex flex-row border-b border-gray-700/20 p-1 hover:bg-gray-800/50 rounded-sm cursor-default items-center gap-1 outline-none "
 >
     <span class="w-7 {trackActive ? 'text-primary' : 'text-gray-500'}">{index + 1}</span>
     <div class="flex flex-grow items-center">
@@ -88,12 +88,8 @@
         </div>
         <a href={resolveSpotifyUri(album.uri)} class="text-gray-500 hover:text-gray-400 text-sm">{album.name}</a>
     </div>
-    <Icon
-        title={liked ? "Unlike" : "Like"}
-        name="like"
-        class="w-6 h-6 {liked
-            ? 'fill-primary/80 text-primary/80 hover:fill-transparent'
-            : 'text-gray-800 hover:text-primary/90'}"
-    />
+
+    <Like trackId={id} liked={liked} />
+
     <span class="w-10 text-right {trackActive ? 'text-primary' : 'text-gray-500'}">{durationMsToTime(duration_ms)}</span>
 </div>

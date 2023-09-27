@@ -7,10 +7,6 @@ export const load = (async ({ params, fetch, locals }) => {
         throw error(401, "Unauthorized");
     }
 
-    if (!locals.username) {
-        throw error(500, "Internal Server Error");
-    }
-
     const { artistId } = params;
 
     const artistDataPromise = getSpotifyRequest<SpotifyApi.ArtistObjectFull>(
@@ -44,12 +40,20 @@ export const load = (async ({ params, fetch, locals }) => {
         relatedArtistsPromise,
     ]);
 
+    const trackIds = artistTopTracks.tracks.map((item) => item.id).filter((id) => id) as string[];
+    const likes = await getSpotifyRequest<boolean[]>(
+        fetch,
+        locals.accessToken,
+        `me/tracks/contains?ids=${trackIds.join(",")}`,
+    );
+
+    const likedIds = trackIds.filter((_, i) => likes[i]);
+
     return {
-        accessToken: locals.accessToken,
-        username: locals.username,
         artist: artistData,
         topTracks: artistTopTracks.tracks,
         albums: artistAlbums.items,
         relatedArtists: relatedArtists.artists,
+        likes: likedIds,
     };
 }) satisfies PageServerLoad;

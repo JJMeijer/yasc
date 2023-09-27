@@ -26,6 +26,7 @@ export const load = (async ({ params, fetch, locals }) => {
 
     return {
         category: categoryResponse,
-        playlists: categoryPlaylistsResponse.playlists.items,
+        // Sometimes there are nulls inside the items array ??
+        playlists: categoryPlaylistsResponse.playlists.items.filter((playlist) => playlist),
     };
 }) satisfies PageServerLoad;

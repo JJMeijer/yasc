@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { isAlbumObjectSimplified, isArtistObjectFull, isPlaylistObjectSimplified } from "@type-guards";
+    import { isAlbumObjectSimplified } from "@type-guards";
     import SpotifyObjectListItem from "./SpotifyObjectListItem.svelte";
     import ObjectList from "./ObjectList.svelte";
     import type { CustomCategoryObject } from "@types";
+    import { page } from "$app/stores";
 
     export let title: string;
     export let items:
@@ -13,15 +14,11 @@
 
     const getSubLabel = (item: SpotifyApi.AlbumObjectSimplified | SpotifyApi.PlaylistObjectSimplified | SpotifyApi.ArtistObjectFull | CustomCategoryObject) => {
         if (isAlbumObjectSimplified(item)) {
+            if ($page.route.id === "/play/artist/[artistId]") {
+                return item.release_date.split("-")[0] || "";
+            }
+
             return item.artists.map((artist) => artist.name).join(", ");
-        }
-
-        if (isPlaylistObjectSimplified(item)) {
-            return `${item.tracks.total} tracks`;
-        }
-
-        if (isArtistObjectFull(item)) {
-            return `${item.followers.total} followers`;
         }
 
         return "";

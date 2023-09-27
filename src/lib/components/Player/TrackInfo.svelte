@@ -1,7 +1,7 @@
 <script lang="ts">
     import { pageTitleStore, playerStateStore } from "$lib/stores";
     import { getImageBySize, resolveSpotifyUri } from "$lib/utility";
-    import Icon from "../Icon.svelte";
+    import Like from "../Like.svelte";
 
     $: trackId = $playerStateStore?.track_window.current_track.id;
     $: trackName = $playerStateStore?.track_window.current_track.name;
@@ -10,7 +10,6 @@
     $: albumLink = resolveSpotifyUri($playerStateStore?.track_window.current_track.album.uri);
 
     let isLiked = false;
-    let iconOnClickClass = "";
 
     const checkLike = async () => {
         const res = await fetch(`/api/likes?ids=${trackId}`);
@@ -22,24 +21,6 @@
         }
     };
     $: trackId && checkLike();
-
-    const likeClickAnimation = () => {
-        iconOnClickClass = "scale-125"
-        setTimeout(() => {
-            iconOnClickClass = "";
-        }, 200);
-    }
-
-    const onLikeClick = async () => {
-        likeClickAnimation();
-        const res = await fetch(`/api/likes?ids=${trackId}`, {
-            method: isLiked ? "DELETE" : "PUT",
-        });
-
-        if (res.ok) {
-            isLiked = !isLiked;
-        }
-    };
 
     $: if (trackName) {
         $pageTitleStore = `YASC - ${trackName} - ${artists.map((a) => a.name).join(", ")}`;
@@ -67,10 +48,6 @@
         </div>
     </div>
     {#if trackId}
-        <Icon
-            onClick={onLikeClick}
-            name="like"
-            class="w-6 h-6 {iconOnClickClass} transition-transform ease-in-out duration-200 {isLiked ? 'text-primary/90 fill-current' : 'text-gray-400 hover:text-primary/90'}"
-        />
+        <Like {trackId} liked={isLiked} />
     {/if}
 </div>

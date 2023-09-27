@@ -9,6 +9,15 @@
     $: albums = data.albums.filter((album) => album.album_group === "album");
     $: singles = data.albums.filter((album) => album.album_group === "single");
     $: compilations = data.albums.filter((album) => album.album_group === "compilation");
+
+    let topTracksAmount = 5;
+
+    const onShowMoreClick = () => {
+        if (topTracksAmount === 5)
+            topTracksAmount = 10;
+        else if (topTracksAmount === 10)
+            topTracksAmount = 5;
+    };
 </script>
 
 <SpotifyTracksPage>
@@ -34,10 +43,11 @@
         <div class="flex flex-col gap-2">
             <p class="text-2xl">Top Tracks</p>
             <TrackItemList>
-                {#each data.topTracks.slice(0, 5) as track, index}
+                {#each data.topTracks.slice(0, topTracksAmount) as track, index}
                     <TrackItem
                         id={track.id}
-                        index={index}
+                        {index}
+                        liked={data.likes.includes(track.id)}
                         name={track.name}
                         artists={track.artists}
                         duration_ms={track.duration_ms}
@@ -45,9 +55,14 @@
                             name: track.album.name,
                             uri: track.album.uri,
                         }}
-                        context={{ uris: data.topTracks.map((t) => t.uri).slice(index) }} />
+                        context={{ uris: data.topTracks.map((t) => t.uri).slice(index) }}
+                    />
                 {/each}
             </TrackItemList>
+
+            <button class="w-28 ml-2 text-gray-600 hover:text-gray-500 text-left" on:click={onShowMoreClick}
+                >Show {topTracksAmount === 5 ? "More" : "less"}</button
+            >
 
             <div class="flex flex-col gap-3 p-4">
                 {#if albums.length > 0}

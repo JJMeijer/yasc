@@ -7,16 +7,18 @@
 
 <a
     href={uri}
-    class="relative w-44 rounded-md overflow-hidden cursor-pointer bg-gray-900 hover:after:bg-gray-100/10 after:absolute after:w-full after:h-full after:top-0 after:left-0 after:bg-transparent"
+    class="group relative w-44 cursor-pointer hover:after:bg-gray-100/10 after:absolute after:w-full after:h-44 after:top-0 after:left-0 after:bg-transparent"
 >
     <img
         src={imageSrc}
         alt={label}
         title={label}
-        class="w-44 h-44 object-cover select-none"
+        class="w-44 h-44 object-cover rounded-md select-none"
     />
-    <div class="h-16 flex flex-col justify-center p-2">
-        <span class="text-gray-300 truncate">{label}</span>
-        <span class="text-gray-400 truncate">{subLabel}</span>
+    <div class="flex flex-col justify-center p-2 ">
+        <span class="text-gray-300 truncate group-hover:text-gray-100">{label}</span>
+        {#if subLabel}
+            <span class="text-gray-400 truncate">{subLabel}</span>
+        {/if}
     </div>
 </a>

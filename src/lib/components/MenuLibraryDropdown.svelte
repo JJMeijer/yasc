@@ -13,6 +13,10 @@
     const onMouseLeave = () => {
         open = false;
     };
+
+    const onClick = () => {
+        open = !open;
+    };
 </script>
 
 <div
@@ -22,9 +26,9 @@
     role="menu"
     tabindex="0"
 >
-    <a
-        href="/play/library"
-        class="border-b-2 pb-0.5 {libraryActive ? 'border-primary/90' : 'hover:border-gray-300 border-transparent'}">Library</a
+    <button
+        on:click={onClick}
+        class="border-b-2 pb-0.5 {libraryActive ? 'border-primary/90' : 'hover:border-gray-300 border-transparent'}">Library</button
     >
     {#if open}
         <div
