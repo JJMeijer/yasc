@@ -33,6 +33,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
     if (new Date().getTime() > Number(expiry)) {
+        console.log("hi");
         const res = await event.fetch("https://accounts.spotify.com/api/token", {
             body: new URLSearchParams({
                 grant_type: "refresh_token",

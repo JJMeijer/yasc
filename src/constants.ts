@@ -14,3 +14,6 @@ export const SPOTIFY_AUTH_SCOPE = [
     "user-library-read",
     "user-library-modify",
 ].join(" ");
+
+export const serverCacheTtl = 1200;
+export const serverCacheCheckPeriod = 300;

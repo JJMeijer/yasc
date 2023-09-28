@@ -27,6 +27,7 @@
                     id={item.track.id}
                     name={item.track.name}
                     artists={item.track.artists}
+                    liked={true}
                     duration_ms={item.track.duration_ms}
                     album={{
                         name: item.track.album.name,

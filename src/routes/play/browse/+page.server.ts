@@ -3,7 +3,7 @@ import type { PageServerLoad } from "./$types";
 import { getSpotifyRequest } from "$lib/server/spotify";
 import type { CustomCategoryObject } from "@types";
 
-export const load = (async ({ fetch, locals }) => {
+export const load = (async ({ fetch, locals, setHeaders }) => {
     if (!locals.accessToken) {
         throw error(401, "Unauthorized");
     }
@@ -21,6 +21,10 @@ export const load = (async ({ fetch, locals }) => {
             uri: `spotify:category:${category.id}`,
             images: category.icons,
         } satisfies CustomCategoryObject;
+    });
+
+    setHeaders({
+        "Cache-Control": "max-age=3600",
     });
 
     return {

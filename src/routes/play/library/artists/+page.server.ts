@@ -14,6 +14,8 @@ export const load = (async ({ fetch, locals }) => {
         `me/following?type=artist&limit=50`,
     );
 
+
+
     return {
         artists: likedArtists.artists.items,
     };

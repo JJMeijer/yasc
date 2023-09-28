@@ -25,8 +25,10 @@
     };
 </script>
 
+
 <ObjectList title={title}>
     {#each items as item}
         <SpotifyObjectListItem uri={item.uri} images={item.images} label={item.name} subLabel={getSubLabel(item)} />
     {/each}
+
 </ObjectList>

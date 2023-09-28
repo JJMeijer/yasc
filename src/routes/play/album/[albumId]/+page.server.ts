@@ -1,19 +1,27 @@
-import { getSpotifyRequest } from "$lib/server/spotify";
 import { error } from "@sveltejs/kit";
+import NodeCache from "node-cache";
+
+import { getSpotifyRequest } from "$lib/server/spotify";
 import type { PageServerLoad } from "./$types";
+import { serverCacheCheckPeriod, serverCacheTtl } from "@constants";
+
+const albumCache = new NodeCache({ stdTTL: serverCacheTtl, checkperiod: serverCacheCheckPeriod });
 
 export const load = (async ({ params, fetch, locals }) => {
     if (!locals.accessToken) {
         throw error(401, "Unauthorized");
     }
 
-    if (!locals.username) {
-        throw error(500, "Internal Server Error");
-    }
-
     const { albumId } = params;
 
-    const albumData = await getSpotifyRequest<SpotifyApi.AlbumObjectFull>(fetch, locals.accessToken, `albums/${albumId}`);
+    const cached = albumCache.get<SpotifyApi.AlbumObjectFull>(albumId);
+
+    const albumData =
+        cached || (await getSpotifyRequest<SpotifyApi.AlbumObjectFull>(fetch, locals.accessToken, `albums/${albumId}`));
+
+    if (!cached) {
+        albumCache.set<SpotifyApi.AlbumObjectFull>(albumId, albumData);
+    }
 
     const trackIds = albumData.tracks.items.map((item) => item.id).filter((id) => id) as string[];
 
