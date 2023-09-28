@@ -6,6 +6,7 @@ declare global {
         interface Locals {
             accessToken?: string;
             username?: string;
+            market?: string;
         }
         // interface PageData {}
         // interface Platform {}

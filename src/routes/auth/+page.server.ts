@@ -61,7 +61,7 @@ export const load = (async ({ fetch, cookies, url }) => {
     const me = await getSpotifyRequest<SpotifyApi.UserObjectPrivate>(fetch, data.access_token, "me");
     const username = me.display_name || me.id;
 
-    setAuthCookie(cookies, data.access_token, data.refresh_token, data.expires_in, username);
+    setAuthCookie(cookies, data.access_token, data.refresh_token, data.expires_in, username, me.country);
 
     throw redirect(302, "/play/home");
 }) satisfies PageServerLoad;

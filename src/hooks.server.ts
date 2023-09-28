@@ -25,9 +25,9 @@ export const handle: Handle = async ({ event, resolve }) => {
         return await resolveWithLog();
     }
 
-    const [accessToken, refreshToken, expiry, username] = tokens.split(TOKENS_DIVIDER);
+    const [accessToken, refreshToken, expiry, username, country] = tokens.split(TOKENS_DIVIDER);
 
-    if (!accessToken || !refreshToken || !expiry || !username) {
+    if (!accessToken || !refreshToken || !expiry || !username || !country) {
         log("error", "Invalid tokens cookie");
         return await resolveWithLog();
     }
@@ -55,13 +55,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 
         const me = await getSpotifyRequest<SpotifyApi.UserObjectPrivate>(event.fetch, data.access_token, "me");
         const username = me.display_name || me.id;
-        setAuthCookie(event.cookies, data.access_token, refreshToken, data.expires_in, username);
+        setAuthCookie(event.cookies, data.access_token, refreshToken, data.expires_in, username, me.country);
 
         event.locals.accessToken = data.access_token;
         event.locals.username = username;
+        event.locals.market = me.country;
         return await resolveWithLog();
     }
 
+    event.locals.market = country;
     event.locals.accessToken = accessToken;
     event.locals.username = username;
 

@@ -13,9 +13,11 @@ export const load = (async ({ params, fetch, locals }) => {
     }
 
     const { categoryId } = params;
+    const { market = "" } = locals;
+    const cacheKey = market + categoryId;
 
     const cachedCategory =
-        categoryCache.get<[SpotifyApi.SingleCategoryResponse, SpotifyApi.CategoryPlaylistsResponse]>(categoryId);
+        categoryCache.get<[SpotifyApi.SingleCategoryResponse, SpotifyApi.CategoryPlaylistsResponse]>(cacheKey);
 
     const categoryPromise = cachedCategory
         ? Promise.resolve(cachedCategory[0])
@@ -33,7 +35,7 @@ export const load = (async ({ params, fetch, locals }) => {
     const [categoryResponse, categoryPlaylistsResponse] = await Promise.all([categoryPromise, categoryPlaylistsPromise]);
 
     if (!cachedCategory) {
-        categoryCache.set(categoryId, [categoryResponse, categoryPlaylistsResponse]);
+        categoryCache.set(cacheKey, [categoryResponse, categoryPlaylistsResponse]);
     }
 
     return {

@@ -13,14 +13,16 @@ export const load = (async ({ params, fetch, locals }) => {
     }
 
     const { albumId } = params;
+    const { market = "" } = locals;
+    const cacheKey = market + albumId;
 
-    const cached = albumCache.get<SpotifyApi.AlbumObjectFull>(albumId);
+    const cached = albumCache.get<SpotifyApi.AlbumObjectFull>(cacheKey);
 
     const albumData =
         cached || (await getSpotifyRequest<SpotifyApi.AlbumObjectFull>(fetch, locals.accessToken, `albums/${albumId}`));
 
     if (!cached) {
-        albumCache.set<SpotifyApi.AlbumObjectFull>(albumId, albumData);
+        albumCache.set<SpotifyApi.AlbumObjectFull>(cacheKey, albumData);
     }
 
     const trackIds = albumData.tracks.items.map((item) => item.id).filter((id) => id) as string[];

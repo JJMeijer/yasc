@@ -13,6 +13,8 @@ export const load = (async ({ params, fetch, locals }) => {
     }
 
     const { artistId } = params;
+    const { market = "" } = locals;
+    const cacheKey = market + artistId;
 
     const cachedArtist =
         artistCache.get<
@@ -22,7 +24,7 @@ export const load = (async ({ params, fetch, locals }) => {
                 SpotifyApi.ArtistsAlbumsResponse,
                 SpotifyApi.ArtistsRelatedArtistsResponse,
             ]
-        >(artistId);
+        >(cacheKey);
 
     const artistDataPromise = cachedArtist
         ? Promise.resolve(cachedArtist[0])
@@ -67,7 +69,7 @@ export const load = (async ({ params, fetch, locals }) => {
                 SpotifyApi.ArtistsAlbumsResponse,
                 SpotifyApi.ArtistsRelatedArtistsResponse,
             ]
-        >(artistId, [artistData, artistTopTracks, artistAlbums, relatedArtists]);
+        >(cacheKey, [artistData, artistTopTracks, artistAlbums, relatedArtists]);
     }
 
     const trackIds = artistTopTracks.tracks.map((item) => item.id).filter((id) => id) as string[];

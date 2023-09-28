@@ -13,9 +13,11 @@ export const load = (async ({ params, fetch, locals }) => {
     }
 
     const { playlistId } = params;
+    const { market = "" } = locals;
+    const cacheKey = market + playlistId;
 
     const cachedPlaylist =
-        playlistCache.get<[SpotifyApi.SinglePlaylistResponse, SpotifyApi.PlaylistTrackResponse]>(playlistId);
+        playlistCache.get<[SpotifyApi.SinglePlaylistResponse, SpotifyApi.PlaylistTrackResponse]>(cacheKey);
 
     const playlistDataPromise = cachedPlaylist
         ? Promise.resolve(cachedPlaylist[0])
@@ -37,8 +39,7 @@ export const load = (async ({ params, fetch, locals }) => {
     const [playlistData, playlistTracksData] = await Promise.all([playlistDataPromise, playlistTracksDataPromise]);
 
     if (!cachedPlaylist && !playlistData.collaborative) {
-        console.log("Caching playlist", playlistId);
-        playlistCache.set<[SpotifyApi.SinglePlaylistResponse, SpotifyApi.PlaylistTrackResponse]>(playlistId, [
+        playlistCache.set<[SpotifyApi.SinglePlaylistResponse, SpotifyApi.PlaylistTrackResponse]>(cacheKey, [
             playlistData,
             playlistTracksData,
         ]);
