@@ -77,6 +77,12 @@
         // TODO: Only if nothing is focused
         const spaceBarHandler = (e: KeyboardEvent) => {
             if (e.code === "Space") {
+                const activeElement = document.activeElement as HTMLElement;
+
+                if (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA") {
+                    return;
+                }
+
                 $playerStore?.togglePlay();
             }
         };
