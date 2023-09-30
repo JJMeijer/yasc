@@ -4,3 +4,4 @@ export { playerStateStore } from "./player-state-store";
 export { playbackDeviceStore } from "./playback-device-store";
 export { likedTracksStore } from "./liked-tracks-store";
 export { pageTitleStore } from "./page-title-store";
+export { searchStore } from "./search-store";

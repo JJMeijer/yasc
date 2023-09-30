@@ -29,7 +29,7 @@
             </p>
         </div>
 
-        <div class="w-72 h-72 rounded-sm overflow-hidden">
+        <div class="w-full m-1 rounded-md overflow-hidden">
             <img
                 src={getImageBySize(data.artist.images, 300)}
                 alt={data.artist.name}

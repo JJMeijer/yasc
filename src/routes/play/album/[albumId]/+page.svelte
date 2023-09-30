@@ -21,7 +21,7 @@
                 {/each}
             </div>
         </div>
-        <div class="w-72 h-72 rounded-sm overflow-hidden">
+        <div class="w-full rounded-md overflow-hidden mx-1">
             <img
                 src={getImageBySize(data.album.images, 300)}
                 alt={data.album.name}

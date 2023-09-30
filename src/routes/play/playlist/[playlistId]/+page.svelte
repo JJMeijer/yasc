@@ -25,7 +25,7 @@
                 {/if}
             {/each}
         </p>
-        <div class="w-72 h-72 rounded-md overflow-hidden">
+        <div class="w-full m-1 rounded-md overflow-hidden">
             <img
                 src={data.playlist.images[0]?.url}
                 alt={data.playlist.name}
