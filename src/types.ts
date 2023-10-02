@@ -29,3 +29,13 @@ export interface CustomCategoryObject extends SpotifyApi.CategoryObject {
     uri: string;
     images: SpotifyApi.ImageObject[];
 }
+
+export interface RepeatRequestData {
+    deviceId: string;
+    state: SpotifyApi.PlaybackObject["repeat_state"];
+}
+
+export interface ShuffleRequestData {
+    deviceId: string;
+    state: boolean;
+}

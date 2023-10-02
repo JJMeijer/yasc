@@ -14,6 +14,9 @@
         | "like"
         | "queue"
         | "duration"
+        | "repeat"
+        | "repeat-single"
+        | "shuffle"
         | "spinner";
 
     export let title: string = "";
@@ -62,7 +65,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <title>{title || "Nexte"}</title>
+            <title>{title || "Next"}</title>
             <polygon points="5 4 15 12 5 20 5 4" /> <line x1="19" y1="5" x2="19" y2="19" /></svg
         >
     {/if}
@@ -188,6 +191,59 @@
             <title>Duration</title>
             <path stroke="none" d="M0 0h24v24H0z" /> <circle cx="12" cy="12" r="9" />
             <polyline points="12 7 12 12 15 15" /></svg
+        >
+    {/if}
+
+    {#if name === "shuffle"}
+        <svg
+            class={className}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>{title || "Shuffle"}</title>
+            <polyline points="16 3 21 3 21 8" /> <line x1="4" y1="20" x2="21" y2="3" />
+            <polyline points="21 16 21 21 16 21" /> <line x1="15" y1="15" x2="21" y2="21" />
+            <line x1="4" y1="4" x2="9" y2="9" /></svg
+        >
+    {/if}
+
+    {#if name === "repeat"}
+        <svg
+            class={className}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>{title || "Repeat"}</title>
+            <path stroke="none" d="M0 0h24v24H0z" /> <path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" />
+            <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3-3l3-3" /></svg
+        >
+    {/if}
+
+    {#if name === "repeat-single"}
+        <svg
+            class={className}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>{title || "Repeat"}</title>
+            <path stroke="none" d="M0 0h24v24H0z" /> <path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" />
+            <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3-3l3-3" /> <path d="M11 11l1 -1v4" /></svg
         >
     {/if}
 
