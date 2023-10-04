@@ -1,6 +1,6 @@
 <script lang="ts">
     import { playerDeviceStore, playerStateStore } from "$lib/stores";
-    import { resolveSpotifyUri } from "$lib/utility";
+    import { resolveSpotifyUri, durationMsToTime } from "$lib/utility";
     import Like from "./Like.svelte";
 
     interface TrackContextByOffset {
@@ -39,13 +39,6 @@
                 "Content-Type": "application/json",
             },
         });
-    };
-
-    const durationMsToTime = (durationMs: number) => {
-        const minutes = Math.floor(durationMs / 60000);
-        const seconds = ((durationMs % 60000) / 1000).toFixed(0);
-
-        return `${minutes}:${+seconds < 10 ? "0" : ""}${seconds}`;
     };
 
     const onTrackDoubleClick = () => {

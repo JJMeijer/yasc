@@ -28,21 +28,26 @@
 </script>
 
 <div class="contents">
-    <a href={albumLink} class="h-full {!albumImage && 'border border-gray-700/50'}">
+    <a href={albumLink} class="h-full w-[4.5rem] min-w-[4.5rem] {!albumImage && 'border border-gray-700/50'}">
         {#if albumImage}
             <img src={albumImage} alt="album cover" class="h-full object-cover" />
         {/if}
     </a>
-    <div class="flex flex-col">
-        <p class="select-none">{trackName || ""}</p>
+    <div class="flex min-w-0 flex-grow flex-col">
+        <p
+            title={trackName}
+            class="select-none truncate"
+        >
+            {trackName || ""}
+        </p>
         <div class="inline">
             {#each artists as artist, index}
                 <a
                     href={resolveSpotifyUri(artist.uri)}
-                    class="text-sm text-gray-500 hover:text-gray-400 hover:underline underline-offset-2">{artist.name}</a
+                    class="text-sm text-gray-500 underline-offset-2 hover:text-gray-400 hover:underline">{artist.name}</a
                 >
                 {#if index < artists.length - 1}
-                    <span class="text-sm text-gray-500 -ml-1">,&nbsp;</span>
+                    <span class="-ml-1 text-sm text-gray-500">,&nbsp;</span>
                 {/if}
             {/each}
         </div>
