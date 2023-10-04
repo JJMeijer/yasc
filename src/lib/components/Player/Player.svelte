@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    import { playbackDeviceStore, playerStore, playerDeviceStore, playerStateStore } from "$lib/stores";
+    import { playerStore, playerDeviceStore, playerStateStore } from "$lib/stores";
     import SoundControl from "./SoundControl.svelte";
     import PlaybackControls from "./PlaybackControls.svelte";
     import TrackInfo from "./TrackInfo.svelte";
@@ -26,13 +26,6 @@
                     ready: true,
                     device_id,
                 });
-
-                playbackDeviceStore.update((state) => {
-                    return {
-                        ...state,
-                        activeDeviceId: device_id,
-                    }
-                })
             });
 
             $playerStore?.addListener("not_ready", ({ device_id }) => {

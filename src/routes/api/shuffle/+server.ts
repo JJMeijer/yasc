@@ -32,6 +32,17 @@ export const PUT: RequestHandler = async ({ fetch, locals, request }) => {
         throw error(400, "Bad Request");
     }
 
+    /**
+     * Soooooo, it feels like this API call is more reliable if you
+     * call it twice.
+     */
+    await putSpotifyRequest(
+        fetch,
+        locals.accessToken,
+        `me/player/shuffle?device_id=${body.deviceId}&state=${body.state}`,
+        {},
+    );
+
     await putSpotifyRequest(
         fetch,
         locals.accessToken,

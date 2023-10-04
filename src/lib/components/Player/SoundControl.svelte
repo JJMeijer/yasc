@@ -1,7 +1,6 @@
 <script lang="ts">
     import { playerStore } from "$lib/stores";
     import { Icon } from "$lib/components";
-    import Devices from "./Devices.svelte";
 
     let previousVolume = 0.5;
     let volume = 0.5;
@@ -87,9 +86,8 @@
 
 <div class="contents">
     <a href="/play/queue">
-        <Icon name="queue" class="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary mr-2" />
+        <Icon name="queue" class="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary" />
     </a>
-    <Devices />
     <div class="ml-2 flex items-center gap-2">
         <Icon
             onClick={onVolumeIconClick}

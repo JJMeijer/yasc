@@ -48,6 +48,8 @@
             },
         });
     };
+
+    $: console.log($playerStore);
 </script>
 
 <div class="contents">
