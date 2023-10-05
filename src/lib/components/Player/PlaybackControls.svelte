@@ -1,21 +1,12 @@
 <script lang="ts">
     import { playerStore, playerStateStore, playerDeviceStore } from "$lib/stores";
     import { Icon } from "$lib/components";
+    import ProgressSlider from "./ProgressSlider.svelte";
     import type { RepeatRequestData, ShuffleRequestData } from "@types";
-    import { durationMsToTime } from "$lib/utility";
 
     $: currentTrack = $playerStateStore?.track_window.current_track;
     $: repeatMode = $playerStateStore?.repeat_mode;
     $: shuffle = $playerStateStore?.shuffle;
-    $: paused = $playerStateStore?.paused || true;
-    $: trackLength = currentTrack?.duration_ms || 0;
-    $: position = $playerStateStore?.position || 0;
-    $: progress = (position / trackLength) * 100;
-
-    let progressSlider: HTMLDivElement;
-    let progressSliderWidth: number;
-
-    // track progress with timeout + timestamp, but also update on player_state_changed
 
     const onShuffleClick = () => {
         const payload: ShuffleRequestData = {
@@ -59,7 +50,6 @@
         });
     };
 
-    $: console.log(position, trackLength, progress);
 </script>
 
 <div class="flex w-full flex-col items-center">
@@ -102,22 +92,7 @@
                 : 'cursor-default text-gray-300/50'}"
         />
     </div>
-    <div class="flex w-3/4 gap-3">
-        <p class="text-xs">start</p>
-        <div
-            bind:this={progressSlider}
-            bind:offsetWidth={progressSliderWidth}
-            class="flex min-w-0 flex-grow cursor-pointer items-center"
-        >
-            <div class="flex h-1 w-full rounded-md bg-gray-800">
-                <div
-                    class="relative flex h-full items-center rounded-md bg-primary"
-                    style={progress ? `width: ${progress}%` : ""}
-                >
-                    <div draggable="true" class="absolute left-full h-3 w-3 -translate-x-1/2 rounded-full bg-gray-300"></div>
-                </div>
-            </div>
-        </div>
-        <p class="text-xs">{trackLength ? durationMsToTime(trackLength) : "-"}</p>
+    <div class="w-3/4">
+        <ProgressSlider />
     </div>
 </div>
