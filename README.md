@@ -1,38 +1,27 @@
-# create-svelte
+# Yet Another Spotify Client (YASC)
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Spotify client with a minimal feature set. Build with [SvelteKit](https://kit.svelte.dev/) using Spotify's [Web API](https://developer.spotify.com/documentation/web-api) & [Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk).
 
-## Creating a project
+Source code for [yasc.pages.dev](https://yasc.pages.dev/).
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- [X] Authentication
+- [X] Playback
+- [X] Albums/Artists/Playlists Page
+- [X] Library Pages
+- [X] Browse/Category Page
+- [X] Volume Control
+- [X] Progress Bar
+- [X] Play/Pause/Next/Previous
+- [X] Queue Shuffle
+- [X] Queue/Track Repeat
+- [X] Search
+- [X] Track Likes
+- [ ] Album Likes
+- [ ] Artist Likes
+- [ ] Add Track to Playlist
+- [ ] Create new Playlist
+- [ ] Delete Playlist
+- [ ] Better Search
+- [ ] Playback Devices
