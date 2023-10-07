@@ -20,6 +20,7 @@ Source code for [yasc.pages.dev](https://yasc.pages.dev/).
 - [X] Track Likes
 - [ ] Album Likes
 - [ ] Artist Likes
+- [ ] Radio/Recommendations
 - [ ] Add Track to Playlist
 - [ ] Create new Playlist
 - [ ] Delete Playlist
