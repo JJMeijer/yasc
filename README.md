@@ -18,6 +18,7 @@ Source code for [yasc.pages.dev](https://yasc.pages.dev/).
 - [X] Queue/Track Repeat
 - [X] Search
 - [X] Track Likes
+- [ ] Track Relinking
 - [ ] Album Likes
 - [ ] Artist Likes
 - [ ] Radio/Recommendations
