@@ -50,6 +50,7 @@
                         uri: data.album.uri,
                     }}
                     context={{ contextUri: data.album.uri, offset: track.uri }}
+                    disabledReason={track.restrictions?.reason || ""}
                 />
             {/each}
         </TrackItemList>

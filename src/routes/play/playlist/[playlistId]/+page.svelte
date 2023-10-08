@@ -49,7 +49,9 @@
                         uri: track.album.uri,
                     }}
                     index={index}
-                    context={{ contextUri: data.playlist.uri, offset:  track.uri }} />
+                    context={{ contextUri: data.playlist.uri, offset: track.linked_from ? track.linked_from.uri : track.uri }}
+                    disabledReason={track.restrictions?.reason || ""}
+                />
             {/each}
         </TrackItemList>
     </div>

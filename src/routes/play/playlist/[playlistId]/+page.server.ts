@@ -32,7 +32,7 @@ export const load = (async ({ params, fetch, locals }) => {
         : getSpotifyRequest<SpotifyApi.PlaylistTrackResponse>(
               fetch,
               locals.accessToken,
-              `playlists/${playlistId}/tracks?limit=50&market=from_token&fields=next,items(track(album(name,uri),artists,duration_ms,id,name,uri))`,
+              `playlists/${playlistId}/tracks?limit=50&market=from_token&fields=next,items(track(album(name,uri),artists,duration_ms,id,name,uri,linked_from,restrictions,is_playable))`,
               true,
           );
 
