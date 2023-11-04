@@ -22,6 +22,8 @@
         explicit: "This track is explicit.",
     };
 
+    const progress = Math.round((resumePositionMs / duration_ms) * 100);
+
     const play = (deviceId: string) => {
         console.log(resumePositionMs);
 
@@ -57,15 +59,19 @@
     role="button"
     on:dblclick={onEpisodeDoubleClick}
     title={disabledReason ? disabledReasonText[disabledReason] || "" : ""}
-    class="flex {disabledReason
+    class="flex relative {disabledReason
         ? 'cursor-not-allowed'
         : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50"
 >
-    <span class="w-7 {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-700' : 'text-gray-500'}">{index + 1}</span
-    >
+    {#if resumePositionMs > 0}
+        <div class="absolute bottom-0 border border-primary/70 rounded-md" style="width: {progress}%;"></div>
+    {/if}
+
+    <span class="w-7 {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-700' : 'text-gray-500'}">{index + 1}</span>
+
     <div class="flex flex-grow items-center">
         <span
-            class="flex flex-row items-center h-11 w-3/4 pl-1 pr-4 {episodeActive
+            class="flex h-11 w-3/4 flex-row items-center pl-1 pr-4 {episodeActive
                 ? 'text-primary'
                 : disabledReason
                 ? 'text-gray-700'
@@ -77,7 +83,7 @@
 
     <Like trackId={id} {liked} />
 
-    <span class="w-10 text-right {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}"
-        >{durationMsToTime(duration_ms)}</span
-    >
+    <span class="w-10 text-right {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}">
+        {durationMsToTime(duration_ms)}
+    </span>
 </div>
