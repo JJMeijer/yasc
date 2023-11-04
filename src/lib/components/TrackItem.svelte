@@ -60,8 +60,6 @@
     };
 
     $: trackActive = $playerStateStore?.track_window.current_track.id === id;
-
-    $: console.log(disabledReason);
 </script>
 
 <div

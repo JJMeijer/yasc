@@ -6,6 +6,7 @@ interface PlayRequestData {
     contextUri?: string;
     offset?: string;
     uris?: string[];
+    position_ms?: number;
 }
 
 interface spotifyPlayRequestPayload {
@@ -22,7 +23,7 @@ const validateRequestBody = (body: unknown): body is PlayRequestData => {
         return false;
     }
 
-    const { deviceId, contextUri, offset, uris } = body as PlayRequestData;
+    const { deviceId, contextUri, offset, uris, position_ms } = body as PlayRequestData;
 
     if (typeof deviceId !== "string") {
         return false;
@@ -50,6 +51,10 @@ const validateRequestBody = (body: unknown): body is PlayRequestData => {
         return false;
     }
 
+    if (position_ms && typeof position_ms !== "number") {
+        return false;
+    }
+
     return true;
 };
 
@@ -65,7 +70,7 @@ export const PUT: RequestHandler = async ({ fetch, request, locals }) => {
     }
 
     const payload: spotifyPlayRequestPayload = {
-        position_ms: 0,
+        position_ms: body.position_ms || 0,
     };
 
     if (body.contextUri) {

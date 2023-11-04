@@ -42,6 +42,7 @@
             <MenuLibraryNavLink href="/play/library/tracks" label="Tracks" />
             <MenuLibraryNavLink href="/play/library/artists" label="Artists" />
             <MenuLibraryNavLink href="/play/library/albums" label="Albums" />
+            <MenuLibraryNavLink href="/play/library/podcasts" label="Podcasts" />
         </div>
     {/if}
 </div>

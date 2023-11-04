@@ -26,8 +26,8 @@ devDependencies:
     specifier: ^20.7.1
     version: 20.7.1
   '@types/spotify-api':
-    specifier: ^0.0.22
-    version: 0.0.22
+    specifier: ^0.0.24
+    version: 0.0.24
   '@types/spotify-web-playback-sdk':
     specifier: ^0.1.17
     version: 0.1.17
@@ -801,8 +801,8 @@ packages:
     resolution: {integrity: sha512-OxepLK9EuNEIPxWNME+C6WwbRAOOI2o2BaQEGzz5Lu2e4Z5eDnEo+/aVEDMIXywoJitJ7xWd641wrGLZdtwRyw==}
     dev: true
 
-  /@types/spotify-api@0.0.22:
-    resolution: {integrity: sha512-oZLKiI6Fck/BGd0QdmIdJCY351xQfRkfpx2Q23jIntL3YQx85vScYuFJMK81/NoSK9m7HYOl2DW4A9WomDuJOA==}
+  /@types/spotify-api@0.0.24:
+    resolution: {integrity: sha512-IoP1PHaH25qN83hTSQM+Y2YwWnus6P/kVB/Q/I1LMSM5NCY+IHF2/h4q5btsIbgJRoVUJ7pwhL1U6wagYeR5Og==}
     dev: true
 
   /@types/spotify-web-playback-sdk@0.1.17:

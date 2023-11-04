@@ -13,3 +13,5 @@ export { default as ObjectList } from "./ObjectList.svelte";
 export { default as ObjectListItem } from "./ObjectListItem.svelte";
 export { default as LoadingOverlay } from "./LoadingOverlay.svelte";
 export { default as Search } from "./Search.svelte";
+export { default as EpisodeItem } from "./EpisodeItem.svelte";
+export { default as EpisodeItemList } from "./EpisodeItemList.svelte";

@@ -47,13 +47,13 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const trackIds = playlistTracksData.items.map((item) => item.track?.id).filter((id) => id) as string[];
 
-    const likesPromies = [];
+    const likesPromises = [];
     for (let i = 0; i < trackIds.length; i += 50) {
         const ids = trackIds.slice(i, i + 50).join(",");
-        likesPromies.push(getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/tracks/contains?ids=${ids}`));
+        likesPromises.push(getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/tracks/contains?ids=${ids}`));
     }
 
-    const likes = (await Promise.all(likesPromies)).flat();
+    const likes = (await Promise.all(likesPromises)).flat();
     const likedIds = trackIds.filter((_, i) => likes[i]);
 
     return {

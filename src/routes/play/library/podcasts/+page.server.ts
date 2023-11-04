@@ -8,13 +8,13 @@ export const load = (async ({ fetch, locals }) => {
         throw error(401, "Unauthorized");
     }
 
-    const likedArtists = await getSpotifyRequest<SpotifyApi.UsersFollowedArtistsResponse>(
+    const likedShows = await getSpotifyRequest<SpotifyApi.UsersSavedShowsResponse>(
         fetch,
         locals.accessToken,
-        `me/following?type=artist&limit=50`,
+        `me/shows?limit=50`,
     );
 
     return {
-        artists: likedArtists.artists.items,
+        shows: likedShows.items.map((show) => show.show),
     };
 }) satisfies PageServerLoad;

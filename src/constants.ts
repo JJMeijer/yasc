@@ -11,6 +11,8 @@ export const SPOTIFY_AUTH_SCOPE = [
     "streaming",
     "user-read-playback-state",
     "user-modify-playback-state",
+    "user-read-playback-position",
+    "user-read-currently-playing",
     "user-library-read",
     "user-library-modify",
 ].join(" ");
