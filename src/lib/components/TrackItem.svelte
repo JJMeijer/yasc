@@ -104,7 +104,7 @@
         >
     </div>
 
-    <Like trackId={id} {liked} />
+    <Like type="tracks" itemId={id} {liked} />
 
     <span class="w-10 text-right {trackActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}">{durationMsToTime(duration_ms)}</span>
 </div>

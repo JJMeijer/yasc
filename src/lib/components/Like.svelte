@@ -1,8 +1,9 @@
 <script lang="ts">
     import Icon from "./Icon.svelte";
 
-    export let trackId: string;
+    export let itemId: string;
     export let liked: boolean = false;
+    export let type: "tracks" | "episodes" | "shows" | "albums";
 
     let iconOnClickClass = "";
 
@@ -15,7 +16,7 @@
 
     const onLikeClick = async () => {
         likeClickAnimation();
-        const res = await fetch(`/api/likes?ids=${trackId}`, {
+        const res = await fetch(`/api/likes?ids=${itemId}&type=${type}`, {
             method: liked ? "DELETE" : "PUT",
         });
 

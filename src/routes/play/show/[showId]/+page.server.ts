@@ -55,8 +55,11 @@ export const load = (async ({ params, fetch, locals }) => {
     const likes = (await Promise.all(likesPromises)).flat();
     const likedIds = episodeIds.filter((_, i) => likes[i]);
 
+    const showLiked = await getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/shows/contains?ids=${showId}`);
+
     return {
         show: showData,
         likes: likedIds,
+        showLiked: showLiked[0] || false,
     };
 }) satisfies PageServerLoad;

@@ -53,6 +53,6 @@
         </div>
     </div>
     {#if trackId}
-        <Like {trackId} liked={isLiked} />
+        <Like type="tracks" itemId={trackId} liked={isLiked} />
     {/if}
 </div>

@@ -22,7 +22,7 @@
         explicit: "This track is explicit.",
     };
 
-    const progress = Math.round((resumePositionMs / duration_ms) * 100);
+    const progress = ((resumePositionMs / duration_ms) * 100).toFixed(1);
 
     const play = (deviceId: string) => {
         console.log(resumePositionMs);
@@ -63,9 +63,6 @@
         ? 'cursor-not-allowed'
         : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50"
 >
-    {#if resumePositionMs > 0}
-        <div class="absolute bottom-0 border border-primary/70 rounded-md" style="width: {progress}%;"></div>
-    {/if}
 
     <span class="w-7 {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-700' : 'text-gray-500'}">{index + 1}</span>
 
@@ -79,9 +76,16 @@
         >
             {name}
         </span>
+        <span class="w-1/4">
+            {#if resumePositionMs > 0}
+                <div title="{progress}%" class="relative w-32 bg-gray-800 h-2 rounded-full">
+                    <div class="bg-primary/70 rounded-full absolute left-0 h-2" style="width: {progress}%;"></div>
+                </div>
+            {/if}
+        </span>
     </div>
 
-    <Like trackId={id} {liked} />
+    <Like type="episodes" itemId={id} {liked} />
 
     <span class="w-10 text-right {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}">
         {durationMsToTime(duration_ms)}

@@ -19,7 +19,7 @@ Source code for [yasc.pages.dev](https://yasc.pages.dev/).
 - [X] Search
 - [X] Track Likes
 - [ ] Track Relinking
-- [ ] Album Likes
+- [X] Album Likes
 - [ ] Artist Likes
 - [ ] Radio/Recommendations
 - [ ] Add Track to Playlist
@@ -27,3 +27,4 @@ Source code for [yasc.pages.dev](https://yasc.pages.dev/).
 - [ ] Delete Playlist
 - [ ] Better Search
 - [ ] Playback Devices
+- [ ] Better Error handling

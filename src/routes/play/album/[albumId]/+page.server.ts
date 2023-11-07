@@ -36,8 +36,11 @@ export const load = (async ({ params, fetch, locals }) => {
     const likes = (await Promise.all(likesPromises)).flat();
     const likedIds = trackIds.filter((_, i) => likes[i]);
 
+    const albumLiked = await getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/albums/contains?ids=${albumId}`);
+
     return {
         album: albumData,
         likes: likedIds,
+        albumLiked: albumLiked[0] || false,
     };
 }) satisfies PageServerLoad;
