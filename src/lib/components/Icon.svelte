@@ -16,6 +16,7 @@
         | "repeat"
         | "repeat-single"
         | "shuffle"
+        | "check"
         | "spinner";
 
     export let title: string = "";
@@ -127,7 +128,6 @@
         >
     {/if}
 
-
     {#if name === "like"}
         <svg class={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <title>{title || "Like"}</title>
@@ -227,6 +227,18 @@
             <path stroke="none" d="M0 0h24v24H0z" /> <path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" />
             <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3-3l3-3" /> <path d="M11 11l1 -1v4" /></svg
         >
+    {/if}
+
+    {#if name === "check"}
+        <svg class={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <title>{title || "Check"}</title>
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+        </svg>
     {/if}
 
     {#if name === "spinner"}

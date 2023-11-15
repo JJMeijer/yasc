@@ -47,6 +47,7 @@
                     liked={data.likes.includes(episode.id)}
                     name={episode.name}
                     duration_ms={episode.duration_ms}
+                    fullyPlayed={episode.resume_point?.fully_played || false}
                     resumePositionMs={episode.resume_point?.fully_played ? 0 : episode.resume_point?.resume_position_ms || 0}
                     {index}
                     context={{ uris: episodes.map((episode) => episode.uri).slice(index) }}

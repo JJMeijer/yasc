@@ -1,6 +1,7 @@
 <script lang="ts">
     import { playerDeviceStore, playerStateStore } from "$lib/stores";
     import { durationMsToTime } from "$lib/utility";
+    import Icon from "./Icon.svelte";
     import Like from "./Like.svelte";
 
     interface EpisodeContext {
@@ -11,6 +12,7 @@
     export let name: string;
     export let context: EpisodeContext;
     export let resumePositionMs: number;
+    export let fullyPlayed: boolean;
     export let duration_ms: number;
     export let index: number;
     export let liked: boolean = false;
@@ -81,6 +83,9 @@
                 <div title="{progress}%" class="relative w-32 bg-gray-800 h-2 rounded-full">
                     <div class="bg-primary/70 rounded-full absolute left-0 h-2" style="width: {progress}%;"></div>
                 </div>
+            {/if}
+            {#if fullyPlayed}
+                <Icon class="text-primary/90 w-4 h-4 cursor-default" name="check" title="Played" />
             {/if}
         </span>
     </div>
