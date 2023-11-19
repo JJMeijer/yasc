@@ -9,18 +9,6 @@ import { setAuthCookie } from "$lib/server/utility";
 import { getSpotifyRequest } from "$lib/server/spotify";
 
 export const load = (async ({ fetch, cookies, url }) => {
-    const state = url.searchParams.get("state");
-
-    if (!state) {
-        throw error(400, "Bad Request");
-    }
-
-    const spotifyAuthState = cookies.get("spotify_auth_state");
-
-    if (state !== spotifyAuthState) {
-        throw error(403, "Forbidden");
-    }
-
     const errorParam = url.searchParams.get("error");
 
     if (errorParam) {
@@ -31,8 +19,6 @@ export const load = (async ({ fetch, cookies, url }) => {
     if (!code) {
         throw error(400, "Bad Request");
     }
-
-    cookies.delete("spotify_auth_state");
 
     const grantType = "authorization_code";
     const redirectUri = SPOTIFY_REDIRECT_URI;
