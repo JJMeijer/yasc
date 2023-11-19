@@ -15,7 +15,7 @@ export const setAuthCookie = (
     cookies.set(TOKENS_COOKIE, [accessToken, refreshToken, expiry, username, country].join(TOKENS_DIVIDER), {
         path: "/",
         maxAge: TOKENS_COOKIE_MAX_AGE,
-        sameSite: "strict",
+        sameSite: "lax",
         httpOnly: true,
         secure: true,
     });
