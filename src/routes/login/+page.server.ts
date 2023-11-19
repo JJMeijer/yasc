@@ -11,6 +11,7 @@ export const load = (async ({ cookies, locals }) => {
 
     const state = generateRandomString(16);
 
+    cookies.delete("spotify_auth_state");
     cookies.set("spotify_auth_state", state, {
         maxAge: 3600,
         sameSite: "none",

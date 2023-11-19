@@ -13,6 +13,8 @@
 		"prepare": "svelte-kit sync"
 	},
 	"devDependencies": {
+		"@sentry/node": "^7.80.1",
+		"@sentry/svelte": "^7.80.1",
 		"@sveltejs/adapter-cloudflare": "^2.3.3",
 		"@sveltejs/kit": "^1.27.6",
 		"@types/node": "^20.9.0",
