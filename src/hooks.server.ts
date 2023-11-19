@@ -1,5 +1,5 @@
 import type { Handle, HandleFetch, HandleServerError } from "@sveltejs/kit";
-import * as Sentry from "@sentry/node";
+import * as Sentry from "@sentry/svelte";
 import { Buffer } from "buffer";
 
 import { TOKENS_COOKIE, TOKENS_DIVIDER } from "@constants";
@@ -84,7 +84,7 @@ export const handleFetch: HandleFetch = async ({ request, fetch }) => {
 };
 
 Sentry.init({
-    dsn: "https://2f1d55642f3141db8a41dc12a31d2981@o4506252803768320.ingest.sentry.io/4506252806848512",
+    dsn: "https://03f0b42f18dcf9d803649103c25453ff@o4506252803768320.ingest.sentry.io/4506252862226432",
 });
 
 export const handleError: HandleServerError = async ({ error, event }) => {
