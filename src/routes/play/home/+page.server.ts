@@ -11,13 +11,13 @@ export const load = (async ({ fetch, locals }) => {
     const playlistsPromise = getSpotifyRequest<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
         fetch,
         locals.accessToken,
-        `me/playlists?limit=15`,
+        `me/playlists?limit=16`,
     );
 
     const featuredPlaylistsPromise = getSpotifyRequest<SpotifyApi.ListOfFeaturedPlaylistsResponse>(
         fetch,
         locals.accessToken,
-        `browse/featured-playlists?limit=15`,
+        `browse/featured-playlists?limit=16`,
     );
 
     const [playlists, featuredPlaylists] = await Promise.all([playlistsPromise, featuredPlaylistsPromise]);

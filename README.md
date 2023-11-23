@@ -1,6 +1,6 @@
 # Yet Another Spotify Client (YASC)
 
-Spotify client with a minimal feature set. Build with [SvelteKit](https://kit.svelte.dev/) using Spotify's [Web API](https://developer.spotify.com/documentation/web-api) & [Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk).
+Desktop focussed Spotify client with a minimal feature set. Build with [SvelteKit](https://kit.svelte.dev/) using Spotify's [Web API](https://developer.spotify.com/documentation/web-api) & [Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk).
 
 ## Getting Started
 
