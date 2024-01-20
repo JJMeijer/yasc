@@ -4,6 +4,7 @@
     export let itemId: string;
     export let liked: boolean = false;
     export let type: "tracks" | "episodes" | "shows" | "albums";
+    export let hideByDefault: boolean = false;
 
     let iconOnClickClass = "";
 
@@ -30,7 +31,9 @@
     title={liked ? "Unlike" : "Like"}
     onClick={onLikeClick}
     name="like"
-    class="w-6 h-6 {iconOnClickClass} transition-transform ease-in-out duration-200 {liked
+    class="h-6 w-6 {iconOnClickClass} transition-transform duration-200 ease-in-out {liked
         ? 'fill-primary/80 text-primary/80 hover:fill-transparent'
-        : 'text-gray-800 hover:text-primary/90'}"
+        : hideByDefault
+          ? 'text-gray-700 opacity-0 group-hover:opacity-100 hover:text-primary/90'
+          : 'text-gray-700 hover:text-primary/90'}"
 />

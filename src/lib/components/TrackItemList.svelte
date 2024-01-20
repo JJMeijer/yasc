@@ -11,10 +11,10 @@
             <span class="w-1/2"> Album </span>
         </div>
 
-        <Icon name="like" class="w-6 cursor-default" />
-
-        <div class="w-10 flex justify-end pr-1">
-            <Icon name="duration" class="w-5 cursor-default" />
+        <div class="flex flex-row gap-6">
+            <div class="w-6"><!--Like icon spacer--></div>
+            <Icon name="duration" class="w-6 cursor-default" />
+            <div class="w-6"><!--Menu icon spacer--></div>
         </div>
     </div>
     <slot />

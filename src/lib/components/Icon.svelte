@@ -17,6 +17,7 @@
         | "repeat-single"
         | "shuffle"
         | "check"
+        | "menu"
         | "spinner";
 
     export let title: string = "";
@@ -277,6 +278,21 @@
             <g class="spinner_V8m1"
                 ><circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3" stroke="currentColor"></circle></g
             ></svg
+        >
+    {/if}
+
+    {#if name === "menu"}
+        <svg
+            class={className}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>{title || "Menu"}</title>
+            <circle cx="12" cy="12" r="1" /> <circle cx="19" cy="12" r="1" /> <circle cx="5" cy="12" r="1" /></svg
         >
     {/if}
 </button>

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { playerDeviceStore, playerStateStore } from "$lib/stores";
     import { resolveSpotifyUri, durationMsToTime } from "$lib/utility";
+    import { Icon } from ".";
     import Like from "./Like.svelte";
 
     interface TrackContextByOffset {
@@ -67,7 +68,7 @@
     role="button"
     on:dblclick={onTrackDoubleClick}
     title={disabledReason ? disabledReasonText[disabledReason] || "" : ""}
-    class="flex {disabledReason
+    class="group flex {disabledReason
         ? 'cursor-not-allowed'
         : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50"
 >
@@ -85,8 +86,8 @@
                         class="text-sm {trackActive
                             ? 'text-primary/50 hover:text-primary/70'
                             : disabledReason
-                            ? 'pointer-events-none text-gray-600'
-                            : 'text-gray-500 hover:text-gray-400'}">{artist.name}</a
+                              ? 'pointer-events-none text-gray-600'
+                              : 'text-gray-500 hover:text-gray-400'}">{artist.name}</a
                     >
                     {#if index < artists.length - 1}
                         <span class="text-sm text-gray-500">,&nbsp;</span>
@@ -96,15 +97,21 @@
         </div>
         <a
             href={resolveSpotifyUri(album.uri)}
-            class="text-sm {trackActive
+            class="w-1/2 text-sm {trackActive
                 ? 'text-primary/50 hover:text-primary/70'
                 : disabledReason
-                ? ' pointer-events-none text-gray-600'
-                : 'text-gray-500 hover:text-gray-400'}">{album.name}</a
+                  ? ' pointer-events-none text-gray-600'
+                  : 'text-gray-500 hover:text-gray-400'}">{album.name}</a
         >
     </div>
 
-    <Like type="tracks" itemId={id} {liked} />
+    <div class="flex h-full flex-row items-center gap-6">
+        <Like type="tracks" itemId={id} {liked} hideByDefault={true}/>
 
-    <span class="w-10 text-right {trackActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}">{durationMsToTime(duration_ms)}</span>
+        <span class="w-6 text-right {trackActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}"
+            >{durationMsToTime(duration_ms)}</span
+        >
+
+        <Icon name="menu" class="h-full w-6 text-transparent group-hover:text-gray-500" />
+    </div>
 </div>
