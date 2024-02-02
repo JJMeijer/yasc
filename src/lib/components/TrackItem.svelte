@@ -1,8 +1,8 @@
 <script lang="ts">
     import { playerDeviceStore, playerStateStore } from "$lib/stores";
     import { resolveSpotifyUri, durationMsToTime } from "$lib/utility";
-    import { Icon } from ".";
     import Like from "./Like.svelte";
+    import TrackItemMenu from "./TrackItemMenu.svelte";
 
     interface TrackContextByOffset {
         contextUri: string;
@@ -29,6 +29,8 @@
     export let index: number;
     export let liked: boolean = false;
     export let disabledReason: string = "";
+
+    let trackMenuOpen = false;
 
     const disabledReasonText: Record<string, string> = {
         market: "This track is currently not available in your country",
@@ -70,7 +72,7 @@
     title={disabledReason ? disabledReasonText[disabledReason] || "" : ""}
     class="group flex {disabledReason
         ? 'cursor-not-allowed'
-        : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50"
+        : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50 {trackMenuOpen && 'bg-gray-800/50'}"
 >
     <span class="w-7 {trackActive ? 'text-primary' : disabledReason ? 'text-gray-700' : 'text-gray-500'}">{index + 1}</span>
     <div class="flex flex-grow items-center">
@@ -106,12 +108,12 @@
     </div>
 
     <div class="flex h-full flex-row items-center gap-6">
-        <Like type="tracks" itemId={id} {liked} hideByDefault={true}/>
+        <Like type="tracks" itemId={id} {liked} hideByDefault={true} />
 
-        <span class="w-6 text-right {trackActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}"
-            >{durationMsToTime(duration_ms)}</span
-        >
+        <span class="w-6 text-right {trackActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}">
+            {durationMsToTime(duration_ms)}
+        </span>
 
-        <Icon name="menu" class="h-full w-6 text-transparent group-hover:text-gray-500" />
+        <TrackItemMenu bind:open={trackMenuOpen} />
     </div>
 </div>
