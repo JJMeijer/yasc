@@ -3,6 +3,7 @@
     import { Icon } from "$lib/components";
     import ProgressSlider from "./ProgressSlider.svelte";
     import type { RepeatRequestData, ShuffleRequestData } from "@types";
+    import { onMount } from "svelte";
 
     $: currentTrack = $playerStateStore?.track_window.current_track;
     $: repeatMode = $playerStateStore?.repeat_mode;
@@ -49,6 +50,21 @@
             },
         });
     };
+
+    onMount(() => {
+        navigator.mediaSession.setActionHandler("previoustrack", () => {
+            $playerStore?.previousTrack();
+        });
+
+        navigator.mediaSession.setActionHandler("nexttrack", () => {
+            $playerStore?.nextTrack();
+        });
+
+        return () => {
+            navigator.mediaSession.setActionHandler("previoustrack", null);
+            navigator.mediaSession.setActionHandler("nexttrack", null);
+        };
+    })
 
 </script>
 
