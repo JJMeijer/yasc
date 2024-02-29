@@ -32,7 +32,7 @@ export const load = (async ({ locals, url, fetch }) => {
 
     const { tracks } = recommendations;
 
-    const trackIds = tracks.map((track) => track.id);
+    const trackIds = [seed.id, ...tracks.map((track) => track.id)];
 
     const promises = [];
 
