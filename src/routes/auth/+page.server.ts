@@ -1,5 +1,5 @@
 import { error, redirect } from "@sveltejs/kit";
-import { Buffer } from "buffer";
+import { Buffer } from "node:buffer";
 
 import type { PageServerLoad } from "./$types";
 import type { SpotifyAuthCodeResponse } from "@types";
