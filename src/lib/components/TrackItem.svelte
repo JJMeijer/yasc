@@ -114,6 +114,6 @@
             {durationMsToTime(duration_ms)}
         </span>
 
-        <TrackItemMenu bind:open={trackMenuOpen} />
+        <TrackItemMenu {id} bind:open={trackMenuOpen} />
     </div>
 </div>

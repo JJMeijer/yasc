@@ -12,7 +12,7 @@
     let isLiked = false;
 
     const checkLike = async () => {
-        const res = await fetch(`/api/likes?ids=${trackId}`);
+        const res = await fetch(`/api/likes?ids=${trackId}&type=tracks`);
 
         const data = (await res.json()) as boolean[];
 

@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import Icon from "./Icon.svelte";
-    import TrackItemMenuRow from "./TrackItemMenuRow.svelte";
 
+    export let id: string;
     export let open = false;
     let element: HTMLButtonElement;
 
@@ -34,8 +34,12 @@
         <div
             class="absolute right-0 z-10 mt-2 flex w-48 cursor-default flex-col rounded-md border border-gray-800/50 bg-gray-900"
         >
-            <TrackItemMenuRow>Add To Playlist</TrackItemMenuRow>
-            <TrackItemMenuRow>Radio</TrackItemMenuRow>
+            <div class="flex cursor-pointer flex-row items-center gap-3 p-2 w-full text-gray-400 hover:bg-gray-800">
+                <a href={`/play/radio?track=${id}`} class="contents">
+                    <Icon name="radio" class="mt-0.5 h-5 w-5 text-gray-500" title="Like" />
+                    <span class="flex-grow text-left">Radio</span>
+                </a>
+            </div>
         </div>
     {/if}
 </button>

@@ -18,6 +18,8 @@
         | "shuffle"
         | "check"
         | "menu"
+        | "arrow-left"
+        | "radio"
         | "spinner";
 
     export let title: string = "";
@@ -36,8 +38,9 @@
             stroke-linejoin="round"
         >
             <title>{title || "Play"}</title>
-            <circle cx="12" cy="12" r="10" /> <polygon points="10 8 16 12 10 16 10 8" /></svg
-        >
+            <circle cx="12" cy="12" r="10" />
+            <polygon points="10 8 16 12 10 16 10 8" />
+        </svg>
     {/if}
 
     {#if name === "pause"}
@@ -51,9 +54,10 @@
             stroke-linejoin="round"
         >
             <title>{title || "Pause"}</title>
-            <circle cx="12" cy="12" r="10" /> <line x1="10" y1="15" x2="10" y2="9" />
-            <line x1="14" y1="15" x2="14" y2="9" /></svg
-        >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="10" y1="15" x2="10" y2="9" />
+            <line x1="14" y1="15" x2="14" y2="9" />
+        </svg>
     {/if}
 
     {#if name === "next"}
@@ -67,8 +71,9 @@
             stroke-linejoin="round"
         >
             <title>{title || "Next"}</title>
-            <polygon points="5 4 15 12 5 20 5 4" /> <line x1="19" y1="5" x2="19" y2="19" /></svg
-        >
+            <polygon points="5 4 15 12 5 20 5 4" />
+            <line x1="19" y1="5" x2="19" y2="19" />
+        </svg>
     {/if}
 
     {#if name === "prev"}
@@ -82,8 +87,9 @@
             stroke-linejoin="round"
         >
             <title>{title || "Prev"}</title>
-            <polygon points="19 20 9 12 19 4 19 20" /> <line x1="5" y1="19" x2="5" y2="5" /></svg
-        >
+            <polygon points="19 20 9 12 19 4 19 20" />
+            <line x1="5" y1="19" x2="5" y2="5" />
+        </svg>
     {/if}
 
     {#if name === "muted"}
@@ -96,8 +102,8 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /></svg
-        >
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+        </svg>
     {/if}
 
     {#if name === "volume-half"}
@@ -110,8 +116,9 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /> <path d="M15.54 8.46a5 5 0 0 1 0 7.07" /></svg
-        >
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+        </svg>
     {/if}
 
     {#if name === "volume-full"}
@@ -125,8 +132,8 @@
             stroke-linejoin="round"
         >
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" /></svg
-        >
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+        </svg>
     {/if}
 
     {#if name === "like"}
@@ -154,9 +161,11 @@
             stroke-linejoin="round"
         >
             <title>Queue</title>
-            <path stroke="none" d="M0 0h24v24H0z" /> <line x1="4" y1="6" x2="20" y2="6" />
-            <line x1="4" y1="12" x2="20" y2="12" /> <line x1="4" y1="18" x2="20" y2="18" /></svg
-        >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
     {/if}
 
     {#if name === "duration"}
@@ -172,9 +181,10 @@
             stroke-linejoin="round"
         >
             <title>Duration</title>
-            <path stroke="none" d="M0 0h24v24H0z" /> <circle cx="12" cy="12" r="9" />
-            <polyline points="12 7 12 12 15 15" /></svg
-        >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <circle cx="12" cy="12" r="9" />
+            <polyline points="12 7 12 12 15 15" />
+        </svg>
     {/if}
 
     {#if name === "shuffle"}
@@ -188,10 +198,12 @@
             stroke-linejoin="round"
         >
             <title>{title || "Shuffle"}</title>
-            <polyline points="16 3 21 3 21 8" /> <line x1="4" y1="20" x2="21" y2="3" />
-            <polyline points="21 16 21 21 16 21" /> <line x1="15" y1="15" x2="21" y2="21" />
-            <line x1="4" y1="4" x2="9" y2="9" /></svg
-        >
+            <polyline points="16 3 21 3 21 8" />
+            <line x1="4" y1="20" x2="21" y2="3" />
+            <polyline points="21 16 21 21 16 21" />
+            <line x1="15" y1="15" x2="21" y2="21" />
+            <line x1="4" y1="4" x2="9" y2="9" />
+        </svg>
     {/if}
 
     {#if name === "repeat"}
@@ -207,9 +219,10 @@
             stroke-linejoin="round"
         >
             <title>{title || "Repeat"}</title>
-            <path stroke="none" d="M0 0h24v24H0z" /> <path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" />
-            <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3-3l3-3" /></svg
-        >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" />
+            <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3-3l3-3" />
+        </svg>
     {/if}
 
     {#if name === "repeat-single"}
@@ -225,9 +238,11 @@
             stroke-linejoin="round"
         >
             <title>{title || "Repeat"}</title>
-            <path stroke="none" d="M0 0h24v24H0z" /> <path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" />
-            <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3-3l3-3" /> <path d="M11 11l1 -1v4" /></svg
-        >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" />
+            <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3-3l3-3" />
+            <path d="M11 11l1 -1v4" />
+        </svg>
     {/if}
 
     {#if name === "check"}
@@ -275,10 +290,10 @@
                     }
                 }
             </style>
-            <g class="spinner_V8m1"
-                ><circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3" stroke="currentColor"></circle></g
-            ></svg
-        >
+            <g class="spinner_V8m1">
+                <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3" stroke="currentColor"></circle>
+            </g>
+        </svg>
     {/if}
 
     {#if name === "menu"}
@@ -292,7 +307,45 @@
             stroke-linejoin="round"
         >
             <title>{title || "Menu"}</title>
-            <circle cx="12" cy="12" r="1" /> <circle cx="19" cy="12" r="1" /> <circle cx="5" cy="12" r="1" /></svg
+            <circle cx="12" cy="12" r="1" />
+            <circle cx="19" cy="12" r="1" />
+            <circle cx="5" cy="12" r="1" />
+        </svg>
+    {/if}
+
+    {#if name === "arrow-left"}
+        <svg
+            class={className}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
         >
+            <title>{title || "Left"}</title>
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <polyline points="15 6 9 12 15 18" />
+        </svg>
+    {/if}
+
+    {#if name === "radio"}
+        <svg
+            class={className}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>{title || "Radio"}</title>
+            <circle cx="12" cy="12" r="2" />
+            <path
+                d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"
+            />
+        </svg>
     {/if}
 </button>
