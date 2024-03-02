@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import { error } from "@sveltejs/kit";
 
 export const load = (async ({ locals, url, fetch }) => {
@@ -15,18 +15,19 @@ export const load = (async ({ locals, url, fetch }) => {
 
     const { market = "" } = locals;
 
-    const recommendationsPromise = getSpotifyRequest<SpotifyApi.RecommendationsFromSeedsResponse>(
+    const recommendationsPromise = spotifyApiRequest<SpotifyApi.RecommendationsFromSeedsResponse>(
         fetch,
-        locals.accessToken,
         `recommendations?market=${market}&limit=49&seed_tracks=${seedId}`,
-        true,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
     );
 
-    const seedPromise = getSpotifyRequest<SpotifyApi.TrackObjectFull>(
-        fetch,
-        locals.accessToken,
-        `tracks/${seedId}?market=${market}`,
-    );
+    const seedPromise = spotifyApiRequest<SpotifyApi.TrackObjectFull>(fetch, `tracks/${seedId}?market=${market}`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
 
     const [recommendations, seed] = await Promise.all([recommendationsPromise, seedPromise]);
 
@@ -38,7 +39,12 @@ export const load = (async ({ locals, url, fetch }) => {
 
     for (let i = 0; i < trackIds.length; i += 50) {
         const ids = trackIds.slice(i, i + 50).join(",");
-        promises.push(getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/tracks/contains?ids=${ids}`));
+        promises.push(
+            spotifyApiRequest<boolean[]>(fetch, `me/tracks/contains?ids=${ids}`, {
+                method: "GET",
+                accessToken: locals.accessToken,
+            }),
+        );
     }
 
     const likes = (await Promise.all(promises)).flat();

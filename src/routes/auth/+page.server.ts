@@ -6,7 +6,7 @@ import type { SpotifyAuthCodeResponse } from "@types";
 
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } from "$env/static/private";
 import { setAuthCookie } from "$lib/server/utility";
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 
 export const load = (async ({ fetch, cookies, url }) => {
     const errorParam = url.searchParams.get("error");
@@ -44,7 +44,11 @@ export const load = (async ({ fetch, cookies, url }) => {
 
     const data = (await res.json()) as SpotifyAuthCodeResponse;
 
-    const me = await getSpotifyRequest<SpotifyApi.UserObjectPrivate>(fetch, data.access_token, "me");
+    const me = await spotifyApiRequest<SpotifyApi.UserObjectPrivate>(fetch, "me", {
+        method: "GET",
+        accessToken: data.access_token,
+    });
+
     const username = me.display_name || me.id;
 
     setAuthCookie(cookies, data.access_token, data.refresh_token, data.expires_in, username, me.country);

@@ -1,4 +1,4 @@
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import { error, json, type RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ fetch, locals, url }) => {
@@ -12,11 +12,14 @@ export const GET: RequestHandler = async ({ fetch, locals, url }) => {
         throw error(400, "Bad Request");
     }
 
-    const results = await getSpotifyRequest<SpotifyApi.SearchResponse>(
+    const results = await spotifyApiRequest<SpotifyApi.SearchResponse>(
         fetch,
-        locals.accessToken,
         `search?q=${query}&type=album,artist,playlist,track`,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
     );
 
-    return json(results); // TODO
+    return json(results);
 };

@@ -1,4 +1,5 @@
-import { log } from "$lib/server/utility";
+import type { SpotifyRequestOptions } from "@types";
+import { log } from "../utility";
 
 const isPagingObject = (obj: unknown): obj is SpotifyApi.PagingObject<unknown> => {
     if (typeof obj !== "object" || obj === null) {
@@ -10,21 +11,28 @@ const isPagingObject = (obj: unknown): obj is SpotifyApi.PagingObject<unknown> =
     return Array.isArray(pagingObject["items"]) && typeof pagingObject["next"] !== "undefined";
 };
 
-export const getSpotifyRequest = async <T>(
+export const spotifyApiRequest = async <T = string>(
     svelteFetch: typeof fetch,
-    accessToken: string,
     endpoint: string,
-    fetchAll: boolean = false,
+    options: SpotifyRequestOptions,
 ): Promise<T> => {
+    const { accessToken, method, body, fetchAll } = options;
+
     const res = await svelteFetch(`https://api.spotify.com/v1/${endpoint}`, {
+        method,
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
+        ...(body ? { body: JSON.stringify(body) } : null),
     });
 
     if (!res.ok) {
-        log("error", `Failed to get ${endpoint}: ${res.status} ${res.statusText}`);
-        throw new Error(`Failed to get ${endpoint}: ${res.status} ${res.statusText}`);
+        log("error", `Failed to ${method} ${endpoint}: ${res.status} ${res.statusText}`);
+        throw new Error(`Failed to ${method} ${endpoint}: ${res.status} ${res.statusText}`);
+    }
+
+    if (method !== "GET") {
+        return "OK" as unknown as T;
     }
 
     const data = (await res.json()) as T;
@@ -35,12 +43,11 @@ export const getSpotifyRequest = async <T>(
             return data;
         }
 
-        const nextData = (await getSpotifyRequest<T>(
-            svelteFetch,
+        const nextData = (await spotifyApiRequest<T>(svelteFetch, uri, {
+            method: "GET",
             accessToken,
-            uri,
             fetchAll,
-        )) as SpotifyApi.PagingObject<unknown>;
+        })) as SpotifyApi.PagingObject<unknown>;
 
         return {
             ...data,

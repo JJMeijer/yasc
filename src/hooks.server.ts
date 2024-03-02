@@ -5,7 +5,7 @@ import { TOKENS_COOKIE, TOKENS_DIVIDER } from "@constants";
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "$env/static/private";
 import type { SpotifyAuthRefreshResponse } from "@types";
 import { log, setAuthCookie } from "$lib/server/utility";
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 
 export const handle: Handle = async ({ event, resolve }) => {
     const resolveWithLog = async () => {
@@ -53,7 +53,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 
         const data = (await res.json()) as SpotifyAuthRefreshResponse;
 
-        const me = await getSpotifyRequest<SpotifyApi.UserObjectPrivate>(event.fetch, data.access_token, "me");
+        const me = await spotifyApiRequest<SpotifyApi.UserObjectPrivate>(event.fetch, "me", {
+            method: "GET",
+            accessToken: data.access_token,
+        });
+
         const username = me.display_name || me.id;
         setAuthCookie(event.cookies, data.access_token, refreshToken, data.expires_in, username, me.country);
 

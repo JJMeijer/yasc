@@ -1,4 +1,4 @@
-import { putSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import { error, type RequestHandler } from "@sveltejs/kit";
 
 import type { RepeatRequestData } from "@types";
@@ -32,12 +32,10 @@ export const PUT: RequestHandler = async ({ fetch, locals, request }) => {
         throw error(400, "Bad Request");
     }
 
-    await putSpotifyRequest(
-        fetch,
-        locals.accessToken,
-        `me/player/repeat?device_id=${body.deviceId}&state=${body.state}`,
-        {},
-    );
+    await spotifyApiRequest(fetch, `me/player/repeat?device_id=${body.deviceId}&state=${body.state}`, {
+        method: "PUT",
+        accessToken: locals.accessToken,
+    });
 
     return new Response(null, {
         status: 202,

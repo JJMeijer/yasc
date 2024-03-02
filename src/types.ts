@@ -39,3 +39,10 @@ export interface ShuffleRequestData {
     deviceId: string;
     state: boolean;
 }
+
+export interface SpotifyRequestOptions {
+    method: "GET" | "PUT" | "POST" | "DELETE";
+    accessToken: string;
+    body?: Record<string, unknown>;
+    fetchAll?: boolean;
+}

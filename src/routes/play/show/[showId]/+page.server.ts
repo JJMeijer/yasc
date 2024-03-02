@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, fetch, locals }) => {
@@ -10,20 +10,22 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const { showId } = params;
 
-    const showData = await getSpotifyRequest<SpotifyApi.SingleShowResponse>(
-        fetch,
-        locals.accessToken,
-        `shows/${showId}?market=from_token`,
-    );
+    const showData = await spotifyApiRequest<SpotifyApi.SingleShowResponse>(fetch, `shows/${showId}?market=from_token`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
 
     const { episodes } = showData;
 
     if (episodes.next) {
-        const showEpisodesData = await getSpotifyRequest<SpotifyApi.ShowEpisodesResponse>(
+        const showEpisodesData = await spotifyApiRequest<SpotifyApi.ShowEpisodesResponse>(
             fetch,
-            locals.accessToken,
             episodes.next.replace("https://api.spotify.com/v1/", ""),
-            true,
+            {
+                method: "GET",
+                accessToken: locals.accessToken,
+                fetchAll: true,
+            },
         );
 
         showData.episodes.items.push(...showEpisodesData.items);
@@ -35,13 +37,21 @@ export const load = (async ({ params, fetch, locals }) => {
     const likesPromises = [];
     for (let i = 0; i < episodeIds.length; i += 50) {
         const ids = episodeIds.slice(i, i + 50).join(",");
-        likesPromises.push(getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/episodes/contains?ids=${ids}`));
+        likesPromises.push(
+            spotifyApiRequest<boolean[]>(fetch, `me/episodes/contains?ids=${ids}`, {
+                method: "GET",
+                accessToken: locals.accessToken,
+            }),
+        );
     }
 
     const likes = (await Promise.all(likesPromises)).flat();
     const likedIds = episodeIds.filter((_, i) => likes[i]);
 
-    const showLiked = await getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/shows/contains?ids=${showId}`);
+    const showLiked = await spotifyApiRequest<boolean[]>(fetch, `me/shows/contains?ids=${showId}`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
 
     return {
         show: showData,

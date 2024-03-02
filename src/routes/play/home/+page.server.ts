@@ -1,23 +1,29 @@
 import { error } from "@sveltejs/kit";
 
 import type { PageServerLoad } from "./$types";
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 
 export const load = (async ({ fetch, locals }) => {
     if (!locals.accessToken) {
         throw error(401, "Unauthorized");
     }
 
-    const playlistsPromise = getSpotifyRequest<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
+    const playlistsPromise = spotifyApiRequest<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
         fetch,
-        locals.accessToken,
         `me/playlists?limit=16`,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
     );
 
-    const featuredPlaylistsPromise = getSpotifyRequest<SpotifyApi.ListOfFeaturedPlaylistsResponse>(
+    const featuredPlaylistsPromise = spotifyApiRequest<SpotifyApi.ListOfFeaturedPlaylistsResponse>(
         fetch,
-        locals.accessToken,
         `browse/featured-playlists?limit=16`,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
     );
 
     const [playlists, featuredPlaylists] = await Promise.all([playlistsPromise, featuredPlaylistsPromise]);

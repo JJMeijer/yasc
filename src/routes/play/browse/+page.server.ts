@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import type { CustomCategoryObject } from "@types";
 
 export const load = (async ({ fetch, locals, setHeaders }) => {
@@ -8,11 +8,13 @@ export const load = (async ({ fetch, locals, setHeaders }) => {
         throw error(401, "Unauthorized");
     }
 
-    const categoriesResponse = await getSpotifyRequest<SpotifyApi.MultipleCategoriesResponse>(
+    const categoriesResponse = await spotifyApiRequest<SpotifyApi.MultipleCategoriesResponse>(
         fetch,
-        locals.accessToken,
         "browse/categories?limit=50",
-        true,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
     );
 
     const categories: CustomCategoryObject[] = categoriesResponse.categories.items.map((category) => {

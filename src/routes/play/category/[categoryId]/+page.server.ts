@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, fetch, locals }) => {
@@ -10,17 +10,19 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const { categoryId } = params;
 
-    const categoryPromise = getSpotifyRequest<SpotifyApi.SingleCategoryResponse>(
-        fetch,
-        locals.accessToken,
-        `browse/categories/${categoryId}`,
-    );
+    const categoryPromise = spotifyApiRequest<SpotifyApi.SingleCategoryResponse>(fetch, `browse/categories/${categoryId}`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
 
-    const categoryPlaylistsPromise = getSpotifyRequest<SpotifyApi.CategoryPlaylistsResponse>(
+    const categoryPlaylistsPromise = spotifyApiRequest<SpotifyApi.CategoryPlaylistsResponse>(
         fetch,
-        locals.accessToken,
         `browse/categories/${categoryId}/playlists?limit=50`,
-        true,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+            fetchAll: true,
+        },
     );
 
     const [categoryResponse, categoryPlaylistsResponse] = await Promise.all([categoryPromise, categoryPlaylistsPromise]);

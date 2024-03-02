@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, fetch, locals }) => {
@@ -10,28 +10,36 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const { artistId } = params;
 
-    const artistDataPromise = getSpotifyRequest<SpotifyApi.ArtistObjectFull>(
-        fetch,
-        locals.accessToken,
-        `artists/${artistId}`,
-    );
+    const artistDataPromise = spotifyApiRequest<SpotifyApi.ArtistObjectFull>(fetch, `artists/${artistId}`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
 
-    const artistTopTracksPromise = getSpotifyRequest<SpotifyApi.ArtistsTopTracksResponse>(
+    const artistTopTracksPromise = spotifyApiRequest<SpotifyApi.ArtistsTopTracksResponse>(
         fetch,
-        locals.accessToken,
         `artists/${artistId}/top-tracks?market=from_token`,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
     );
 
-    const artistAlbumsPromise = getSpotifyRequest<SpotifyApi.ArtistsAlbumsResponse>(
+    const artistAlbumsPromise = spotifyApiRequest<SpotifyApi.ArtistsAlbumsResponse>(
         fetch,
-        locals.accessToken,
         `artists/${artistId}/albums?market=from_token&include_groups=album,single,compilation`,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
     );
 
-    const relatedArtistsPromise = getSpotifyRequest<SpotifyApi.ArtistsRelatedArtistsResponse>(
+    const relatedArtistsPromise = spotifyApiRequest<SpotifyApi.ArtistsRelatedArtistsResponse>(
         fetch,
-        locals.accessToken,
         `artists/${artistId}/related-artists`,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
     );
 
     const [artistData, artistTopTracks, artistAlbums, relatedArtists] = await Promise.all([
@@ -42,11 +50,10 @@ export const load = (async ({ params, fetch, locals }) => {
     ]);
 
     const trackIds = artistTopTracks.tracks.map((item) => item.id).filter((id) => id) as string[];
-    const likes = await getSpotifyRequest<boolean[]>(
-        fetch,
-        locals.accessToken,
-        `me/tracks/contains?ids=${trackIds.join(",")}`,
-    );
+    const likes = await spotifyApiRequest<boolean[]>(fetch, `me/tracks/contains?ids=${trackIds.join(",")}`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
 
     const likedIds = trackIds.filter((_, i) => likes[i]);
 

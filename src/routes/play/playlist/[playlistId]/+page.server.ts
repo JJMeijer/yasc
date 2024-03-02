@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 
-import { getSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, fetch, locals }) => {
@@ -10,17 +10,23 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const { playlistId } = params;
 
-    const playlistDataPromise = getSpotifyRequest<SpotifyApi.SinglePlaylistResponse>(
+    const playlistDataPromise = spotifyApiRequest<SpotifyApi.SinglePlaylistResponse>(
         fetch,
-        locals.accessToken,
         `playlists/${playlistId}?market=from_token&fields=description,images,name,uri`,
+        {
+            accessToken: locals.accessToken,
+            method: "GET",
+        },
     );
 
-    const playlistTracksDataPromise = getSpotifyRequest<SpotifyApi.PlaylistTrackResponse>(
+    const playlistTracksDataPromise = spotifyApiRequest<SpotifyApi.PlaylistTrackResponse>(
         fetch,
-        locals.accessToken,
         `playlists/${playlistId}/tracks?limit=50&market=from_token&fields=next,items(track(album(name,uri),artists,duration_ms,id,name,uri,linked_from,restrictions,is_playable))`,
-        true,
+        {
+            accessToken: locals.accessToken,
+            method: "GET",
+            fetchAll: true,
+        },
     );
 
     const [playlistData, playlistTracksData] = await Promise.all([playlistDataPromise, playlistTracksDataPromise]);
@@ -30,7 +36,12 @@ export const load = (async ({ params, fetch, locals }) => {
     const likesPromises = [];
     for (let i = 0; i < trackIds.length; i += 50) {
         const ids = trackIds.slice(i, i + 50).join(",");
-        likesPromises.push(getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/tracks/contains?ids=${ids}`));
+        likesPromises.push(
+            spotifyApiRequest<boolean[]>(fetch, `me/tracks/contains?ids=${ids}`, {
+                method: "GET",
+                accessToken: locals.accessToken,
+            }),
+        );
     }
 
     const likes = (await Promise.all(likesPromises)).flat();

@@ -1,4 +1,4 @@
-import { deleteSpotifyRequest, getSpotifyRequest, putSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import { error, json, type RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ fetch, locals, url }) => {
@@ -13,7 +13,10 @@ export const GET: RequestHandler = async ({ fetch, locals, url }) => {
         throw error(400, "Bad Request");
     }
 
-    const res = await getSpotifyRequest<boolean[]>(fetch, locals.accessToken, `me/${type}/contains?ids=${ids}`);
+    const res = await spotifyApiRequest<boolean[]>(fetch, `me/${type}/contains?ids=${ids}`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
 
     return json(res);
 };
@@ -30,7 +33,10 @@ export const PUT: RequestHandler = async ({ fetch, locals, url }) => {
         throw error(400, "Bad Request");
     }
 
-    await putSpotifyRequest(fetch, locals.accessToken, `me/${type}?ids=${ids}`);
+    await spotifyApiRequest(fetch, `me/${type}?ids=${ids}`, {
+        method: "PUT",
+        accessToken: locals.accessToken,
+    });
 
     return new Response(null);
 };
@@ -47,7 +53,10 @@ export const DELETE: RequestHandler = async ({ fetch, locals, url }) => {
         throw error(400, "Bad Request");
     }
 
-    await deleteSpotifyRequest(fetch, locals.accessToken, `me/${type}?ids=${ids}`);
+    await spotifyApiRequest(fetch, `me/${type}?ids=${ids}`, {
+        method: "DELETE",
+        accessToken: locals.accessToken,
+    });
 
     return new Response(null);
 };

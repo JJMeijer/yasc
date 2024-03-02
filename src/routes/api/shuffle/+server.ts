@@ -1,4 +1,4 @@
-import { putSpotifyRequest } from "$lib/server/spotify";
+import { spotifyApiRequest } from "$lib/server/spotify";
 import { error, type RequestHandler } from "@sveltejs/kit";
 
 import type { ShuffleRequestData } from "@types";
@@ -36,19 +36,15 @@ export const PUT: RequestHandler = async ({ fetch, locals, request }) => {
      * Soooooo, it feels like this API call is more reliable if you
      * call it twice.
      */
-    await putSpotifyRequest(
-        fetch,
-        locals.accessToken,
-        `me/player/shuffle?device_id=${body.deviceId}&state=${body.state}`,
-        {},
-    );
+    await spotifyApiRequest(fetch, `me/player/shuffle?device_id=${body.deviceId}&state=${body.state}`, {
+        method: "PUT",
+        accessToken: locals.accessToken,
+    });
 
-    await putSpotifyRequest(
-        fetch,
-        locals.accessToken,
-        `me/player/shuffle?device_id=${body.deviceId}&state=${body.state}`,
-        {},
-    );
+    await spotifyApiRequest(fetch, `me/player/shuffle?device_id=${body.deviceId}&state=${body.state}`, {
+        method: "PUT",
+        accessToken: locals.accessToken,
+    });
 
     return new Response(null, {
         status: 202,

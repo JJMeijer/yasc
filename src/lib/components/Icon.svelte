@@ -20,6 +20,7 @@
         | "menu"
         | "arrow-left"
         | "radio"
+        | "add"
         | "spinner";
 
     export let title: string = "";
@@ -346,6 +347,13 @@
             <path
                 d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"
             />
+        </svg>
+    {/if}
+
+    {#if name === "add"}
+        <svg class={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <title>{title || "Add"}</title>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
     {/if}
 </button>
