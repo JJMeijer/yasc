@@ -8,11 +8,12 @@ export const setAuthCookie = (
     refreshToken: string,
     expiresIn: number,
     username: string,
+    id: string,
     country: string,
 ): void => {
     const expiry = new Date().getTime() + expiresIn * 1000;
 
-    cookies.set(TOKENS_COOKIE, [accessToken, refreshToken, expiry, username, country].join(TOKENS_DIVIDER), {
+    cookies.set(TOKENS_COOKIE, [accessToken, refreshToken, expiry, username, id, country].join(TOKENS_DIVIDER), {
         path: "/",
         maxAge: TOKENS_COOKIE_MAX_AGE,
         sameSite: "lax",

@@ -46,3 +46,9 @@ export interface SpotifyRequestOptions {
     body?: Record<string, unknown>;
     fetchAll?: boolean;
 }
+
+export interface CreatePlaylistData {
+    name: string;
+    description: string;
+    uris: string[];
+}

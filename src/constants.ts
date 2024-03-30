@@ -6,6 +6,8 @@ export const SPOTIFY_AUTH_SCOPE = [
     "user-read-private",
     "user-read-email",
     "user-follow-read",
+    "playlist-modify-public",
+    "playlist-modify-private",
     "playlist-read-private",
     "playlist-read-collaborative",
     "streaming",

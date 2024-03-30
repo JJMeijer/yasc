@@ -51,7 +51,7 @@ export const load = (async ({ fetch, cookies, url }) => {
 
     const username = me.display_name || me.id;
 
-    setAuthCookie(cookies, data.access_token, data.refresh_token, data.expires_in, username, me.country);
+    setAuthCookie(cookies, data.access_token, data.refresh_token, data.expires_in, username, me.id, me.country);
 
     throw redirect(302, "/play/home");
 }) satisfies PageServerLoad;

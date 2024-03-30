@@ -25,15 +25,15 @@ export const handle: Handle = async ({ event, resolve }) => {
         return await resolveWithLog();
     }
 
-    const [accessToken, refreshToken, expiry, username, country] = tokens.split(TOKENS_DIVIDER);
+    const [accessToken, refreshToken, expiry, username, id, country] = tokens.split(TOKENS_DIVIDER);
 
-    if (!accessToken || !refreshToken || !expiry || !username || !country) {
+    if (!accessToken || !refreshToken || !expiry || !username || !id || !country) {
         log("error", "Invalid tokens cookie");
+        event.cookies.delete(TOKENS_COOKIE, { path: "/" });
         return await resolveWithLog();
     }
 
     if (new Date().getTime() > Number(expiry)) {
-        console.log("hi");
         const res = await event.fetch("https://accounts.spotify.com/api/token", {
             body: new URLSearchParams({
                 grant_type: "refresh_token",
@@ -59,10 +59,11 @@ export const handle: Handle = async ({ event, resolve }) => {
         });
 
         const username = me.display_name || me.id;
-        setAuthCookie(event.cookies, data.access_token, refreshToken, data.expires_in, username, me.country);
+        setAuthCookie(event.cookies, data.access_token, refreshToken, data.expires_in, username, me.id, me.country);
 
         event.locals.accessToken = data.access_token;
         event.locals.username = username;
+        event.locals.userId = me.id;
         event.locals.market = me.country;
         return await resolveWithLog();
     }
@@ -70,6 +71,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.market = country;
     event.locals.accessToken = accessToken;
     event.locals.username = username;
+    event.locals.userId = id;
 
     return await resolveWithLog();
 };

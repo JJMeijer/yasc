@@ -1,15 +1,37 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { SpotifyTracksPage, TrackItemList } from "$lib/components";
+    import { Icon, SpotifyTracksPage, TrackItemList } from "$lib/components";
     import { getImageBySize } from "$lib/utility";
     import TrackItem from "$lib/components/TrackItem.svelte";
+    import type { CreatePlaylistData } from "@types";
+    import { goto } from "$app/navigation";
 
     export let data: PageData;
+
+    $: name = `${data.seed.name} Radio`;
+
+    const onCreatePlaylist = async () => {
+        const createPlaylistData: CreatePlaylistData = {
+            name,
+            description: `Recommendations based on: ${data.seed.name}`,
+            uris: data.tracks.map((track) => track.uri),
+        }
+
+        const res = await fetch("/api/playlist/create", { method: "POST", body: JSON.stringify(createPlaylistData)})
+
+        if (res.ok) {
+            const { playlistId } = await res.json();
+            goto(`/play/playlist/${playlistId}`)
+        }
+    }
 </script>
 
 <SpotifyTracksPage>
     <div slot="sidebar" class="contents">
-        <p class="text-3xl">{data.seed.name} Radio</p>
+        <div class="flex flex-row items-center justify-between pr-1">
+            <p class="text-3xl">{name}</p>
+            <Icon onClick={onCreatePlaylist} title="Add Playlist To Library" name="add" class="h-6 w-6 text-gray-500 hover:text-gray-400" />
+        </div>
 
         <div class="mx-1 w-full overflow-hidden rounded-md">
             <img
@@ -35,7 +57,7 @@
                         uri: track.album.uri,
                     }}
                     {index}
-                    context={{uris: data.tracks.slice(index).map((track) => track.uri)}}
+                    context={{ uris: data.tracks.slice(index).map((track) => track.uri) }}
                     disabledReason={track.restrictions?.reason || ""}
                 />
             {/each}
