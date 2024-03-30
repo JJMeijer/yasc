@@ -52,3 +52,8 @@ export interface CreatePlaylistData {
     description: string;
     uris: string[];
 }
+
+export interface AppendPlaylistData {
+    playlistId: string;
+    uris: string[];
+}
