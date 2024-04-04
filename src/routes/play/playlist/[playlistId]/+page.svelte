@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { SpotifyTracksPage, TrackItemList, TrackItem } from "$lib/components";
+    import { SpotifyTracksPage, TrackItemList, TrackItem, Like, Icon } from "$lib/components";
     import { resolveSpotifyUri } from "$lib/utility";
 
-    import type { PageServerData } from "./$types";
+    import type { PageData } from "./$types";
 
-    export let data: PageServerData;
+    export let data: PageData;
 
     $: descriptionParts = data.playlist.description?.split(/<a href=(.+?)<\/a>/).filter((x: string) => x) || [];
     $: tracks = data.tracks.map((i) => i.track).filter((t) => t !== null) as SpotifyApi.TrackObjectFull[];
@@ -12,11 +12,18 @@
 
 <SpotifyTracksPage>
     <div slot="sidebar" class="contents">
-        <p class="text-3xl">{data.playlist.name}</p>
+        <div class="flex flex-row items-center justify-between pr-1">
+            <p class="text-3xl">{data.playlist.name}</p>
+            {#if data.playlist.owner.display_name !== data.username}
+                <Like itemId={data.playlist.id} type="playlists" liked={data.liked} />
+            {:else}
+                <Icon title="Delete Playlist" name="delete" class="h-6 w-6 text-gray-800/80 hover:text-red-800/80" />
+            {/if}
+        </div>
         <p class="text-gray-500">
             {#each descriptionParts as part}
                 {#if part.match("spotify:.+")}
-                    <a class="text-gray-400 hover:underline underline-offset-2" href={resolveSpotifyUri(part.split(">")[0])}>
+                    <a class="text-gray-400 underline-offset-2 hover:underline" href={resolveSpotifyUri(part.split(">")[0])}>
                         {part.split(">")[1]}
                     </a>
                 {:else}
@@ -25,12 +32,12 @@
                 {/if}
             {/each}
         </p>
-        <div class="w-full m-1 rounded-md overflow-hidden">
+        <div class="m-1 w-full overflow-hidden rounded-md">
             <img
                 src={data.playlist.images[0]?.url}
                 alt={data.playlist.name}
                 title={data.playlist.name}
-                class="w-full h-full object-cover select-none"
+                class="h-full w-full select-none object-cover"
             />
         </div>
     </div>
@@ -48,8 +55,11 @@
                         name: track.album.name,
                         uri: track.album.uri,
                     }}
-                    index={index}
-                    context={{ contextUri: data.playlist.uri, offset: track.linked_from ? track.linked_from.uri : track.uri }}
+                    {index}
+                    context={{
+                        contextUri: data.playlist.uri,
+                        offset: track.linked_from ? track.linked_from.uri : track.uri,
+                    }}
                     disabledReason={track.restrictions?.reason || ""}
                 />
             {/each}

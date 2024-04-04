@@ -12,7 +12,7 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const playlistDataPromise = spotifyApiRequest<SpotifyApi.SinglePlaylistResponse>(
         fetch,
-        `playlists/${playlistId}?market=from_token&fields=description,images,name,uri`,
+        `playlists/${playlistId}?market=from_token&fields=description,images,name,uri,followers(total),owner,public,id`,
         {
             accessToken: locals.accessToken,
             method: "GET",
@@ -29,7 +29,20 @@ export const load = (async ({ params, fetch, locals }) => {
         },
     );
 
-    const [playlistData, playlistTracksData] = await Promise.all([playlistDataPromise, playlistTracksDataPromise]);
+    const playlistFollowedPromise = spotifyApiRequest<boolean[]>(
+        fetch,
+        `playlists/${playlistId}/followers/contains?ids=${locals.userId}`,
+        {
+            method: "GET",
+            accessToken: locals.accessToken,
+        },
+    );
+
+    const [playlistData, playlistTracksData, playlistFollowedData] = await Promise.all([
+        playlistDataPromise,
+        playlistTracksDataPromise,
+        playlistFollowedPromise,
+    ]);
 
     const trackIds = playlistTracksData.items.map((item) => item.track?.id).filter((id) => id) as string[];
 
@@ -51,5 +64,6 @@ export const load = (async ({ params, fetch, locals }) => {
         playlist: playlistData,
         tracks: playlistTracksData.items,
         likes: likedIds,
+        liked: playlistFollowedData[0] || false,
     };
 }) satisfies PageServerLoad;

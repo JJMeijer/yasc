@@ -31,7 +31,8 @@ export const spotifyApiRequest = async <T = string>(
         throw new Error(`Failed to ${method} ${endpoint}: ${res.status} ${res.statusText}`);
     }
 
-    if (res.headers.get("content-type")?.includes("application/json") === false) {
+    const contentType = res.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
         return "OK" as unknown as T;
     }
 

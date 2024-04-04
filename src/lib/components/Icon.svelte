@@ -21,6 +21,8 @@
         | "arrow-left"
         | "radio"
         | "add"
+        | "add-to-queue"
+        | "delete"
         | "spinner";
 
     export let title: string = "";
@@ -354,6 +356,41 @@
         <svg class={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <title>{title || "Add"}</title>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+    {/if}
+
+    {#if name === "add-to-queue"}
+        <svg
+            class={className}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <title>{title || "Add to Queue"}</title>
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <circle cx="6" cy="18" r="2" />
+            <circle cx="6" cy="6" r="2" />
+            <circle cx="18" cy="18" r="2" />
+            <line x1="6" y1="8" x2="6" y2="16" />
+            <path d="M11 6h5a2 2 0 0 1 2 2v8" />
+            <polyline points="14 9 11 6 14 3" />
+        </svg>
+    {/if}
+
+    {#if name === "delete"}
+        <svg class={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <title>{title || "Delete"}</title>
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
         </svg>
     {/if}
 </button>

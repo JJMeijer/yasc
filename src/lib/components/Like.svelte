@@ -3,8 +3,11 @@
 
     export let itemId: string;
     export let liked: boolean = false;
-    export let type: "tracks" | "episodes" | "shows" | "albums";
+    export let type: "tracks" | "episodes" | "shows" | "albums" | "playlists";
     export let hideByDefault: boolean = false;
+
+    $: isPlaylist = type === "playlists";
+    $: verb = liked ? (isPlaylist ? "Unfollow" : "Unlike") : isPlaylist ? "Follow" : "Like";
 
     let iconOnClickClass = "";
 
@@ -17,9 +20,12 @@
 
     const onLikeClick = async () => {
         likeClickAnimation();
-        const res = await fetch(`/api/likes?ids=${itemId}&type=${type}`, {
-            method: liked ? "DELETE" : "PUT",
-        });
+        let res: Response;
+        if (type !== "playlists") {
+            res = await fetch(`/api/likes?ids=${itemId}&type=${type}`, { method: liked ? "DELETE" : "PUT" });
+        } else {
+            res = await fetch(`/api/playlist/followers?playlistId=${itemId}`, { method: liked ? "DELETE" : "PUT" });
+        }
 
         if (res.ok) {
             liked = !liked;
@@ -28,7 +34,7 @@
 </script>
 
 <Icon
-    title={liked ? "Unlike" : "Like"}
+    title={verb}
     onClick={onLikeClick}
     name="like"
     class="h-6 w-6 {iconOnClickClass} transition-transform duration-200 ease-in-out {liked
