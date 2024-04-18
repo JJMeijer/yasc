@@ -15,3 +15,4 @@ export { default as Search } from "./Search.svelte";
 export { default as EpisodeItem } from "./EpisodeItem.svelte";
 export { default as EpisodeItemList } from "./EpisodeItemList.svelte";
 export { default as Like } from "./Like.svelte";
+export { default as Modal } from "./Modal.svelte";

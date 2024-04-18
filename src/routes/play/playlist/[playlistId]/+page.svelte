@@ -1,14 +1,46 @@
 <script lang="ts">
-    import { SpotifyTracksPage, TrackItemList, TrackItem, Like, Icon } from "$lib/components";
+    import { goto } from "$app/navigation";
+    import { SpotifyTracksPage, TrackItemList, TrackItem, Like, Icon, Modal } from "$lib/components";
     import { resolveSpotifyUri } from "$lib/utility";
 
     import type { PageData } from "./$types";
 
+    let showDeleteModal = false;
     export let data: PageData;
 
     $: descriptionParts = data.playlist.description?.split(/<a href=(.+?)<\/a>/).filter((x: string) => x) || [];
     $: tracks = data.tracks.map((i) => i.track).filter((t) => t !== null) as SpotifyApi.TrackObjectFull[];
+
+    const onPlaylistDelete = async () => {
+        const res = await fetch(`/api/playlist/followers?playlistId=${data.playlist.id}`, {
+            method: "DELETE",
+        });
+
+        if (res.status === 200) {
+            goto("/play/home");
+        }
+    }
 </script>
+
+<Modal bind:show={showDeleteModal}>
+    <div class="w-96 rounded-md border-2 border-primary/60 bg-gray-900 text-gray-400 overflow-hidden">
+        <div class="flex flex-col">
+            <div class="flex flex-row items-center justify-between border-b border-gray-800 px-4 py-3">
+                <p class="text-xl font-bold">Delete Playlist?</p>
+                <Icon onClick={() => showDeleteModal = false} name="add" title="Close" class="h-5 w-5 rotate-45 text-gray-600 hover:text-gray-400" />
+            </div>
+            <p class="px-4 py-4">Are you sure you want to delete playlist "{data.playlist.name}"? This cannot be reversed.</p>
+            <div class="flex flex-row justify-between">
+                <button title="Cancel" class="w-1/2 px-4 py-2.5 text-center text-gray-400 border-t border-gray-800 hover:bg-gray-800" on:click={() => showDeleteModal = false}>
+                    Cancel
+                </button>
+                <button title="Delete" class="w-1/2 px-4 py-2.5 text-center text-red-400 border-t border-gray-800 hover:bg-gray-800" on:click={onPlaylistDelete}>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</Modal>
 
 <SpotifyTracksPage>
     <div slot="sidebar" class="contents">
@@ -17,7 +49,7 @@
             {#if data.playlist.owner.display_name !== data.username}
                 <Like itemId={data.playlist.id} type="playlists" liked={data.liked} />
             {:else}
-                <Icon title="Delete Playlist" name="delete" class="h-6 w-6 text-gray-800/80 hover:text-red-800/80" />
+                <Icon onClick={() => showDeleteModal = true} title="Delete Playlist" name="delete" class="h-6 w-6 text-gray-800/80 hover:text-red-800/80" />
             {/if}
         </div>
         <p class="text-gray-500">
