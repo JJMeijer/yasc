@@ -53,10 +53,11 @@ With the default development API credentials it will only be possible to login w
 - [ ] Track Relinking
 - [X] Album Likes
 - [ ] Artist Likes
-- [ ] Radio/Recommendations
+- [X] Radio/Recommendations
 - [ ] Add Track to Playlist
 - [ ] Create new Playlist
-- [ ] Delete Playlist
+- [X] Follow/Unfollow Playlist
+- [X] Delete Playlist
 - [ ] Better Search
 - [ ] Playback Devices
 - [ ] Better Error handling

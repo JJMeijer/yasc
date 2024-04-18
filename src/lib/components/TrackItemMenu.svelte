@@ -42,12 +42,12 @@
         <div
             class="absolute right-0 z-10 mt-2 flex w-48 cursor-default flex-col rounded-md border border-gray-800/50 bg-gray-900"
         >
-            <TrackItemMenuRow>
+            <!-- <TrackItemMenuRow>
                 <button class="contents">
                     <Icon name="arrow-left" class="mt-0.5 h-5 w-5 text-gray-500" title="Add to Playlist" />
                     <span class="flex-grow text-left">Add to Playlist</span>
                 </button>
-            </TrackItemMenuRow>
+            </TrackItemMenuRow> -->
             <TrackItemMenuRow>
                 <button on:click={onQueueClick} class="contents">
                     <Icon name="add-to-queue" class="mt-0.5 h-5 w-5 text-gray-500" title="Add to Queue" />
