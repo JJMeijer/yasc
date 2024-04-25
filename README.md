@@ -52,7 +52,7 @@ With the default development API credentials it will only be possible to login w
 - [X] Track Likes
 - [ ] Track Relinking
 - [X] Album Likes
-- [ ] Artist Likes
+- [X] Artist Likes
 - [X] Radio/Recommendations
 - [ ] Add Track to Playlist
 - [ ] Create new Playlist

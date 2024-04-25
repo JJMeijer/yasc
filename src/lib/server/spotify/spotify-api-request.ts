@@ -2,6 +2,7 @@ import cache from "memory-cache";
 
 import type { SpotifyRequestOptions } from "@types";
 import { log } from "../utility";
+import { error } from "@sveltejs/kit";
 
 const isPagingObject = (obj: unknown): obj is SpotifyApi.PagingObject<unknown> => {
     if (typeof obj !== "object" || obj === null) {
@@ -11,6 +12,23 @@ const isPagingObject = (obj: unknown): obj is SpotifyApi.PagingObject<unknown> =
     const pagingObject = obj as SpotifyApi.PagingObject<unknown>;
 
     return Array.isArray(pagingObject["items"]) && typeof pagingObject["next"] !== "undefined";
+};
+
+const isNestedPagingObject = (obj: unknown): obj is Record<string, SpotifyApi.PagingObject<unknown>> => {
+    if (typeof obj !== "object" || obj === null || Array.isArray(obj)) {
+        return false;
+    }
+
+    const keys = Object.keys(obj);
+    const firstKey = keys[0];
+
+    if (!firstKey) {
+        return false;
+    }
+
+    const record = obj as Record<string, unknown>;
+
+    return isPagingObject(record[firstKey]);
 };
 
 const CACHE_DEFAULT_TIME = 60000;
@@ -56,28 +74,72 @@ export const spotifyApiRequest = async <T = string>(
 
     const data = (await res.json()) as T;
 
-    if (method === "GET" && options.fetchAll && isPagingObject(data) && data.next !== null) {
-        const uri = data.next.split("v1/")[1];
-        if (!uri) {
-            return data;
+    if (method === "GET" && options.fetchAll) {
+        if (isPagingObject(data) && data.next !== null) {
+            const uri = data.next.split("v1/")[1];
+            if (!uri) {
+                error(500, "Spotify API request failed, Unexpected error");
+            }
+
+            const nextData = (await spotifyApiRequest<T>(svelteFetch, uri, {
+                method: "GET",
+                accessToken,
+                fetchAll: options.fetchAll,
+            })) as SpotifyApi.PagingObject<unknown>;
+
+            const fullData = {
+                ...data,
+                items: [...data["items"], ...nextData["items"]],
+            };
+
+            if (options.cache) {
+                cache.put(uri, fullData, options.cacheTime || CACHE_DEFAULT_TIME);
+            }
+
+            return fullData;
         }
 
-        const nextData = (await spotifyApiRequest<T>(svelteFetch, uri, {
-            method: "GET",
-            accessToken,
-            fetchAll: options.fetchAll,
-        })) as SpotifyApi.PagingObject<unknown>;
+        /**
+         * The Spotify API has multiple cases where the paging object is nested in another object.
+         */
+        if (isNestedPagingObject(data)) {
+            const keys = Object.keys(data);
+            const firstKey = keys[0];
 
-        const fullData = {
-            ...data,
-            items: [...data["items"], ...nextData["items"]],
-        };
+            if (!firstKey) {
+                error(500, "Spotify API request failed, Unexpected error");
+            }
 
-        if (options.cache) {
-            cache.put(uri, fullData, options.cacheTime || CACHE_DEFAULT_TIME);
+            const pagingObject = data[firstKey] as SpotifyApi.PagingObject<unknown>;
+            if (pagingObject.next !== null) {
+                const uri = pagingObject.next.split("v1/")[1];
+                if (!uri) {
+                    error(500, "Spotify API request failed, Unexpected error");
+                }
+
+                const nextData = (await spotifyApiRequest<T>(svelteFetch, uri, {
+                    method: "GET",
+                    accessToken,
+                    fetchAll: options.fetchAll,
+                })) as Record<string, SpotifyApi.PagingObject<unknown>>;
+
+                const nextDataPagingObject = nextData[firstKey] as SpotifyApi.PagingObject<unknown>;
+
+                const fullData = {
+                    ...data,
+                    [firstKey]: {
+                        ...data[firstKey],
+                        items: [...pagingObject["items"], ...nextDataPagingObject["items"]],
+                    },
+                };
+
+                if (options.cache) {
+                    cache.put(uri, fullData, options.cacheTime || CACHE_DEFAULT_TIME);
+                }
+
+                return fullData;
+            }
         }
-
-        return fullData;
     }
 
     if (method === "GET" && options.cache) {

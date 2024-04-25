@@ -14,6 +14,7 @@ export const load = (async ({ fetch, locals }) => {
         {
             method: "GET",
             accessToken: locals.accessToken,
+            fetchAll: true,
         },
     );
 

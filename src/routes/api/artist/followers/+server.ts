@@ -6,20 +6,16 @@ export const GET: RequestHandler = async ({ fetch, locals, url }) => {
         throw error(401, "Unauthorized");
     }
 
-    const playlistId = url.searchParams.get("playlistId");
+    const artistId = url.searchParams.get("artistId");
 
-    if (!playlistId || typeof playlistId !== "string") {
+    if (!artistId || typeof artistId !== "string") {
         throw error(400, "Bad Request");
     }
 
-    const res = await spotifyApiRequest<boolean[]>(
-        fetch,
-        `playlists/${playlistId}/followers/contains?ids=${locals.userId}`,
-        {
-            method: "GET",
-            accessToken: locals.accessToken,
-        },
-    );
+    const res = await spotifyApiRequest<boolean[]>(fetch, `me/following/contains?type=artist&ids=${artistId}`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
 
     return json(res);
 };
@@ -29,13 +25,13 @@ export const PUT: RequestHandler = async ({ fetch, locals, url }) => {
         throw error(401, "Unauthorized");
     }
 
-    const playlistId = url.searchParams.get("playlistId");
+    const artistId = url.searchParams.get("artistId");
 
-    if (!playlistId || typeof playlistId !== "string") {
+    if (!artistId || typeof artistId !== "string") {
         throw error(400, "Bad Request");
     }
 
-    await spotifyApiRequest(fetch, `playlists/${playlistId}/followers`, {
+    await spotifyApiRequest(fetch, `me/following?type=artist&ids=${artistId}`, {
         method: "PUT",
         accessToken: locals.accessToken,
     });
@@ -48,13 +44,13 @@ export const DELETE: RequestHandler = async ({ fetch, locals, url }) => {
         throw error(401, "Unauthorized");
     }
 
-    const playlistId = url.searchParams.get("playlistId");
+    const artistId = url.searchParams.get("artistId");
 
-    if (!playlistId || typeof playlistId !== "string") {
+    if (!artistId || typeof artistId !== "string") {
         throw error(400, "Bad Request");
     }
 
-    await spotifyApiRequest(fetch, `playlists/${playlistId}/followers`, {
+    await spotifyApiRequest(fetch, `me/following?type=artist&ids=${artistId}`, {
         method: "DELETE",
         accessToken: locals.accessToken,
     });

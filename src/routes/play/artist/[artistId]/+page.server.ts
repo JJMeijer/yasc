@@ -50,11 +50,17 @@ export const load = (async ({ params, fetch, locals }) => {
         },
     );
 
-    const [artistData, artistTopTracks, artistAlbums, relatedArtists] = await Promise.all([
+    const artistFollowedPromise = spotifyApiRequest<boolean[]>(fetch, `me/following/contains?type=artist&ids=${artistId}`, {
+        method: "GET",
+        accessToken: locals.accessToken,
+    });
+
+    const [artistData, artistTopTracks, artistAlbums, relatedArtists, artistFollowed] = await Promise.all([
         artistDataPromise,
         artistTopTracksPromise,
         artistAlbumsPromise,
         relatedArtistsPromise,
+        artistFollowedPromise,
     ]);
 
     const trackIds = artistTopTracks.tracks.map((item) => item.id).filter((id) => id) as string[];
@@ -71,5 +77,6 @@ export const load = (async ({ params, fetch, locals }) => {
         albums: artistAlbums.items,
         relatedArtists: relatedArtists.artists,
         likes: likedIds,
+        liked: artistFollowed[0] || false,
     };
 }) satisfies PageServerLoad;

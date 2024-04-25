@@ -3,7 +3,7 @@
 
     export let itemId: string;
     export let liked: boolean = false;
-    export let type: "tracks" | "episodes" | "shows" | "albums" | "playlists";
+    export let type: "tracks" | "episodes" | "shows" | "albums" | "playlists" | "artists";
     export let hideByDefault: boolean = false;
 
     $: isPlaylist = type === "playlists";
@@ -21,10 +21,22 @@
     const onLikeClick = async () => {
         likeClickAnimation();
         let res: Response;
-        if (type !== "playlists") {
-            res = await fetch(`/api/likes?ids=${itemId}&type=${type}`, { method: liked ? "DELETE" : "PUT" });
-        } else {
-            res = await fetch(`/api/playlist/followers?playlistId=${itemId}`, { method: liked ? "DELETE" : "PUT" });
+
+        switch (type) {
+            case "playlists":
+                res = await fetch(`/api/playlist/followers?playlistId=${itemId}`, { method: liked ? "DELETE" : "PUT" });
+                break;
+
+            case "artists":
+                res = await fetch(`/api/artist/followers?artistId=${itemId}`, { method: liked ? "DELETE" : "PUT" });
+                break;
+
+            case "tracks":
+            case "episodes":
+            case "shows":
+            case "albums":
+                res = await fetch(`/api/likes?ids=${itemId}&type=${type}`, { method: liked ? "DELETE" : "PUT" });
+                break;
         }
 
         if (res.ok) {
