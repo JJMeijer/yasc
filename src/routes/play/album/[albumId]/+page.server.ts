@@ -13,6 +13,8 @@ export const load = (async ({ params, fetch, locals }) => {
     const albumData = await spotifyApiRequest<SpotifyApi.AlbumObjectFull>(fetch, `albums/${albumId}`, {
         method: "GET",
         accessToken: locals.accessToken,
+        cache: true,
+        cacheTime: 60 * 60 * 1000,
     });
 
     const trackIds = albumData.tracks.items.map((item) => item.id).filter((id) => id) as string[];

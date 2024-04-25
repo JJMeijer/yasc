@@ -13,6 +13,8 @@ export const load = (async ({ params, fetch, locals }) => {
     const categoryPromise = spotifyApiRequest<SpotifyApi.SingleCategoryResponse>(fetch, `browse/categories/${categoryId}`, {
         method: "GET",
         accessToken: locals.accessToken,
+        cache: true,
+        cacheTime: 60 * 60 * 1000,
     });
 
     const categoryPlaylistsPromise = spotifyApiRequest<SpotifyApi.CategoryPlaylistsResponse>(
@@ -22,6 +24,8 @@ export const load = (async ({ params, fetch, locals }) => {
             method: "GET",
             accessToken: locals.accessToken,
             fetchAll: true,
+            cache: true,
+            cacheTime: 60 * 60 * 1000,
         },
     );
 

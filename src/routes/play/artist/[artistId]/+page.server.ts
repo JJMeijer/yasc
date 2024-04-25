@@ -13,6 +13,8 @@ export const load = (async ({ params, fetch, locals }) => {
     const artistDataPromise = spotifyApiRequest<SpotifyApi.ArtistObjectFull>(fetch, `artists/${artistId}`, {
         method: "GET",
         accessToken: locals.accessToken,
+        cache: true,
+        cacheTime: 60 * 60 * 1000,
     });
 
     const artistTopTracksPromise = spotifyApiRequest<SpotifyApi.ArtistsTopTracksResponse>(
@@ -21,6 +23,8 @@ export const load = (async ({ params, fetch, locals }) => {
         {
             method: "GET",
             accessToken: locals.accessToken,
+            cache: true,
+            cacheTime: 60 * 60 * 1000,
         },
     );
 
@@ -30,6 +34,8 @@ export const load = (async ({ params, fetch, locals }) => {
         {
             method: "GET",
             accessToken: locals.accessToken,
+            cache: true,
+            cacheTime: 60 * 15 * 1000,
         },
     );
 
@@ -39,6 +45,8 @@ export const load = (async ({ params, fetch, locals }) => {
         {
             method: "GET",
             accessToken: locals.accessToken,
+            cache: true,
+            cacheTime: 60 * 60 * 1000,
         },
     );
 

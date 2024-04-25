@@ -40,12 +40,36 @@ export interface ShuffleRequestData {
     state: boolean;
 }
 
-export interface SpotifyRequestOptions {
-    method: "GET" | "PUT" | "POST" | "DELETE";
+interface BaseSpotifyRequestOptions {
     accessToken: string;
-    body?: Record<string, unknown>;
-    fetchAll?: boolean;
 }
+
+interface SpotifyRequestOptionsGET extends BaseSpotifyRequestOptions {
+    method: "GET";
+    fetchAll?: boolean;
+    cache?: boolean;
+    cacheTime?: number;
+}
+
+interface SpotifyRequestOptionsPUT extends BaseSpotifyRequestOptions {
+    method: "PUT";
+    body?: Record<string, unknown>;
+}
+
+interface SpotifyRequestOptionsPOST extends BaseSpotifyRequestOptions {
+    method: "POST";
+    body?: Record<string, unknown>;
+}
+
+interface SpotifyRequestOptionsDELETE extends BaseSpotifyRequestOptions {
+    method: "DELETE";
+}
+
+export type SpotifyRequestOptions =
+    | SpotifyRequestOptionsGET
+    | SpotifyRequestOptionsPUT
+    | SpotifyRequestOptionsPOST
+    | SpotifyRequestOptionsDELETE;
 
 export interface CreatePlaylistData {
     name: string;
