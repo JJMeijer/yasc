@@ -9,7 +9,7 @@ export const load = (async ({ fetch, locals }) => {
 
     const playlistsResponse = await spotifyApiRequest<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
         fetch,
-        "me/playlists?limit=20",
+        "me/playlists?limit=50",
         {
             method: "GET",
             accessToken: locals.accessToken,

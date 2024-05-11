@@ -1,10 +1,12 @@
 <script lang="ts">
     import { navigating } from "$app/stores";
-    import { pageTitleStore } from "$lib/stores";
+    import { pageTitleStore, userOwnedPlaylistsStore } from "$lib/stores";
     import { AccountMenu, LoadingOverlay, MenuNavLink, Player, Search, MenuLibraryDropdown } from "$lib/components";
     import type { LayoutServerData } from "./$types";
 
     export let data: LayoutServerData;
+
+    $: userOwnedPlaylistsStore.set(data.userOwnedPlaylists);
 </script>
 
 <svelte:head>

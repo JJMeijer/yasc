@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { SpotifyTracksPage, TrackItemList, TrackItem, Like, Icon, Modal } from "$lib/components";
+    import { removeUserOwnedPlaylist } from "$lib/stores";
     import { resolveSpotifyUri } from "$lib/utility";
 
     import type { PageData } from "./$types";
@@ -12,6 +13,8 @@
     $: tracks = data.tracks.map((i) => i.track).filter((t) => t !== null) as SpotifyApi.TrackObjectFull[];
 
     const onPlaylistDelete = async () => {
+        removeUserOwnedPlaylist(data.playlist.id);
+
         const res = await fetch(`/api/playlist/followers?playlistId=${data.playlist.id}`, {
             method: "DELETE",
         });
