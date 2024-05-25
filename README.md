@@ -54,7 +54,8 @@ With the default development API credentials it will only be possible to login w
 - [X] Album Likes
 - [X] Artist Likes
 - [X] Radio/Recommendations
-- [ ] Add Track to Playlist
+- [X] Add Track to Playlist
+- [X] Remove Track from Playlist
 - [ ] Create new Playlist
 - [X] Follow/Unfollow Playlist
 - [X] Delete Playlist
