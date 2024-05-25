@@ -20,7 +20,7 @@
 </script>
 
 <div
-    class="h-full flex items-center relative"
+    class="relative flex h-full items-center"
     on:mouseenter={onMouseEnter}
     on:mouseleave={onMouseLeave}
     role="menu"
@@ -28,15 +28,17 @@
 >
     <button
         on:click={onClick}
-        class="border-b-2 pb-0.5 {libraryActive ? 'border-primary/90' : 'hover:border-gray-300 border-transparent'}">Library</button
+        class="border-b-2 pb-0.5 {libraryActive ? 'border-primary/90' : 'border-transparent hover:border-gray-300'}"
     >
+        Library
+    </button>
     {#if open}
         <div
             role="menu"
             tabindex="0"
             on:click={() => (open = false)}
             on:keypress={(event) => event.key === "Enter" && (open = false)}
-            class="absolute z-10 w-40 border border-gray-800/50 flex flex-col left-0 gap-1 top-full bg-gray-900 rounded-md cursor-default"
+            class="absolute left-0 top-full z-10 flex w-40 cursor-default flex-col gap-1 rounded-md border border-gray-800/50 bg-gray-900"
         >
             <MenuLibraryNavLink href="/play/library/playlists" label="Playlists" />
             <MenuLibraryNavLink href="/play/library/tracks" label="Tracks" />

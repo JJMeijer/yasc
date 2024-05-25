@@ -15,9 +15,9 @@
                 </p>
                 <div class="inline-flex">
                     {#each data.album.artists as artist, index}
-                        <a href={resolveSpotifyUri(artist.uri)} class="text-sm text-gray-500 hover:text-gray-400"
-                            >{artist.name}</a
-                        >
+                        <a href={resolveSpotifyUri(artist.uri)} class="text-sm text-gray-500 hover:text-gray-400">
+                            {artist.name}
+                        </a>
                         {#if index < data.album.artists.length - 1}
                             <span class="text-sm text-gray-500">,&nbsp;</span>
                         {/if}
@@ -35,7 +35,9 @@
             />
         </div>
         <p class="text-sm text-gray-500">
-            {data.album.album_type} - <span title="Release Date">{data.album.release_date.substring(0, 4)}</span> -
+            {data.album.album_type} -
+            <span title="Release Date">{data.album.release_date.substring(0, 4)}</span>
+            -
             <span title="Record Label">{data.album.label}</span>
         </p>
     </div>
@@ -44,18 +46,14 @@
         <TrackItemList>
             {#each data.album.tracks.items as track, index}
                 <TrackItem
-                    id={track.id}
-                    liked={data.likes.includes(track.id)}
-                    name={track.name}
-                    artists={track.artists}
-                    duration_ms={track.duration_ms}
+                    {track}
                     {index}
+                    liked={data.likes.includes(track.id)}
                     album={{
                         name: data.album.name,
                         uri: data.album.uri,
                     }}
                     context={{ contextUri: data.album.uri, offset: track.uri }}
-                    disabledReason={track.restrictions?.reason || ""}
                 />
             {/each}
         </TrackItemList>

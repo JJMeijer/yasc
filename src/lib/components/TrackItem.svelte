@@ -13,26 +13,18 @@
         uris: string[];
     }
 
-    interface TrackAlbum {
-        name: string;
-        uri: string;
-    }
-
     type TrackContext = TrackContextByOffset | TrackContextByUris;
 
-    export let id: string;
-    export let name: string;
-    export let artists: SpotifyApi.ArtistObjectSimplified[];
-    export let album: TrackAlbum;
-    export let context: TrackContext;
-    export let duration_ms: number;
+    export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified | SpotifyApi.RecommendationTrackObject;
+
+    export let album: SpotifyApi.AlbumObjectSimplified;
     export let index: number;
     export let liked: boolean = false;
-    export let disabledReason: string = "";
-    export let ownedPlaylistId: string = "";
-    export let snapshotId: string = "";
+    export let context: TrackContext;
 
     let trackMenuOpen = false;
+
+    $: disabledReason = track.restrictions?.reason || "";
 
     const disabledReasonText: Record<string, string> = {
         market: "This track is currently not available in your country",
@@ -64,7 +56,7 @@
         play(deviceId);
     };
 
-    $: trackActive = $playerStateStore?.track_window.current_track.id === id;
+    $: trackActive = $playerStateStore?.track_window.current_track.id === track.id;
 </script>
 
 <div
@@ -74,16 +66,17 @@
     title={disabledReason ? disabledReasonText[disabledReason] || "" : ""}
     class="group flex {disabledReason
         ? 'cursor-not-allowed'
-        : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50 {trackMenuOpen && 'bg-gray-800/50'}"
+        : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50 {trackMenuOpen &&
+        'bg-gray-800/50'}"
 >
     <span class="w-7 {trackActive ? 'text-primary' : disabledReason ? 'text-gray-700' : 'text-gray-500'}">{index + 1}</span>
     <div class="flex flex-grow items-center">
         <div class="flex w-1/2 flex-col gap-0.5 pl-1 pr-4">
-            <span class="text-md truncate {trackActive ? 'text-primary' : disabledReason ? 'text-gray-700' : ''}"
-                >{name}</span
-            >
+            <span class="text-md truncate {trackActive ? 'text-primary' : disabledReason ? 'text-gray-700' : ''}">
+                {track.name}
+            </span>
             <div class="inline-flex flex-wrap">
-                {#each artists as artist, index}
+                {#each track.artists as artist, index}
                     <a
                         aria-disabled={Boolean(disabledReason)}
                         href={resolveSpotifyUri(artist.uri)}
@@ -91,9 +84,11 @@
                             ? 'text-primary/50 hover:text-primary/70'
                             : disabledReason
                               ? 'pointer-events-none text-gray-600'
-                              : 'text-gray-500 hover:text-gray-400'}">{artist.name}</a
+                              : 'text-gray-500 hover:text-gray-400'}"
                     >
-                    {#if index < artists.length - 1}
+                        {artist.name}
+                    </a>
+                    {#if index < track.artists.length - 1}
                         <span class="text-sm text-gray-500">,&nbsp;</span>
                     {/if}
                 {/each}
@@ -105,17 +100,19 @@
                 ? 'text-primary/50 hover:text-primary/70'
                 : disabledReason
                   ? ' pointer-events-none text-gray-600'
-                  : 'text-gray-500 hover:text-gray-400'}">{album.name}</a
+                  : 'text-gray-500 hover:text-gray-400'}"
         >
+            {album.name}
+        </a>
     </div>
 
     <div class="flex h-full flex-row items-center gap-6">
-        <Like type="tracks" itemId={id} {liked} hideByDefault={true} />
+        <Like type="tracks" itemId={track.id} {liked} hideByDefault={true} />
 
         <span class="w-6 text-right {trackActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}">
-            {durationMsToTime(duration_ms)}
+            {durationMsToTime(track.duration_ms)}
         </span>
 
-        <TrackItemMenu {id} {ownedPlaylistId} {snapshotId} bind:open={trackMenuOpen} />
+        <TrackItemMenu {track} {album} bind:open={trackMenuOpen} />
     </div>
 </div>

@@ -88,3 +88,14 @@ export interface DeletePlaylistData {
     snapshotId: string;
     uris: string[];
 }
+
+export interface BaseMessage {
+    type: "success" | "warning" | "error";
+    img?: string;
+    content: string;
+    duration?: number;
+}
+
+export interface Message extends BaseMessage {
+    id: string;
+}

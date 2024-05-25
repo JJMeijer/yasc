@@ -34,18 +34,17 @@
         {/if}
     </a>
     <div class="flex min-w-0 flex-grow flex-col">
-        <p
-            title={trackName}
-            class="select-none truncate"
-        >
+        <p title={trackName} class="select-none truncate">
             {trackName || ""}
         </p>
         <div class="inline">
             {#each artists as artist, index}
                 <a
                     href={resolveSpotifyUri(artist.uri)}
-                    class="text-sm text-gray-500 underline-offset-2 hover:text-gray-400 hover:underline">{artist.name}</a
+                    class="text-sm text-gray-500 underline-offset-2 hover:text-gray-400 hover:underline"
                 >
+                    {artist.name}
+                </a>
                 {#if index < artists.length - 1}
                     <span class="-ml-1 text-sm text-gray-500">,&nbsp;</span>
                 {/if}

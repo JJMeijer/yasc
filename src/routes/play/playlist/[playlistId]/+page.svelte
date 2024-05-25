@@ -3,6 +3,7 @@
     import { SpotifyTracksPage, TrackItemList, TrackItem, Like, Icon, Modal } from "$lib/components";
     import { removeUserOwnedPlaylist } from "$lib/stores";
     import { resolveSpotifyUri } from "$lib/utility";
+    import { setContext } from "svelte";
 
     import type { PageData } from "./$types";
 
@@ -23,22 +24,39 @@
         if (res.status === 200) {
             goto("/play/home");
         }
-    }
+    };
+
+    setContext("playlist", data.playlist);
 </script>
 
 <Modal bind:show={showDeleteModal}>
-    <div class="w-96 rounded-md border-2 border-primary/60 bg-gray-900 text-gray-400 overflow-hidden">
+    <div class="w-96 overflow-hidden rounded-md border-2 border-primary/60 bg-gray-900 text-gray-400">
         <div class="flex flex-col">
             <div class="flex flex-row items-center justify-between border-b border-gray-800 px-4 py-3">
                 <p class="text-xl font-bold">Delete Playlist?</p>
-                <Icon onClick={() => showDeleteModal = false} name="add" title="Close" class="h-5 w-5 rotate-45 text-gray-600 hover:text-gray-400" />
+                <Icon
+                    onClick={() => (showDeleteModal = false)}
+                    name="add"
+                    title="Close"
+                    class="h-5 w-5 rotate-45 text-gray-600 hover:text-gray-400"
+                />
             </div>
-            <p class="px-4 py-4">Are you sure you want to delete playlist "{data.playlist.name}"? This cannot be reversed.</p>
+            <p class="px-4 py-4">
+                Are you sure you want to delete playlist "{data.playlist.name}"? This cannot be reversed.
+            </p>
             <div class="flex flex-row justify-between">
-                <button title="Cancel" class="w-1/2 px-4 py-2.5 text-center text-gray-400 border-t border-gray-800 hover:bg-gray-800" on:click={() => showDeleteModal = false}>
+                <button
+                    title="Cancel"
+                    class="w-1/2 border-t border-gray-800 px-4 py-2.5 text-center text-gray-400 hover:bg-gray-800"
+                    on:click={() => (showDeleteModal = false)}
+                >
                     Cancel
                 </button>
-                <button title="Delete" class="w-1/2 px-4 py-2.5 text-center text-red-400 border-t border-gray-800 hover:bg-gray-800" on:click={onPlaylistDelete}>
+                <button
+                    title="Delete"
+                    class="w-1/2 border-t border-gray-800 px-4 py-2.5 text-center text-red-400 hover:bg-gray-800"
+                    on:click={onPlaylistDelete}
+                >
                     Delete
                 </button>
             </div>
@@ -53,7 +71,12 @@
             {#if !ownedPlaylist}
                 <Like itemId={data.playlist.id} type="playlists" liked={data.liked} />
             {:else}
-                <Icon onClick={() => showDeleteModal = true} title="Delete Playlist" name="delete" class="h-6 w-6 text-gray-800/80 hover:text-red-800/80" />
+                <Icon
+                    onClick={() => (showDeleteModal = true)}
+                    title="Delete Playlist"
+                    name="delete"
+                    class="h-6 w-6 text-gray-800/80 hover:text-red-800/80"
+                />
             {/if}
         </div>
         <p class="text-gray-500">
@@ -82,23 +105,14 @@
         <TrackItemList>
             {#each tracks as track, index}
                 <TrackItem
-                    id={track.id}
-                    liked={data.likes.includes(track.id)}
-                    name={track.name}
-                    artists={track.artists}
-                    duration_ms={track.duration_ms}
-                    album={{
-                        name: track.album.name,
-                        uri: track.album.uri,
-                    }}
+                    {track}
                     {index}
+                    album={track.album}
+                    liked={data.likes.includes(track.id)}
                     context={{
                         contextUri: data.playlist.uri,
                         offset: track.linked_from ? track.linked_from.uri : track.uri,
                     }}
-                    disabledReason={track.restrictions?.reason || ""}
-                    ownedPlaylistId={ownedPlaylist ? data.playlist.id : ""}
-                    snapshotId = {ownedPlaylist ? data.playlist.snapshot_id : ""}
                 />
             {/each}
         </TrackItemList>

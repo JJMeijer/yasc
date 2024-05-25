@@ -8,7 +8,12 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
-<dialog class="backdrop:backdrop-blur-sm bg-transparent outline-none" bind:this={dialog} on:click|self={() => dialog.close()} on:close={() => show = false}>
+<dialog
+    class="bg-transparent outline-none backdrop:backdrop-blur-sm"
+    bind:this={dialog}
+    on:click|self={() => dialog.close()}
+    on:close={() => (show = false)}
+>
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div on:click|stopPropagation>
         <slot />

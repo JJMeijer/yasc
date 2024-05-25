@@ -44,8 +44,6 @@ export const DELETE: RequestHandler = async ({ fetch, locals, request }) => {
         tracks: body.uris.map((uri) => ({ uri })),
     };
 
-    console.log(payload);
-
     await spotifyApiRequest(fetch, `playlists/${body.playlistId}/tracks`, {
         method: "DELETE",
         accessToken: locals.accessToken,

@@ -1,9 +1,9 @@
-<div class="flex flex-row gap-8 w-full">
-    <div class="flex flex-col gap-6 w-1/4 pl-12 py-4">
+<div class="flex w-full flex-row gap-8">
+    <div class="flex w-1/4 flex-col gap-6 py-4 pl-12">
         <slot name="sidebar" />
     </div>
 
-    <div class="flex flex-col w-3/4 custom-scrollbar overflow-y-auto pb-4">
+    <div class="custom-scrollbar flex w-3/4 flex-col overflow-y-auto pb-4">
         <slot name="tracks" />
     </div>
 </div>

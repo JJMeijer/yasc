@@ -13,9 +13,9 @@
                     name: "YASC",
                     getOAuthToken: async (cb) => {
                         const res = await fetch("/api/token");
-                        const newToken = (await res.json() as { accessToken: string }).accessToken;
+                        const newToken = ((await res.json()) as { accessToken: string }).accessToken;
 
-                        return cb(newToken)
+                        return cb(newToken);
                     },
                     volume: 0.5,
                 }),
@@ -88,15 +88,14 @@
     });
 </script>
 
-
-<div class="min-h-[4.5rem] h-[4.5rem] border-primary border-t-2 flex flex-row items-center">
-    <div class="flex h-full flex-row items-center gap-6 w-1/4">
+<div class="flex h-[4.5rem] min-h-[4.5rem] flex-row items-center border-t-2 border-primary">
+    <div class="flex h-full w-1/4 flex-row items-center gap-6">
         <TrackInfo />
     </div>
     <div class="flex w-2/4">
         <PlaybackControls />
     </div>
-    <div class="flex flex-row justify-end w-1/4 gap-2 items-center pr-4">
+    <div class="flex w-1/4 flex-row items-center justify-end gap-2 pr-4">
         <SoundControl />
     </div>
 </div>

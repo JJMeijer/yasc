@@ -64,8 +64,7 @@
             navigator.mediaSession.setActionHandler("previoustrack", null);
             navigator.mediaSession.setActionHandler("nexttrack", null);
         };
-    })
-
+    });
 </script>
 
 <div class="flex w-full flex-col items-center">

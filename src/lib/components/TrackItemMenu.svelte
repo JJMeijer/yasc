@@ -1,14 +1,20 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { getContext, onMount } from "svelte";
 
     import TrackItemMenuRow from "./TrackItemMenuRow.svelte";
+    import TrackItemMenuText from "./TrackItemMenuText.svelte";
     import Icon from "./Icon.svelte";
-    // import { userOwnedPlaylistsStore } from "$lib/stores";
+    import { addMessage, userOwnedPlaylistsStore } from "$lib/stores";
+    import { getImageBySize } from "$lib/utility";
+    import { invalidateAll } from "$app/navigation";
 
-    export let id: string;
+    export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified | SpotifyApi.RecommendationTrackObject;
+    export let album: SpotifyApi.AlbumObjectSimplified;
     export let open = false;
-    export let ownedPlaylistId: string = "";
-    export let snapshotId: string = "";
+
+    $: playlist = getContext<SpotifyApi.SinglePlaylistResponse>("playlist")
+    $: ownedPlaylistId = playlist?.id;
+    $: snapshotId = playlist?.snapshot_id;
 
     let element: HTMLButtonElement;
 
@@ -33,47 +39,58 @@
     });
 
     const onQueueClick = async () => {
-        await fetch(`/api/queue?uri=spotify:track:${id}`, {
+        await fetch(`/api/queue?uri=spotify:track:${track.id}`, {
             method: "POST",
         });
     };
 
-    // const onPlaylistClick = async (playlist: SpotifyApi.PlaylistObjectSimplified) => {
-    //     const payload = {
-    //         playlistId: playlist.id,
-    //         uris: [`spotify:track:${id}`],
-    //     };
 
-    //     const res = await fetch("/api/playlist/tracks/append", {
-    //         method: "POST",
-    //         body: JSON.stringify(payload),
-    //     });
+    const onPlaylistClick = async (playlist: SpotifyApi.PlaylistObjectSimplified) => {
+        const payload = {
+            playlistId: playlist.id,
+            uris: [`spotify:track:${track.id}`],
+        };
 
-    //     if (res.ok) {
-    //         console.log("added");
-    //     }
-    // };
+        const res = await fetch("/api/playlist/tracks/append", {
+            method: "POST",
+            body: JSON.stringify(payload),
+        });
 
-    // const onRemoveClick = async () => {
-    //     if (!ownedPlaylistId) {
-    //         return;
-    //     }
+        if (res.ok) {
+            addMessage({
+                type: "success",
+                img: getImageBySize(album.images, 64),
+                content: "Added to playlist.",
+            });
+        }
+    };
 
-    //     const payload = {
-    //         playlistId: ownedPlaylistId,
-    //         uris: [`spotify:track:${id}`],
-    //         snapshotId,
-    //     };
+    const onRemoveClick = async () => {
+        if (!ownedPlaylistId) {
+            return;
+        }
 
-    //     const res = await fetch(`/api/playlist/tracks/delete`, {
-    //         method: "DELETE",
-    //         body: JSON.stringify(payload),
-    //     });
+        const payload = {
+            playlistId: ownedPlaylistId,
+            uris: [`spotify:track:${track.id}`],
+            snapshotId,
+        };
 
-    //     if (res.ok) {
-    //         console.log("removed");
-    //     }
-    // };
+        const res = await fetch(`/api/playlist/tracks/delete`, {
+            method: "DELETE",
+            body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+            addMessage({
+                type: "success",
+                img: getImageBySize(album.images, 64),
+                content: "Removed from playlist.",
+            });
+
+            invalidateAll();
+        }
+    };
 </script>
 
 <button on:click={onMenuClick} bind:this={element} class="relative h-full">
@@ -83,30 +100,30 @@
         <div
             class="absolute right-0 z-10 mt-2 flex w-48 cursor-default flex-col rounded-md border border-gray-700/50 bg-gray-800"
         >
-            <!-- <TrackItemMenuRow>
+            <TrackItemMenuRow>
                 <button class="relative contents">
                     <Icon name="arrow-left" class="mt-0.5 h-5 w-5 text-gray-500" title="Add to Playlist" />
-                    <span class="flex-grow text-left">Add to Playlist</span>
+                    <TrackItemMenuText>Add to Playlist</TrackItemMenuText>
                     <div
-                        class="custom-scrollbar absolute right-[103%] top-0 z-20 flex max-h-72 w-52 flex-col overflow-y-auto rounded-md border border-gray-700/50 bg-gray-800"
+                        class="custom-scrollbar absolute right-[103%] top-0 gap-0.5 z-20 flex max-h-72 w-52 flex-col overflow-y-auto rounded-md border border-gray-700/50 bg-gray-800"
                     >
                         {#each $userOwnedPlaylistsStore as playlist}
                             <TrackItemMenuRow>
-                                <button class="contents w-full" on:click={() => onPlaylistClick(playlist)}>
+                                <button class="contents" on:click={() => onPlaylistClick(playlist)}>
                                     <img
                                         src={playlist.images[0]?.url}
                                         alt={playlist.name}
                                         title={playlist.name}
                                         class="h-8 w-8 select-none rounded-full object-cover"
                                     />
-                                    <span>{playlist.name}</span>
+                                    <TrackItemMenuText>{playlist.name}</TrackItemMenuText>
                                 </button>
                             </TrackItemMenuRow>
                         {/each}
-                        <TrackItemMenuRow>
+                        <!-- <TrackItemMenuRow>
                             <Icon name="add" class="mt-0.5 h-5 w-5 text-gray-500" title="Create New Playlist" />
-                            <span class="flex-grow text-left">Create New Playlist</span>
-                        </TrackItemMenuRow>
+                            <TrackItemMenuText>Create New Playlist</TrackItemMenuText>
+                        </TrackItemMenuRow> -->
                     </div>
                 </button>
             </TrackItemMenuRow>
@@ -114,20 +131,20 @@
                 <TrackItemMenuRow>
                     <button on:click={onRemoveClick} class="contents">
                         <Icon name="delete" class="mt-0.5 h-5 w-5 text-gray-500" title="Remove from Playlist" />
-                        <span class="flex-grow text-left">Remove</span>
+                        <TrackItemMenuText>Remove</TrackItemMenuText>
                     </button>
                 </TrackItemMenuRow>
-            {/if} -->
+            {/if}
             <TrackItemMenuRow>
                 <button on:click={onQueueClick} class="contents">
                     <Icon name="add-to-queue" class="mt-0.5 h-5 w-5 text-gray-500" title="Add to Queue" />
-                    <span class="flex-grow text-left">Add to Queue</span>
+                    <TrackItemMenuText>Add to Queue</TrackItemMenuText>
                 </button>
             </TrackItemMenuRow>
             <TrackItemMenuRow>
-                <a href={`/play/radio?track=${id}`} class="contents">
+                <a href={`/play/radio?track=${track.id}`} class="contents">
                     <Icon name="radio" class="mt-0.5 h-5 w-5 text-gray-500" title="Like" />
-                    <span class="flex-grow text-left">Radio</span>
+                    <TrackItemMenuText>Radio</TrackItemMenuText>
                 </a>
             </TrackItemMenuRow>
         </div>

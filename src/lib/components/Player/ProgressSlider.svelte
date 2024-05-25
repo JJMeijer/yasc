@@ -80,7 +80,7 @@
     };
 </script>
 
-<div class="flex w-full gap-3 mt-0.5">
+<div class="mt-0.5 flex w-full gap-3">
     <p class="select-none text-xs">{position ? durationMsToTime(position) : "0:00"}</p>
 
     <!-- svelte-ignore a11y-click-events-have-key-events -->

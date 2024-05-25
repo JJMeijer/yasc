@@ -2,7 +2,7 @@
     export let title: string;
 </script>
 
-<div class="flex flex-col w-1/2">
+<div class="flex w-1/2 flex-col">
     <p class="text-lg">{title}</p>
     <slot />
 </div>

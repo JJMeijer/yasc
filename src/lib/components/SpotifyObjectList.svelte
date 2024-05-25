@@ -13,7 +13,14 @@
         | SpotifyApi.ShowObjectSimplified[]
         | CustomCategoryObject[];
 
-    const getSubLabel = (item: SpotifyApi.AlbumObjectSimplified | SpotifyApi.PlaylistObjectSimplified | SpotifyApi.ArtistObjectFull | SpotifyApi.ShowObjectSimplified | CustomCategoryObject) => {
+    const getSubLabel = (
+        item:
+            | SpotifyApi.AlbumObjectSimplified
+            | SpotifyApi.PlaylistObjectSimplified
+            | SpotifyApi.ArtistObjectFull
+            | SpotifyApi.ShowObjectSimplified
+            | CustomCategoryObject,
+    ) => {
         if (isAlbumObjectSimplified(item)) {
             if ($page.route.id === "/play/artist/[artistId]") {
                 return item.release_date.split("-")[0] || "";
@@ -26,10 +33,8 @@
     };
 </script>
 
-
-<ObjectList title={title}>
+<ObjectList {title}>
     {#each items as item}
         <SpotifyObjectListItem uri={item.uri} images={item.images} label={item.name} subLabel={getSubLabel(item)} />
     {/each}
-
 </ObjectList>

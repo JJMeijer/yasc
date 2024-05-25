@@ -8,4 +8,4 @@
     export let subLabel: string = "";
 </script>
 
-<ObjectListItem uri={resolveSpotifyUri(uri)} imageSrc={getImageBySize(images, 300)} label={label} subLabel={subLabel} />
+<ObjectListItem uri={resolveSpotifyUri(uri)} imageSrc={getImageBySize(images, 300)} {label} {subLabel} />

@@ -1,7 +1,15 @@
 <script lang="ts">
     import { navigating } from "$app/stores";
     import { pageTitleStore, userOwnedPlaylistsStore } from "$lib/stores";
-    import { AccountMenu, LoadingOverlay, MenuNavLink, Player, Search, MenuLibraryDropdown } from "$lib/components";
+    import {
+        AccountMenu,
+        LoadingOverlay,
+        MenuNavLink,
+        Player,
+        Search,
+        MenuLibraryDropdown,
+        Messages,
+    } from "$lib/components";
     import type { LayoutServerData } from "./$types";
 
     export let data: LayoutServerData;
@@ -30,9 +38,12 @@
             <div class="flex min-h-0 flex-grow">
                 <slot />
             </div>
+
             {#if $navigating}
                 <LoadingOverlay />
             {/if}
+
+            <Messages />
         </div>
     </div>
     <Player />

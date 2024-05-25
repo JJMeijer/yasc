@@ -86,13 +86,13 @@
 
 <div class="contents">
     <a href="/play/queue">
-        <Icon name="queue" class="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary" />
+        <Icon name="queue" class="h-6 w-6 cursor-pointer text-gray-400 hover:text-primary" />
     </a>
     <div class="ml-2 flex items-center gap-2">
         <Icon
             onClick={onVolumeIconClick}
             name={volumeIcon}
-            class="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary"
+            class="h-6 w-6 cursor-pointer text-gray-400 hover:text-primary"
         />
 
         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -101,16 +101,16 @@
             bind:this={volumeSlider}
             bind:offsetWidth={volumeSliderWidth}
             on:click={onVolumeSliderClick}
-            class="w-24 h-3 flex cursor-pointer items-center"
+            class="flex h-3 w-24 cursor-pointer items-center"
         >
-            <div class="w-full h-1 flex bg-gray-700 rounded-md">
-                <div class="relative h-full bg-primary flex items-center rounded-md" style={`width: ${volume * 100}%`}>
+            <div class="flex h-1 w-full rounded-md bg-gray-700">
+                <div class="relative flex h-full items-center rounded-md bg-primary" style={`width: ${volume * 100}%`}>
                     <div
                         draggable={true}
                         on:dragend={onDragEnd}
                         on:dragstart={onDragStart}
                         on:drag={onDrag}
-                        class="absolute h-3 w-3 rounded-full left-full bg-gray-300 -translate-x-1/2"
+                        class="absolute left-full h-3 w-3 -translate-x-1/2 rounded-full bg-gray-300"
                     ></div>
                 </div>
             </div>

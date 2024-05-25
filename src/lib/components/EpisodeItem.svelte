@@ -27,8 +27,6 @@
     const progress = ((resumePositionMs / duration_ms) * 100).toFixed(1);
 
     const play = (deviceId: string) => {
-        console.log(resumePositionMs);
-
         fetch("/api/play", {
             method: "PUT",
             body: JSON.stringify({
@@ -61,38 +59,39 @@
     role="button"
     on:dblclick={onEpisodeDoubleClick}
     title={disabledReason ? disabledReasonText[disabledReason] || "" : ""}
-    class="flex relative {disabledReason
+    class="relative flex {disabledReason
         ? 'cursor-not-allowed'
         : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50"
 >
-
-    <span class="w-7 {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-700' : 'text-gray-500'}">{index + 1}</span>
+    <span class="w-7 {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-700' : 'text-gray-500'}">
+        {index + 1}
+    </span>
 
     <div class="flex flex-grow items-center">
         <span
             class="flex h-11 w-3/4 flex-row items-center pl-1 pr-4 {episodeActive
                 ? 'text-primary'
                 : disabledReason
-                ? 'text-gray-700'
-                : ''}"
+                  ? 'text-gray-700'
+                  : ''}"
         >
             {name}
         </span>
         <span class="w-1/4">
             {#if resumePositionMs > 0}
-                <div title="{progress}%" class="relative w-32 bg-gray-800 h-2 rounded-full">
-                    <div class="bg-primary/70 rounded-full absolute left-0 h-2" style="width: {progress}%;"></div>
+                <div title="{progress}%" class="relative h-2 w-32 rounded-full bg-gray-800">
+                    <div class="absolute left-0 h-2 rounded-full bg-primary/70" style="width: {progress}%;"></div>
                 </div>
             {/if}
             {#if fullyPlayed}
-                <Icon class="text-primary/90 w-4 h-4 cursor-default" name="check" title="Played" />
+                <Icon class="h-4 w-4 cursor-default text-primary/90" name="check" title="Played" />
             {/if}
         </span>
     </div>
 
     <Like type="episodes" itemId={id} {liked} />
 
-    <span class="w-10 text-right {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}">
+    <span class="ml-2 w-10 text-right {episodeActive ? 'text-primary' : disabledReason ? 'text-gray-600' : 'text-gray-500'}">
         {durationMsToTime(duration_ms)}
     </span>
 </div>

@@ -47,16 +47,10 @@
             <TrackItemList>
                 {#each data.topTracks.slice(0, topTracksAmount) as track, index}
                     <TrackItem
-                        id={track.id}
+                        {track}
                         {index}
                         liked={data.likes.includes(track.id)}
-                        name={track.name}
-                        artists={track.artists}
-                        duration_ms={track.duration_ms}
-                        album={{
-                            name: track.album.name,
-                            uri: track.album.uri,
-                        }}
+                        album={track.album}
                         context={{ uris: data.topTracks.map((t) => t.uri).slice(index) }}
                     />
                 {/each}

@@ -1,3 +1,3 @@
-<div class="flex flex-col gap-8 pl-12 pb-4 overflow-y-auto custom-scrollbar">
+<div class="custom-scrollbar flex flex-col gap-8 overflow-y-auto pb-4 pl-12">
     <slot />
 </div>

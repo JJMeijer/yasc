@@ -21,7 +21,7 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const playlistTracksDataPromise = spotifyApiRequest<SpotifyApi.PlaylistTrackResponse>(
         fetch,
-        `playlists/${playlistId}/tracks?limit=50&market=from_token&fields=next,items(track(album(name,uri),artists,duration_ms,id,name,uri,linked_from,restrictions,is_playable))`,
+        `playlists/${playlistId}/tracks?limit=50&market=from_token&fields=next,items(track(album(name,uri,images),artists,duration_ms,id,name,uri,linked_from,restrictions,is_playable))`,
         {
             accessToken: locals.accessToken,
             method: "GET",

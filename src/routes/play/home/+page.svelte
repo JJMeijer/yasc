@@ -5,7 +5,7 @@
     export let data: PageServerData;
 
     $: playlists = data.playlists;
-    $: featured = data.featured
+    $: featured = data.featured;
 </script>
 
 <GeneralPage>
