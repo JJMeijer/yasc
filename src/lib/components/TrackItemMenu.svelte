@@ -7,6 +7,9 @@
 
     export let id: string;
     export let open = false;
+    export let ownedPlaylistId: string = "";
+    export let snapshotId: string = "";
+
     let element: HTMLButtonElement;
 
     const onMenuClick = () => {
@@ -34,6 +37,43 @@
             method: "POST",
         });
     };
+
+    // const onPlaylistClick = async (playlist: SpotifyApi.PlaylistObjectSimplified) => {
+    //     const payload = {
+    //         playlistId: playlist.id,
+    //         uris: [`spotify:track:${id}`],
+    //     };
+
+    //     const res = await fetch("/api/playlist/tracks/append", {
+    //         method: "POST",
+    //         body: JSON.stringify(payload),
+    //     });
+
+    //     if (res.ok) {
+    //         console.log("added");
+    //     }
+    // };
+
+    // const onRemoveClick = async () => {
+    //     if (!ownedPlaylistId) {
+    //         return;
+    //     }
+
+    //     const payload = {
+    //         playlistId: ownedPlaylistId,
+    //         uris: [`spotify:track:${id}`],
+    //         snapshotId,
+    //     };
+
+    //     const res = await fetch(`/api/playlist/tracks/delete`, {
+    //         method: "DELETE",
+    //         body: JSON.stringify(payload),
+    //     });
+
+    //     if (res.ok) {
+    //         console.log("removed");
+    //     }
+    // };
 </script>
 
 <button on:click={onMenuClick} bind:this={element} class="relative h-full">
@@ -41,25 +81,26 @@
 
     {#if open}
         <div
-            class="absolute right-0 z-10 mt-2 flex w-48 cursor-default flex-col rounded-md border border-gray-800/50 bg-gray-900"
+            class="absolute right-0 z-10 mt-2 flex w-48 cursor-default flex-col rounded-md border border-gray-700/50 bg-gray-800"
         >
             <!-- <TrackItemMenuRow>
                 <button class="relative contents">
                     <Icon name="arrow-left" class="mt-0.5 h-5 w-5 text-gray-500" title="Add to Playlist" />
                     <span class="flex-grow text-left">Add to Playlist</span>
                     <div
-                        class="absolute right-[102%] overflow-y-auto max-h-72 top-0 z-10 flex w-48 flex-col rounded-md border border-gray-800/50 bg-gray-900"
+                        class="custom-scrollbar absolute right-[103%] top-0 z-20 flex max-h-72 w-52 flex-col overflow-y-auto rounded-md border border-gray-700/50 bg-gray-800"
                     >
                         {#each $userOwnedPlaylistsStore as playlist}
                             <TrackItemMenuRow>
-                                <img
-                                    src={playlist.images[0]?.url}
-                                    alt={playlist.name}
-                                    title={playlist.name}
-                                    class="h-8 w-8 rounded-full select-none object-cover"
-
-                                />
-                                <span>{playlist.name}</span>
+                                <button class="contents w-full" on:click={() => onPlaylistClick(playlist)}>
+                                    <img
+                                        src={playlist.images[0]?.url}
+                                        alt={playlist.name}
+                                        title={playlist.name}
+                                        class="h-8 w-8 select-none rounded-full object-cover"
+                                    />
+                                    <span>{playlist.name}</span>
+                                </button>
                             </TrackItemMenuRow>
                         {/each}
                         <TrackItemMenuRow>
@@ -68,7 +109,15 @@
                         </TrackItemMenuRow>
                     </div>
                 </button>
-            </TrackItemMenuRow> -->
+            </TrackItemMenuRow>
+            {#if ownedPlaylistId}
+                <TrackItemMenuRow>
+                    <button on:click={onRemoveClick} class="contents">
+                        <Icon name="delete" class="mt-0.5 h-5 w-5 text-gray-500" title="Remove from Playlist" />
+                        <span class="flex-grow text-left">Remove</span>
+                    </button>
+                </TrackItemMenuRow>
+            {/if} -->
             <TrackItemMenuRow>
                 <button on:click={onQueueClick} class="contents">
                     <Icon name="add-to-queue" class="mt-0.5 h-5 w-5 text-gray-500" title="Add to Queue" />

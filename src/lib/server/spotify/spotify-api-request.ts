@@ -41,7 +41,7 @@ export const spotifyApiRequest = async <T = string>(
     const { accessToken, method } = options;
 
     let payload = "";
-    if (method === "POST" || method === "PUT") {
+    if (method === "POST" || method === "PUT" || method === "DELETE") {
         payload = options.body ? JSON.stringify(options.body) : "";
     }
 

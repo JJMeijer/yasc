@@ -63,6 +63,7 @@ interface SpotifyRequestOptionsPOST extends BaseSpotifyRequestOptions {
 
 interface SpotifyRequestOptionsDELETE extends BaseSpotifyRequestOptions {
     method: "DELETE";
+    body?: Record<string, unknown>;
 }
 
 export type SpotifyRequestOptions =
@@ -79,5 +80,11 @@ export interface CreatePlaylistData {
 
 export interface AppendPlaylistData {
     playlistId: string;
+    uris: string[];
+}
+
+export interface DeletePlaylistData {
+    playlistId: string;
+    snapshotId: string;
     uris: string[];
 }

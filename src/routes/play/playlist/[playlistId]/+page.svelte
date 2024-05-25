@@ -11,6 +11,7 @@
 
     $: descriptionParts = data.playlist.description?.split(/<a href=(.+?)<\/a>/).filter((x: string) => x) || [];
     $: tracks = data.tracks.map((i) => i.track).filter((t) => t !== null) as SpotifyApi.TrackObjectFull[];
+    $: ownedPlaylist = data.playlist.owner.display_name === data.username;
 
     const onPlaylistDelete = async () => {
         removeUserOwnedPlaylist(data.playlist.id);
@@ -49,7 +50,7 @@
     <div slot="sidebar" class="contents">
         <div class="flex flex-row items-center justify-between pr-1">
             <p class="text-3xl">{data.playlist.name}</p>
-            {#if data.playlist.owner.display_name !== data.username}
+            {#if !ownedPlaylist}
                 <Like itemId={data.playlist.id} type="playlists" liked={data.liked} />
             {:else}
                 <Icon onClick={() => showDeleteModal = true} title="Delete Playlist" name="delete" class="h-6 w-6 text-gray-800/80 hover:text-red-800/80" />
@@ -96,6 +97,8 @@
                         offset: track.linked_from ? track.linked_from.uri : track.uri,
                     }}
                     disabledReason={track.restrictions?.reason || ""}
+                    ownedPlaylistId={ownedPlaylist ? data.playlist.id : ""}
+                    snapshotId = {ownedPlaylist ? data.playlist.snapshot_id : ""}
                 />
             {/each}
         </TrackItemList>

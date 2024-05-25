@@ -12,7 +12,7 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const playlistDataPromise = spotifyApiRequest<SpotifyApi.SinglePlaylistResponse>(
         fetch,
-        `playlists/${playlistId}?market=from_token&fields=description,images,name,uri,followers(total),owner,public,id`,
+        `playlists/${playlistId}?market=from_token&fields=description,images,name,uri,followers(total),owner,public,id, snapshot_id`,
         {
             accessToken: locals.accessToken,
             method: "GET",

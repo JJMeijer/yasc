@@ -29,6 +29,8 @@
     export let index: number;
     export let liked: boolean = false;
     export let disabledReason: string = "";
+    export let ownedPlaylistId: string = "";
+    export let snapshotId: string = "";
 
     let trackMenuOpen = false;
 
@@ -114,6 +116,6 @@
             {durationMsToTime(duration_ms)}
         </span>
 
-        <TrackItemMenu {id} bind:open={trackMenuOpen} />
+        <TrackItemMenu {id} {ownedPlaylistId} {snapshotId} bind:open={trackMenuOpen} />
     </div>
 </div>
