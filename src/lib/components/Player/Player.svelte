@@ -88,7 +88,7 @@
     });
 </script>
 
-<div class="flex h-[4.5rem] min-h-[4.5rem] flex-row items-center border-t-2 border-primary">
+<div class="flex h-[5rem] min-h-[5rem] flex-row items-center border-t-2 border-primary">
     <div class="flex h-full w-1/4 flex-row items-center gap-6">
         <TrackInfo />
     </div>

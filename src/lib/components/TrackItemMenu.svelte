@@ -7,19 +7,28 @@
     import { addMessage, userOwnedPlaylistsStore } from "$lib/stores";
     import { getImageBySize } from "$lib/utility";
     import { invalidateAll } from "$app/navigation";
+    import { fly } from "svelte/transition";
 
     export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified | SpotifyApi.RecommendationTrackObject;
     export let album: SpotifyApi.AlbumObjectSimplified;
     export let open = false;
+    export let playlistOpen = false;
 
-    $: playlist = getContext<SpotifyApi.SinglePlaylistResponse>("playlist")
-    $: ownedPlaylistId = playlist?.id;
+    $: playlist = getContext<SpotifyApi.SinglePlaylistResponse>("playlist");
+    $: ownedPlaylistId = playlist?.id && $userOwnedPlaylistsStore.find((p) => p.id === playlist.id) ? playlist.id : "";
     $: snapshotId = playlist?.snapshot_id;
 
     let element: HTMLButtonElement;
 
     const onMenuClick = () => {
         open = !open;
+        if (playlistOpen) playlistOpen = false;
+    };
+
+    const onAddPlaylistClick = (event: MouseEvent) => {
+        event.stopPropagation();
+        playlistOpen = !playlistOpen;
+        if (!playlistOpen) open = false;
     };
 
     const handleGlobalClick = (event: MouseEvent) => {
@@ -27,6 +36,7 @@
 
         if (!element.contains(event.target as Node)) {
             open = false;
+            playlistOpen = false;
         }
     };
 
@@ -43,7 +53,6 @@
             method: "POST",
         });
     };
-
 
     const onPlaylistClick = async (playlist: SpotifyApi.PlaylistObjectSimplified) => {
         const payload = {
@@ -98,33 +107,36 @@
 
     {#if open}
         <div
-            class="absolute right-0 z-10 mt-2 flex w-48 cursor-default flex-col rounded-md border border-gray-700/50 bg-gray-800"
+            class="absolute z-10 flex w-48 -translate-x-[calc(100%-1.5rem)] transform cursor-default flex-col rounded-md border border-gray-700/50 bg-gray-800"
         >
             <TrackItemMenuRow>
-                <button class="relative contents">
+                <button on:click={onAddPlaylistClick} class="relative contents">
                     <Icon name="arrow-left" class="mt-0.5 h-5 w-5 text-gray-500" title="Add to Playlist" />
                     <TrackItemMenuText>Add to Playlist</TrackItemMenuText>
-                    <div
-                        class="custom-scrollbar absolute right-[103%] top-0 gap-0.5 z-20 flex max-h-72 w-52 flex-col overflow-y-auto rounded-md border border-gray-700/50 bg-gray-800"
-                    >
-                        {#each $userOwnedPlaylistsStore as playlist}
-                            <TrackItemMenuRow>
-                                <button class="contents" on:click={() => onPlaylistClick(playlist)}>
-                                    <img
-                                        src={playlist.images[0]?.url}
-                                        alt={playlist.name}
-                                        title={playlist.name}
-                                        class="h-8 w-8 select-none rounded-full object-cover"
-                                    />
-                                    <TrackItemMenuText>{playlist.name}</TrackItemMenuText>
-                                </button>
-                            </TrackItemMenuRow>
-                        {/each}
-                        <!-- <TrackItemMenuRow>
+                    {#if playlistOpen}
+                        <div
+                            transition:fly
+                            class="custom-scrollbar absolute right-[103%] top-0 z-20 flex max-h-72 w-52 flex-col gap-0.5 overflow-y-auto rounded-md border border-gray-700/50 bg-gray-800"
+                        >
+                            {#each $userOwnedPlaylistsStore as playlist}
+                                <TrackItemMenuRow>
+                                    <button class="contents" on:click={() => onPlaylistClick(playlist)}>
+                                        <img
+                                            src={playlist.images[0]?.url}
+                                            alt={playlist.name}
+                                            title={playlist.name}
+                                            class="h-8 w-8 select-none rounded-full object-cover"
+                                        />
+                                        <TrackItemMenuText>{playlist.name}</TrackItemMenuText>
+                                    </button>
+                                </TrackItemMenuRow>
+                            {/each}
+                            <!-- <TrackItemMenuRow>
                             <Icon name="add" class="mt-0.5 h-5 w-5 text-gray-500" title="Create New Playlist" />
                             <TrackItemMenuText>Create New Playlist</TrackItemMenuText>
                         </TrackItemMenuRow> -->
-                    </div>
+                        </div>
+                    {/if}
                 </button>
             </TrackItemMenuRow>
             {#if ownedPlaylistId}

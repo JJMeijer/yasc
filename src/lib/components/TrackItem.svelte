@@ -64,7 +64,7 @@
     role="button"
     on:dblclick={onTrackDoubleClick}
     title={disabledReason ? disabledReasonText[disabledReason] || "" : ""}
-    class="group flex {disabledReason
+    class="group select-none flex {disabledReason
         ? 'cursor-not-allowed'
         : 'cursor-default'} flex-row items-center gap-1 rounded-sm border-b border-gray-700/20 p-1 outline-none hover:bg-gray-800/50 {trackMenuOpen &&
         'bg-gray-800/50'}"
