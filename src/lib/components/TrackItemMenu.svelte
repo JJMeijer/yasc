@@ -10,7 +10,7 @@
     import { fly } from "svelte/transition";
 
     export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified | SpotifyApi.RecommendationTrackObject;
-    export let album: SpotifyApi.AlbumObjectSimplified;
+    export let album: SpotifyApi.AlbumObjectSimplified | SpotifyApi.RecommendationAlbumObject;
     export let open = false;
     export let playlistOpen = false;
 

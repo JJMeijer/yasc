@@ -17,7 +17,7 @@
 
     export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified | SpotifyApi.RecommendationTrackObject;
 
-    export let album: SpotifyApi.AlbumObjectSimplified;
+    export let album: SpotifyApi.AlbumObjectSimplified | SpotifyApi.RecommendationAlbumObject;
     export let index: number;
     export let liked: boolean = false;
     export let context: TrackContext;

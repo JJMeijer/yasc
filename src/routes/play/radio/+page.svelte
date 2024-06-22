@@ -52,18 +52,11 @@
         <TrackItemList>
             {#each data.tracks as track, index}
                 <TrackItem
-                    id={track.id}
-                    liked={data.likes.includes(track.id)}
-                    name={track.name}
-                    artists={track.artists}
-                    duration_ms={track.duration_ms}
-                    album={{
-                        name: track.album.name,
-                        uri: track.album.uri,
-                    }}
+                    track={track}
                     {index}
+                    album={track.album}
+                    liked={data.likes.includes(track.id)}
                     context={{ uris: data.tracks.slice(index).map((track) => track.uri) }}
-                    disabledReason={track.restrictions?.reason || ""}
                 />
             {/each}
         </TrackItemList>
