@@ -31,8 +31,6 @@ export const load = (async ({ params, fetch, locals }) => {
 
     const [categoryResponse, categoryPlaylistsResponse] = await Promise.all([categoryPromise, categoryPlaylistsPromise]);
 
-    console.log(categoryPlaylistsResponse);
-
     return {
         category: categoryResponse,
         // Sometimes there are nulls inside the items array ??

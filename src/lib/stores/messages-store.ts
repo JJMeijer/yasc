@@ -9,7 +9,6 @@ export const removeMessage = (id: string) => {
 
 export const addMessage = (baseMessage: BaseMessage) => {
     const { duration = 5000 } = baseMessage;
-    console.log(baseMessage);
     const message = {
         ...baseMessage,
         id: crypto.randomUUID(),
