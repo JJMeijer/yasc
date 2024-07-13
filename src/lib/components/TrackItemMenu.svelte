@@ -4,15 +4,20 @@
     import TrackItemMenuRow from "./TrackItemMenuRow.svelte";
     import TrackItemMenuText from "./TrackItemMenuText.svelte";
     import Icon from "./Icon.svelte";
-    import { addMessage, userOwnedPlaylistsStore } from "$lib/stores";
+    import { addMessage, addUserOwnedPlaylist, userOwnedPlaylistsStore } from "$lib/stores";
     import { getImageBySize } from "$lib/utility";
-    import { invalidateAll } from "$app/navigation";
+    import { goto, invalidateAll } from "$app/navigation";
     import { fly } from "svelte/transition";
+    import Modal from "./Modal.svelte";
+    import FormInputText from "./FormInputText.svelte";
+    import FormInputTextarea from "./FormInputTextarea.svelte";
 
     export let track: SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified | SpotifyApi.RecommendationTrackObject;
     export let album: SpotifyApi.AlbumObjectSimplified | SpotifyApi.RecommendationAlbumObject;
     export let open = false;
     export let playlistOpen = false;
+
+    export let showCreatePlaylistModal = false;
 
     $: playlist = getContext<SpotifyApi.SinglePlaylistResponse>("playlist");
     $: ownedPlaylistId = playlist?.id && $userOwnedPlaylistsStore.find((p) => p.id === playlist.id) ? playlist.id : "";
@@ -100,7 +105,77 @@
             invalidateAll();
         }
     };
+
+    const onCreatePlaylist = async (event: SubmitEvent) => {
+        event.preventDefault();
+
+        const form = event.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const name = formData.get("name") as string;
+        const description = formData.get("description") as string;
+
+        const res = await fetch("/api/playlist/create", {
+            method: "POST",
+            body: JSON.stringify({ name, description, uris: [track.uri] }),
+        });
+
+        if (!res.ok) {
+            addMessage({
+                type: "error",
+                content: "An error occured, did you provide a name?",
+            });
+            form.reset();
+            showCreatePlaylistModal = false;
+            return;
+        }
+
+        const playlist = await res.json();
+        showCreatePlaylistModal = false;
+        addUserOwnedPlaylist(playlist)
+        goto(`/play/playlist/${playlist.id}`);
+    };
+
+    const onCreatePlaylistCancel = (event: MouseEvent) => {
+        event.preventDefault();
+        showCreatePlaylistModal = false;
+    };
 </script>
+
+<Modal bind:show={showCreatePlaylistModal}>
+    <div class="w-96 overflow-hidden rounded-md border-2 border-primary/60 bg-gray-900 text-gray-400">
+        <form class="flex flex-col" on:submit={onCreatePlaylist}>
+            <div class="flex flex-row items-center justify-between border-b border-gray-800 px-4 py-3">
+                <p class="text-xl font-bold">Create New Playlist</p>
+                <Icon
+                    onClick={() => (showCreatePlaylistModal = false)}
+                    name="add"
+                    title="Close"
+                    class="h-5 w-5 rotate-45 text-gray-600 hover:text-gray-400"
+                />
+            </div>
+            <fieldset class="flex flex-col gap-2 px-3 py-3">
+                <FormInputText label="Name" name="name" />
+                <FormInputTextarea label="Description" name="description" />
+            </fieldset>
+            <div class="flex flex-row justify-between">
+                <button
+                    title="Cancel"
+                    class="w-1/2 border-t border-gray-800 px-4 py-2.5 text-center text-gray-400 hover:bg-gray-800"
+                    on:click={onCreatePlaylistCancel}
+                >
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    title="Create"
+                    class="w-1/2 border-t border-gray-800 px-4 py-2.5 text-center text-primary/60 hover:bg-gray-800"
+                >
+                    Create
+                </button>
+            </div>
+        </form>
+    </div>
+</Modal>
 
 <button on:click={onMenuClick} bind:this={element} class="relative h-full">
     <Icon name="menu" class="h-full w-6 group-hover:text-gray-500 {open ? 'text-gray-500' : 'text-transparent'}" />
@@ -131,10 +206,12 @@
                                     </button>
                                 </TrackItemMenuRow>
                             {/each}
-                            <!-- <TrackItemMenuRow>
-                            <Icon name="add" class="mt-0.5 h-5 w-5 text-gray-500" title="Create New Playlist" />
-                            <TrackItemMenuText>Create New Playlist</TrackItemMenuText>
-                        </TrackItemMenuRow> -->
+                            <TrackItemMenuRow>
+                                <button class="contents" on:click={() => (showCreatePlaylistModal = true)}>
+                                    <Icon name="add" class="mt-0.5 h-5 w-5 text-gray-500" title="Create New Playlist" />
+                                    <TrackItemMenuText>Create New Playlist</TrackItemMenuText>
+                                </button>
+                            </TrackItemMenuRow>
                         </div>
                     {/if}
                 </button>

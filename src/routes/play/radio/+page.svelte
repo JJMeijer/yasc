@@ -20,7 +20,7 @@
         const res = await fetch("/api/playlist/create", { method: "POST", body: JSON.stringify(createPlaylistData) });
 
         if (res.ok) {
-            const { playlistId } = await res.json();
+            const { id: playlistId } = await res.json();
             goto(`/play/playlist/${playlistId}`);
         }
     };

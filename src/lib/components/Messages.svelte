@@ -6,11 +6,11 @@
     const getBorderColor = (messageType: BaseMessage["type"]) => {
         switch (messageType) {
             case "success":
-                return "border-primary/60";
+                return "border-primary/70";
             case "warning":
-                return "border-yellow-500/60";
+                return "border-yellow-500/70";
             case "error":
-                return "border-red-500/60";
+                return "border-red-500/70";
         }
     };
 </script>
@@ -19,7 +19,7 @@
     {#each $messagesStore as message}
         <div
             transition:blur
-            class="flex max-w-96 flex-row items-center overflow-hidden rounded-xl border-2 bg-gray-800/80 shadow-lg {getBorderColor(
+            class="flex min-h-10 max-w-96 flex-row items-center overflow-hidden rounded-xl border-2 bg-gray-800/80 shadow-lg {getBorderColor(
                 message.type,
             )}"
         >

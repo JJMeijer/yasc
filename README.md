@@ -56,7 +56,7 @@ With the default development API credentials it will only be possible to login w
 - [X] Radio/Recommendations
 - [X] Add Track to Playlist
 - [X] Remove Track from Playlist
-- [ ] Create new Playlist
+- [X] Create new Playlist
 - [X] Follow/Unfollow Playlist
 - [X] Delete Playlist
 - [ ] Better Search

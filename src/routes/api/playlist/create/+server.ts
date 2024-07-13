@@ -9,7 +9,7 @@ const validateRequestBody = (body: unknown): body is CreatePlaylistData => {
 
     const { name, description, uris } = body as CreatePlaylistData;
 
-    if (typeof name !== "string") {
+    if (typeof name !== "string" || name.length === 0) {
         return false;
     }
 
@@ -63,7 +63,5 @@ export const POST: RequestHandler = async ({ fetch, locals, request }) => {
         },
     });
 
-    return json({
-        playlistId,
-    });
+    return json(createPlaylistReponse);
 };
