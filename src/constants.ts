@@ -14,6 +14,7 @@ export const SPOTIFY_AUTH_SCOPE = [
     "user-library-read",
     "user-modify-playback-state",
     "user-read-currently-playing",
+    "user-read-recently-played",
     "user-read-email",
     "user-read-playback-position",
     "user-read-playback-state",

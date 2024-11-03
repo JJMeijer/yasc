@@ -29,6 +29,7 @@
                     <MenuNavLink href="/play/home" label="Home" />
                     <MenuLibraryDropdown />
                     <MenuNavLink href="/play/browse" label="Browse" />
+                    <MenuNavLink href="/play/discover" label="Discover" />
                 </div>
                 <div class="flex items-center gap-6 pr-4">
                     <Search />
