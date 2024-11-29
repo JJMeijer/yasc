@@ -72,10 +72,6 @@
                 {#if compilations.length > 0}
                     <SpotifyObjectList title="Compilations" items={compilations} />
                 {/if}
-
-                {#if data.relatedArtists.length > 0}
-                    <SpotifyObjectList title="Related Artists" items={data.relatedArtists.slice(0, 5)} />
-                {/if}
             </div>
         </div>
     </div>

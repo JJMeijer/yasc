@@ -22,7 +22,9 @@ export const load = (async ({ locals }) => {
         },
     );
 
-    const userOwnedPlaylists = playlistsResponse.items.filter((playlist) => playlist.owner.id === locals.userId);
+    const userOwnedPlaylists = playlistsResponse.items.filter(
+        (playlist) => playlist && playlist.owner && playlist.owner.id === locals.userId,
+    );
 
     return {
         username: locals.username,

@@ -22,7 +22,7 @@
         });
 
         if (res.status === 200) {
-            goto("/play/home");
+            goto("/play/library/playlists");
         }
     };
 

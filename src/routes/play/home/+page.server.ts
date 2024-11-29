@@ -8,28 +8,16 @@ export const load = (async ({ fetch, locals }) => {
         throw error(401, "Unauthorized");
     }
 
-    const playlistsPromise = spotifyApiRequest<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
+    const playlists = await spotifyApiRequest<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
         fetch,
-        `me/playlists?limit=16`,
+        `me/playlists?limit=50`,
         {
             method: "GET",
             accessToken: locals.accessToken,
         },
     );
-
-    const featuredPlaylistsPromise = spotifyApiRequest<SpotifyApi.ListOfFeaturedPlaylistsResponse>(
-        fetch,
-        `browse/featured-playlists?limit=16`,
-        {
-            method: "GET",
-            accessToken: locals.accessToken,
-        },
-    );
-
-    const [playlists, featuredPlaylists] = await Promise.all([playlistsPromise, featuredPlaylistsPromise]);
 
     return {
-        playlists: playlists.items,
-        featured: featuredPlaylists.playlists.items,
+        playlists: playlists.items.filter(Boolean),
     };
 }) satisfies PageServerLoad;

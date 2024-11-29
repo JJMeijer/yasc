@@ -39,27 +39,15 @@ export const load = (async ({ params, fetch, locals }) => {
         },
     );
 
-    const relatedArtistsPromise = spotifyApiRequest<SpotifyApi.ArtistsRelatedArtistsResponse>(
-        fetch,
-        `artists/${artistId}/related-artists`,
-        {
-            method: "GET",
-            accessToken: locals.accessToken,
-            cache: true,
-            cacheTime: 60 * 60 * 1000,
-        },
-    );
-
     const artistFollowedPromise = spotifyApiRequest<boolean[]>(fetch, `me/following/contains?type=artist&ids=${artistId}`, {
         method: "GET",
         accessToken: locals.accessToken,
     });
 
-    const [artistData, artistTopTracks, artistAlbums, relatedArtists, artistFollowed] = await Promise.all([
+    const [artistData, artistTopTracks, artistAlbums, artistFollowed] = await Promise.all([
         artistDataPromise,
         artistTopTracksPromise,
         artistAlbumsPromise,
-        relatedArtistsPromise,
         artistFollowedPromise,
     ]);
 
@@ -75,7 +63,6 @@ export const load = (async ({ params, fetch, locals }) => {
         artist: artistData,
         topTracks: artistTopTracks.tracks,
         albums: artistAlbums.items,
-        relatedArtists: relatedArtists.artists,
         likes: likedIds,
         liked: artistFollowed[0] || false,
     };

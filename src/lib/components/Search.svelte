@@ -10,10 +10,10 @@
     let focused = false;
     let loading = false;
 
-    $: tracks = results?.tracks?.items || [];
-    $: artists = results?.artists?.items || [];
-    $: albums = results?.albums?.items || [];
-    $: playlists = results?.playlists?.items || [];
+    $: tracks = results?.tracks?.items.filter(Boolean) || [];
+    $: artists = results?.artists?.items.filter(Boolean) || [];
+    $: albums = results?.albums?.items.filter(Boolean) || [];
+    $: playlists = results?.playlists?.items.filter(Boolean) || [];
 
     const handleQuery = (value: string) => {
         if (!value) {

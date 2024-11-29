@@ -21,5 +21,7 @@ export const GET: RequestHandler = async ({ fetch, locals, url }) => {
         },
     );
 
+    console.log(results);
+
     return json(results);
 };

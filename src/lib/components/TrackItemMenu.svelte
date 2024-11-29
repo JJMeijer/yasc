@@ -131,7 +131,7 @@
 
         const playlist = await res.json();
         showCreatePlaylistModal = false;
-        addUserOwnedPlaylist(playlist)
+        addUserOwnedPlaylist(playlist);
         goto(`/play/playlist/${playlist.id}`);
     };
 
@@ -229,12 +229,6 @@
                     <Icon name="add-to-queue" class="mt-0.5 h-5 w-5 text-gray-500" title="Add to Queue" />
                     <TrackItemMenuText>Add to Queue</TrackItemMenuText>
                 </button>
-            </TrackItemMenuRow>
-            <TrackItemMenuRow>
-                <a href={`/play/radio?track=${track.id}`} class="contents">
-                    <Icon name="radio" class="mt-0.5 h-5 w-5 text-gray-500" title="Like" />
-                    <TrackItemMenuText>Radio</TrackItemMenuText>
-                </a>
             </TrackItemMenuRow>
         </div>
     {/if}

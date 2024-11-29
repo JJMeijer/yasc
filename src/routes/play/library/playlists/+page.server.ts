@@ -18,6 +18,6 @@ export const load = (async ({ fetch, locals }) => {
     );
 
     return {
-        playlists: playlistsResponse.items,
+        playlists: playlistsResponse.items.filter(Boolean),
     };
 }) satisfies PageServerLoad;

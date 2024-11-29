@@ -25,11 +25,6 @@ export interface SpotifyUser {
     images: ImageObject[];
 }
 
-export interface CustomCategoryObject extends SpotifyApi.CategoryObject {
-    uri: string;
-    images: SpotifyApi.ImageObject[];
-}
-
 export interface RepeatRequestData {
     deviceId: string;
     state: SpotifyApi.PlaybackObject["repeat_state"];

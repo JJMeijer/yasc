@@ -5,10 +5,8 @@
     export let data: PageServerData;
 
     $: playlists = data.playlists;
-    $: featured = data.featured;
 </script>
 
 <GeneralPage>
     <SpotifyObjectList title="Recently Played Playlists" items={playlists} />
-    <SpotifyObjectList title="Featured" items={featured} />
 </GeneralPage>

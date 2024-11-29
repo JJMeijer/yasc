@@ -42,7 +42,6 @@ With the default development API credentials it will only be possible to login w
 - [X] Playback
 - [X] Albums/Artists/Playlists Page
 - [X] Library Pages
-- [X] Browse/Category Page
 - [X] Volume Control
 - [X] Progress Bar
 - [X] Play/Pause/Next/Previous
@@ -53,7 +52,6 @@ With the default development API credentials it will only be possible to login w
 - [ ] Track Relinking
 - [X] Album Likes
 - [X] Artist Likes
-- [X] Radio/Recommendations
 - [X] Add Track to Playlist
 - [X] Remove Track from Playlist
 - [X] Create new Playlist

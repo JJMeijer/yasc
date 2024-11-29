@@ -19,7 +19,6 @@
         | "check"
         | "menu"
         | "arrow-left"
-        | "radio"
         | "add"
         | "add-to-queue"
         | "delete"
@@ -331,24 +330,6 @@
             <title>{title || "Left"}</title>
             <path stroke="none" d="M0 0h24v24H0z" />
             <polyline points="15 6 9 12 15 18" />
-        </svg>
-    {/if}
-
-    {#if name === "radio"}
-        <svg
-            class={className}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <title>{title || "Radio"}</title>
-            <circle cx="12" cy="12" r="2" />
-            <path
-                d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"
-            />
         </svg>
     {/if}
 

@@ -1,15 +1,7 @@
 <script lang="ts">
     import { navigating } from "$app/stores";
     import { pageTitleStore, userOwnedPlaylistsStore } from "$lib/stores";
-    import {
-        AccountMenu,
-        LoadingOverlay,
-        MenuNavLink,
-        Player,
-        Search,
-        MenuLibraryDropdown,
-        Messages,
-    } from "$lib/components";
+    import { AccountMenu, LoadingOverlay, MenuNavLink, Player, Search, Messages } from "$lib/components";
     import type { LayoutServerData } from "./$types";
 
     export let data: LayoutServerData;
@@ -26,10 +18,11 @@
         <div class="relative flex h-full w-full flex-col overflow-auto">
             <div class="flex h-14 min-h-[3.5rem] flex-row items-center justify-end">
                 <div class="flex h-full min-w-0 flex-grow flex-row items-center gap-6 pl-12">
-                    <MenuNavLink href="/play/home" label="Home" />
-                    <MenuLibraryDropdown />
-                    <MenuNavLink href="/play/browse" label="Browse" />
-                    <MenuNavLink href="/play/discover" label="Discover" />
+                    <MenuNavLink href="/play/library/playlists" label="Playlists" />
+                    <MenuNavLink href="/play/library/tracks" label="Tracks" />
+                    <MenuNavLink href="/play/library/artists" label="Artists" />
+                    <MenuNavLink href="/play/library/albums" label="Albums" />
+                    <MenuNavLink href="/play/library/podcasts" label="Podcasts" />
                 </div>
                 <div class="flex items-center gap-6 pr-4">
                     <Search />

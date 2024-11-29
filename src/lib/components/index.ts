@@ -5,7 +5,6 @@ export { Player } from "./Player";
 export { default as SpotifyObjectList } from "./SpotifyObjectList.svelte";
 export { default as SpotifyTracksPage } from "./SpotifyTracksPage.svelte";
 export { default as MenuNavLink } from "./MenuNavLink.svelte";
-export { default as MenuLibraryDropdown } from "./MenuLibraryDropdown.svelte";
 export { default as TrackItemList } from "./TrackItemList.svelte";
 export { default as GeneralPage } from "./GeneralPage.svelte";
 export { default as ObjectList } from "./ObjectList.svelte";
