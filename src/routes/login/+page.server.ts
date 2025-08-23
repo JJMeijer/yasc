@@ -5,7 +5,7 @@ import { SPOTIFY_AUTH_SCOPE } from "@constants";
 
 export const load = (async ({ locals }) => {
     if (locals.accessToken) {
-        throw redirect(302, "/play/playlists");
+        throw redirect(302, "/play/library/playlists");
     }
 
     const url = new URL("https://accounts.spotify.com/authorize");

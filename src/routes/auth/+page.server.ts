@@ -53,5 +53,5 @@ export const load = (async ({ fetch, cookies, url }) => {
 
     setAuthCookie(cookies, data.access_token, data.refresh_token, data.expires_in, username, me.id, me.country);
 
-    throw redirect(302, "/play/playlists");
+    throw redirect(302, "/play/library/playlists");
 }) satisfies PageServerLoad;
